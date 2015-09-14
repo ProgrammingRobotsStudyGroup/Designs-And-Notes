@@ -5,3 +5,4 @@ a place for non code
 <li>Part list</li>
 <li>Data sheets</li>
 </ul>
+[Check out Wiki](https://github.com/ProgrammingRobotsStudyGroup/prsg-misc/wiki/Programming-Robots-Study-Group-(Home))
