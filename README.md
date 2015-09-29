@@ -8,3 +8,5 @@ a place for non code
 [Check out Wiki](https://github.com/ProgrammingRobotsStudyGroup/prsg-misc/wiki)
 
 [Programming Robots Study Group Forum](http://prsg.freeforums.org/index.php)
+
+![Image](github.com/ProgrammingRobotsStudyGroupprsg-misc/motors size.jpg)
