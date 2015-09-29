@@ -9,4 +9,4 @@ a place for non code
 
 [Programming Robots Study Group Forum](http://prsg.freeforums.org/index.php)
 
-![Image](http://github.com/ProgrammingRobotsStudyGroup/prsg-misc/motors size.jpg)
+![Image](https://github.com/ProgrammingRobotsStudyGroup/prsg-misc/motors size.jpg)
