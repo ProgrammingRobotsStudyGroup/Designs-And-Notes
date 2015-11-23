@@ -4,6 +4,7 @@
 	asciidoctor -o $@ $<
 
 PREVIEW_FILES=\
-  ros-jade-install.html
+  ros-jade-install.html \
+  mac-ubuntu-install.html
 
 all: $(PREVIEW_FILES)

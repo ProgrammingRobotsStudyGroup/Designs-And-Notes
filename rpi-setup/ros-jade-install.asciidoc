@@ -281,3 +281,41 @@ NOTE: Since both configuration files `/etc/network/interfaces`
 and `/etc/wpa_supplicant/wpa_supplicant.conf` are writable only by root,
 you must use `sudo` when editing.
 For example, `sudo vi /etc/network/interfaces`.
+
+=== An Alternative to Static IP: Avahi Daemon
+
+There is a service available for Linux that implements the
+mDNS/DNS-SD protocol suite, `avahi-daemon`. On the Mac this
+protocol is called _Bonjour_. It is a way to find services
+available on the local wireless or wired network without
+having to know the hostname or IP. This is very useful when
+using an RPi robot, because you don't have to set up a static
+IP in order to connect via SSH or ROS.
+
+One `avahi-daemon` is set up on the Pi, you can connect
+from a Mac to the robot via:
+
+  ssh ubuntu@ubuntu.local
+
+There are Bonjour implementations for Windows as well. I have not researched enough to recommend a setup sequence, however. Search the web for &ldquo;avahi ssh windows&rdquo; for more information.
+
+To set up Avahi on your Pi:
+
+. Install the `avahi-daemon` package.
+
+  sudo apt-get update
+  sudo apt-get install avahi-daemon
+
+. In case there are others using Avahi, give your Pi a unique Bonjour name by editing `/etc/avahi/avahi-daemon.conf` and changing the host name by editing the `host-name` line in the `server` section:
+
+  [server]
+  host-name=your-desired-hostname
+
+. Then, restart `avahi-daemon`.
+
+  sudo service avahi-daemon restart
+
+. You should then be able to connect from a Mac via:
+
+  ssh ubuntu@your-desired-hostname.local
+
