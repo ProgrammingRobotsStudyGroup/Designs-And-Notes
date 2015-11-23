@@ -1,0 +1,283 @@
+:imagesdir: ./images
+
+= Installing a Headless ROS Jade Turtle and Ubuntu
+
+These are notes I (Mark Rose) gathered while setting up an Ubuntu
+image for a Raspberry Pi 2 with ROS Jade Turtle. A few points about
+these instructions.
+
+* These instructions generate a _headless_ image, without X-window
+or wireless support. If you want to add X-windows or connect via
+wireless, there
+are notes near the bottom of the document.
+
+* You may want to delay resizing your image to match the SD card, because
+copying images from and to large partitions on an SD card can take
+considerable time. (The 32GB image I'm using takes 30min to read or write
+from an SD card. If I were to do it over again, I&rsquo;d  do all Ubuntu
+configuration on a 1GB partion, only resizing to a larger partition when
+needed for ROS.)
+
+== Getting Ubuntu Trusty Image
+
+I used the link from https://wiki.ubuntu.com/ARM/RaspberryPi to get an
+Ubuntu 14.04LTS (Trusty Tahr) image. These are the steps to get the
+image onto an SD card for the Pi. I did all of this from another Ubuntu
+system on my laptop, but you should be able to do this on a PC or Mac.
+On a PC you will probably need Cygwin. On a Mac, the _block size_ option
+below should be `bs=4m`, with a lower-case _M_.
+
+. Download http://www.finnie.org/software/raspberrypi/2015-04-06-ubuntu-trusty.zip.
+
+. Write the image to an SD card. You will need a card larger than 8GB
+for the full ROS install. I used a 32GB card.
+
+  sudo dd bs=4M if=2015-04-06-ubuntu-trusty.zip of=/dev/__disk__
+
++
+Replace _disk_ with the device name for the SD card. On my Ubuntu
+laptop image it is `/dev/sdd` when the SD card is in a USB carrier.
+
+=== Ubuntu Setup on the Raspberry Pi
+
+Once you have written the Ubuntu image to the SD card you should be able to
+boot the Raspberry Pi. The next steps are done on the Raspberry Pi. The first
+few steps require you to connect an HDMI monitor and USB keyboard. After
+that you can connect via SSH.
+
+. Insert the SD card into the Raspbery Pi, connect to an HDMI monitor
+and USB keyboard, and turn on the power.
+
+. You will see a text login prompt. Log in with user `ubuntu` and password
+`ubuntu`.
+
+. Update the package index and upgrade all installed packages.
+
+  sudo apt-get update
+  sudo apt-get upgrade
+
+. Install additional device drivers, in case they are needed for your
+wireless dongle.
+
+  sudo apt-get install linux-firmware
+
+. Install the SSH server so you can use the Raspberry Pi without a monitor.
+
+  sudo apt-get install ssh-server
+
+At this point I savede an image file called `2015-04-06-trusty-ssh.img`. To
+save an image, shut down the Raspberry Pi &ndash; using `shutdown -h now`,
+not the power button! &ndash; and mounting the SD card on your host
+computer. Then write the image using `dd`.
+
+  dd bs=4M if=/dev/name-of-your-disk-device of=name-of-your-image.img
+
+=== Resizing the Linux Partition
+
+You will want to resize the image partition now, since ROS needs more space
+than is configured by the original Trusty image. On your host computer
+use these steps:
+
+. Unmount the SD card. Find what device has the main Linux image on the
+SD card. It will be the second partition on your SD card device.
+
+  sudo fdisk -l
+
++
+I'm going to call the main device `/dev/sdd` and the second partition device
+`/dev/sdd2` for the following steps, but you should be sure to replace them
+with the actual devices you found out using `fdisk -l`.
+
+. Run the `fdisk` partitioning tool.
+
+  sudo fdisk /dev/sdd
+
+. Print out the partition table using the `p` command. Make sure it matches
+what you expected based on `fdisk -l`, above.
+
+. Delete the second partition: `d` _Enter_ followed by `2`.
+
+. Recreate the second partition to be maximum size: `n` _Enter_, then `p`
+and `2`, and use the two default values by pressing _Enter_ twice.
+
+. Write the new partition table and exit: `w` _Enter_
+
+. Verify the new partitioning by using `sudo fdisk -l` again.
+
+
+== Installing ROS
+
+. Boot the Raspberry Pi again and log in. You can either connect a monitor
+and keyboard, as before, or SSH in to the Pi. (You will have to figure
+out its IP address by using your router's status functions, of course.
+If you prefer a static IP address for a wired connection, see the
+networking notes near the bottom of this document.
+
+These steps are from the instructions
+on http://wiki.ros.org/jade/Installation/Ubuntu
+for an install of ROS Jade.
+
+. Add the ROS repository to the `apt-get` package source locations.
+
+  sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+
+. Add the key from the ROS repository.
+
+  sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-key 0xB01FA116
+
+. Update the package index to include the ROS packages.
+
+  sudo apt-get update
+
+. Install ROS desktop and ROS Serial. Note that the desktop version of ROS is
+installed, not the bare-bones version. I had problems installing `rosserial`
+when starting from the bare-bones ROS. It was probably a missing package,
+but I did not debug it further, since installing the ROS desktop worked.
+
+  sudo apt-get install ros-jade-desktop
+  sudo apt-get install ros-jade-rosserial
+
+. Initialize and update the ROS dependency index.
+
+  sudo rosdep init
+  rosdep update
+
+. Add ROS environment and path setup to your Bash profile. (This is optional.
+You can always just `source` the `setup.bash` file when you are ready to
+run ROS commands.
+
+  echo "source /opt/ros/jade/setup.bash" >> ~/.bashrc
+
+. Install the Python `rosinstall` command.
+
+  sudo apt-get install python-rosinstall
+
+. If you want to use ROS commands right away, run the environment and path
+setup script.
+
+  source /opt/ros/jade/setup.bash
+
+At this point ROS is installed and you can run `roscore` and ROS commands.
+You may want to back up the system now.
+
+NOTE: As mentioned at the beginning of this document, there is no GUI
+desktop or wireless in the image at this point. To install a GUI or
+wireless networking, keep reading.
+
+== GUI Desktop Installation
+
+According to the link:http://wiki.ros.org/jade/Installation/Ubuntu[Ubuntu
+Raspberry Pi setup page],, the Raspberry Pi 2 does not have enough
+memory to run Unity (the default Ubuntu desktop, using Gnome 3) or
+Gnome 2. Additionally, Kubuntu is said to be slow. Xubuntu and Lubuntu
+are reported to work fine.
+
+That said, the Kubuntu-Mate project has an unofficial 14.04 release and
+an official 15.x release for the Raspberry Pi 2. Mate is a new desktop
+on top of Gnome 2. I have not tried it so I cannot make a recommendation.
+If you want to install Mate, it is probably best to start with one of
+their images rather than the image referred to in the first steps, above.
+
+If you want to install Xubuntu or Lubuntu you can use one of these
+commands:
+
+  sudo apt-get xubuntu-desktop
+  sudo apt-get lubuntu-desktop
+
+
+== Wireless Networking Installation
+
+The image configured above does not have wireless networking enabled. If I
+were to repeat the process I'd install wireless networking before ROS, in
+order to have a base headless Trusty image that includes wireless. However,
+is is easy to add wireless at any point as follows.
+
+. Install `wireless-tools` (gives you `iwconfig`, `iwlist`, etc.) and
+`wpa_supplicant` (allows you to create roaming configurations).
+
+  sudo apt-get install wireless-tools
+  sudo apt-get install wpasupplicant
+
+. Copy a template `wpa_supplicant` configuration file to enable wireless
+roaming. I have made it readable only by root, since it contains wireless
+passwords.
+
+  sudo cp /usr/share/doc/wpa_supplicant/examples/wpa-roam.conf /etc/wpa_supplicant/wpa_supplicant.conf
+  chmod go-rw /etc/wpa_supplicant.conf/wpa_supplicant.conf
+
+. Add the following to the bottom of `/etc/network/interfaces`.
+
+  # The wireless interface
+  allow-hotplug wlan0
+  iface wlan0 inet manual
+      wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+
+  # no id_str, 'default' is used as the fallback mapping target
+  iface default inet dhcp
+
+
+. Restart the Raspberry Pi (using `shutdown -r now` rather than the power switch!).
+
+At this point you should be able to use `wpa_cli` to scan for and
+configure wireless networks. However, you can instead add networks
+to `wpa_supplication.conf` by hand.
+
+The template `wpa_supplicant.conf` file allows the Raspberry Pi to connect
+to open networks not requiring a key, so if your wireless network has no
+security you do not need to do any more configuration.
+
+=== Configuring a Network Requiring a Key
+
+If you want to configure a network by-hand that uses security, you
+must add a section to `wpa_supplicant.conf` for each network requiring
+a key. Each section should look like this:
+
+  network={
+    ssid="some ESSID"
+    psk=the key
+    id_str=nickname
+  }
+
+The contents of `network` will vary depending on the security scheme used.
+See the man page for `wpa_supplicant.conf` for examples, or look at the
+documentation in `/usr/share/doc/wpa_supplicant`.
+
+The `id_str` above is not required if the network uses DHCP. If you prefer
+a static IP, however, which can be useful when SSH-ing to the Pi, then specify
+a nickname _and also add a section_ to `/etc/network/interfaces` to configure
+the IP address.
+
+For example, for my home network I have this setup
+in `wpa_supplicant.conf` (yes, I know I shouldn't be using WEP):
+
+  network={
+      ssid="1420"
+      key_mgmt=NONE
+      wep_key0=--replace with the actual key--
+      wep_tx_keyidx=0
+      id_str="home"
+      priority=5
+  }
+
+Higher `priority` values get precedence if there is more than one network
+available.
+
+The IP configuration is set up in `/etc/network/interfaces` using the
+nickname in `id_str`.
+
+  # id_str="home"
+  iface home inet static
+      address 192.168.1.20
+      netmask 255.255.255.0
+      network 192.168.1.0
+      broadcast 192.168.1.255
+      gateway 192.168.1.1
+
+There are ways of reloading the network configuration without reboot, but
+you will likely lose your SSH connection, so I think it is just as easy
+to restart using `sudo shutdown -r now`.
+
+NOTE: Since both configuration files `/etc/network/interfaces`
+and `/etc/wpa_supplicant/wpa_supplicant.conf` are writable only by root,
+you must use `sudo` when editing.
+For example, `sudo vi /etc/network/interfaces`.
