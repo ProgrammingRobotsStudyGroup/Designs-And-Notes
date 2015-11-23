@@ -1,0 +1,124 @@
+:imagesdir: ./images
+
+= Installing Ubuntu and `rosserial` on a Mac
+
+If you have a Macintosh computer you can use an external drive to hold
+an Ubuntu image and boot it on the Mac, avoiding the need to either
+use Docker or have a separate Linux laptop. This document describes
+the steps needed to set up an external drive with Ubuntu, and also to
+install ROS so the Mac can be used to visualize the robot state.
+
+Non-Mac users may find portions useful for installation on a non-Mac
+system, too.
+
+== Creating a Ubuntu USB Stick
+
+The first step is to create a bootable USB stick holding a
+&ldquo;Live CD&rdquo; version of Ubuntu. Booting from this
+USB stick, you can install Ubuntu onto a USB hard drive or
+a spare partition on an internal drive.
+
+. Get an Ubuntu Desktop LST image. *Do not get the &ldquo;Mac&rdquo;
+version.* The Mac versions are supposed to create bootable images, but
+they do not work well on newer Macs. Instead, the manual steps
+described below are necessary. The image download will be a `.iso` file.
+
+. Write a USB stick using the SevenBits _Mac Linux USB Loader_ app: https://sevenbits.github.io/Mac-Linux-USB-Loader/
+
+== Creating the Ubuntu Image on a Hard Drive
+
+. Boot into Ubuntu using the USB stick by holding down option key.
+
+. Click the &ldquo;Install Ubuntu Desktop&rdquo; icon to install Ubuntu
+to an external hard drive (or a partition on the internal drive). Be
+careful not to wipe out your OS X installation!
+
+. Follow the instructions at http://heeris.id.au/2014/ubuntu-plus-mac-pure-efi-boot/ to make the external drive bootable. Note: this is the only source I found that had instructions which made the drive bootable. Other web sources will say you do not need these steps, but that did not work for me. It may depend on the age of your Mac: at some point Apple changed to use EFI booting.
+
+. Boot using the external hard drive by holding down the option key while powering up the Mac.
+
+. Once booted, check that you see wireless options and can connect to a
+network. If not, you probably need to enable the Broadcom STA device
+driver. (I needed to do this on my 2014 MacBook Pro, but not on a 2011 Macbook Pro.) Open the Ubuntu Software Center and select the menu option
+*Edit > Software Sources*, then click the *Additional Drivers* tab. Enable
+the wireless driver if given the option, and reboot.
+
+== Installing ROS
+
+I followed the instructions on
+http://wiki.ros.org/jade/Installation/Ubuntu 
+to install ROS. I also installed the `rosserial` package, as described
+at http://wiki.ros.org/rosserial_arduino/Tutorials/Arduino%20IDE%20Setup.
+
+. Update your package index and Ubuntu install.
+
+  sudo apt-get update
+  sudo apt-get upgrade
+
+. Add the ROS repository to the package sources.
+
+  sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+
+. Add the ROS repository key. (Note: This didn't work for me the first
+time. If this fails, try the method from the Ubuntu ARM install page:
+`wget https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -O - | sudo apt-key add -`)
+
+  sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-key 0xB01FA116
+
+. Install ROS, `rosserial`, and the Arduino library for ROS Serial. Note that I am using `ros-jade-desktop`, not `ros-jade-desktop-full`, as the latter did not work for me. I did not investigate further.
+
+  sudo apt-get install ros-jade-desktop
+  sudo apt-get install ros-jade-rosserial-arduino
+  sudo apt-get install ros-jade-rosserial
+
+. Initialize `rosdep`, the ROS dependency system.
+
+  sudo rosdep init
+  rosdep update
+
+. Add the ROS environment and path to your profile.
+
+  echo "source /opt/ros/jade/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+
++
+If you want to use ROS commands right away, load the environment
+by using `source /opt/ros/jade/setup.bash`.
+
+. Install `rosinstall`.
+
+  sudo apt-get install python-rosinstall
+
+== Creating the `rosserial` Arduino Library
+
+This information is adapted from http://wiki.ros.org/rosserial_arduino/Tutorials/Arduino%20IDE%20Setup.
+
+If you want to use `rosserial` to talk to an Arduino, create the
+Arduino library as follows.
+
+. Create the Arduino library code. Here, replace `<sketchbook>` with the path to your Arduino sketchbook area. On my install with the latest
+Arduino IDE it was `~/Arduino`.
+
+  cd <sketchbook>/libraries
+  rm -rf ros_lib
+  rosrun rosserial_arduino make_libraries.py .
+
++
+(Note: the `pr2_description` library failed to create bindings, but they are only needed for the PR2 robot, so I ignored this warning.)
+
+. Install the Arduino drivers.
+
+  sudo apt-get update
+  sudo apt-get install arduino arduino-core
+
+You should now be able to run the tutorials found on
+http://wiki.ros.org/rosserial/Tutorials.
+
+=== ROSSerial Arduino Notes
+
+* With a Leonardo board, `rosserial` tries to use the secondary UART, by default. If you want to use the USB serial interface, you must define `USE_USBCON` before including `<ros.h>`. (This should not hurt on the Uno, so you might always add it.)
+
+  #define USE_USBCON
+  #include <ros.h>
+  ... other includes such as std_msgs/Int32.h ...
+
