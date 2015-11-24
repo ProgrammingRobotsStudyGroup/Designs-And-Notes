@@ -1,5 +1,6 @@
 #A-star Pin Assignments
 The following is a work-in-progress.  The starting point is the table in section 3.7 of the Pololu [User Guide](https://www.pololu.com/docs/0J66/all#3.8/%22User%20Guide%22).
+
 | 32U4 pin name | Arduino names | A-star use | Alternate functions | Proposed R3.2 use | Other comments |
 | :---- |:---- | :---- | :---- | :---- | :---- |
 | PB3 | 14, MISO | User pushbutton A | SPI Master Input/Slave Output (MISO); Pin-change interrupt (PCINT3); ISP programming line (PDO) | Button A | |
