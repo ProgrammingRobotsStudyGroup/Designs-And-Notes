@@ -351,4 +351,16 @@ and for Python 3:
 sudo pip3 install hg+http://hg.code.sf.net/p/raspberry-gpio-python/code#egg=RPi.GPIO
 ----
 
+=== Safe Shutdown Switch
+
 I use GPIO to read a switch to invoke a safe shutdown. You can read about that in the setup instructions for the RPi/MakeyMakey demo for the Alameda County Fair: https://github.com/merose/MakeyPiano
+
+The shutdown switch script is at: https://github.com/merose/MakeyPiano/blob/master/shutdownSwitch.py
+
+Modify the `#!` line to use `/usr/bin/python` (Ubuntu differs from Raspbian in the Python install location), install this to `~ubuntu/bin`, and add this to `/etc/rc.local`:
+
+----
+~ubuntu/bin/shutdownSwitch.py &
+----
+
+The switch should span pins 39 and 40, the pair adjacent to the USB ports.
