@@ -319,3 +319,36 @@ To set up Avahi on your Pi:
 
   ssh ubuntu@your-desired-hostname.local
 
+==== Network Performance Problems with Avahi Daemon
+
+I ran into a problem with `avahi-daemon`: the SSH daemon was very slow to give a login prompt. Some reports on the web blamed performance issues with `avahi-daemon`. There were several suggestions, but this one worked for me: edit `/etc/nsswitch.conf` as follows.
+
+.Old configuration
+----
+hosts:          files mdns4_minimal [NOTFOUND=return] dns
+----
+
+.New configuration
+----
+hosts:          files mdns4 [NOTFOUND=return] dns
+----
+
+Apparently, the SSH daemon wants to do a reverse DNS lookup. I&rsquo;m not sure exactly what differs between the `mdns4_minimal` lookup schema and the `mdns4` scheme, but it solved the slow SSH prompt problem. Otherwise, network performance seems to be fine.
+
+== GPIO Setup
+
+The Ubuntu Raspberry Pi image does not install the Python GPIO library. I found that the latest stable version of `RPi.GPIO` does not work &ndash; Python crashes with a segmentation fault when `GPIO.setup()` is called. There are multiple suggested fixes on the web, but this is simplest: install the latest development version of `RPi.GPIO`. (See https://www.raspberrypi.org/forums/viewtopic.php?f=32&t=113014)
+
+If you have already installed, `RPi.GPIO`, you must uninstall it. You can check whether it is already installed via `pip search RPi.GPIO` and `pip3 search RPi.GPIO`. (Python 2 and Python 3 `pip` installations are separate.)
+
+----
+sudo pip install hg+http://hg.code.sf.net/p/raspberry-gpio-python/code#egg=RPi.GPIO
+----
+
+and for Python 3:
+
+----
+sudo pip3 install hg+http://hg.code.sf.net/p/raspberry-gpio-python/code#egg=RPi.GPIO
+----
+
+I use GPIO to read a switch to invoke a safe shutdown. You can read about that in the setup instructions for the RPi/MakeyMakey demo for the Alameda County Fair: https://github.com/merose/MakeyPiano
