@@ -13,7 +13,7 @@ These were created more recently.
 link:robot-base.svg[] &ndash; A base with wheel cutouts
 
 link:robot-top.svg[] &ndash; A circular plate for a 2nd or third deck,
-with scribe lines marked for sensor centers at 45&degree; intervals
+with scribe lines marked for sensor centers at 45&deg; intervals
 
 == 2. Omnigraffle files
 
