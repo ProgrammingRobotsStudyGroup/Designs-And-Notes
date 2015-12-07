@@ -13,6 +13,10 @@ sensorHoleOffset = (1.3 - 1.15)*inch;
 // From https://www.boltdepot.com/Product-Details.aspx?product=2536
 hexNutWidth = 0.25*inch;
 
+// A hex nut.
+hexNutDiameter = 2 * hexNutWidth / sqrt(3);
+hexNutHeight = 3/32*inch;
+
 // 4-40 mchine screw hole size.
 // From http://www.vaillyaviation.com/images/Hole%20sizes%20for%20screws%20_new_.pdf
 machineScrewHoleDiameter = 1/8*inch + 1*mm;
@@ -32,13 +36,13 @@ woodScrewHeadDiameter = 15/64*inch;
 minMaterialThickness = 2.5;
 
 // Minimum amount of material around a hole.
-minHoleMargin = 4;
+minHoleMargin = 3;
 
 bracketWidth = sensorWidth;
-mountingTabLength = 2*minHoleMargin + woodScrewHoleDiameter;
+mountingTabLength = max(minHoleMargin, hexNutHeight+1) + woodScrewHeadDiameter/2 + woodScrewHoleDiameter/2 + minHoleMargin;
 sensorTabLength = 1 + hexNutWidth/2 + machineScrewHoleDiameter/2 + minHoleMargin;
 
-mountingHoleX = minMaterialThickness + mountingTabLength/2;
+mountingHoleX = minMaterialThickness + mountingTabLength - minHoleMargin - woodScrewHoleDiameter/2;
 
 sensorScrewX = minMaterialThickness + sensorTabLength - minHoleMargin - machineScrewHoleDiameter/2;
 
@@ -69,10 +73,7 @@ difference() {
   hole(x=sensorScrewX, y=bracketWidth/2, d=machineScrewHoleDiameter);
 }
 
-// A hex nut.
-hexNutDiameter = 2 * hexNutWidth / sqrt(3);
-hexNutHeight = 3/32*inch;
-
+// Sample hex nut.
 %translate([sensorScrewX, bracketWidth/2, minMaterialThickness])
 rotate(30)
 difference() {

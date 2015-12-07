@@ -34,5 +34,7 @@ link:pololu-ir-mount.scad[] &ndash; A right-angle mount for the
 link:https://www.pololu.com/product/2474[Pololu GP2Y0A60SZ 10-150cm
 sensor]
 
+link:pololu-ir-mount.stl[] &ndash; STL file ready for 3D printing.
+
 This file is set up to print five mounts, but you can edit the file to
 remove the duplicates if you only want to print one.
