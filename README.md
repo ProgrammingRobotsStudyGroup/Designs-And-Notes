@@ -18,7 +18,7 @@ Our 1st platform was fair but we stated running into problem.
 
 So we are Rebooting or ROS ROV REV 2 (really need a better name for our robot)
 
-New Name I currently using is 3R^2
+New Name I currently using is **3R^2**
 
 
 
