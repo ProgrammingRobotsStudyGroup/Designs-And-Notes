@@ -1,8 +1,9 @@
 = 20 CM Chassis
 
-These designs are 
-* link:20cm_base.svg[This svg] design which may be laser cut, band saw, etc.
-* link: 20cm_base.fcstd[This FreeCAD] design can be extruded and 3D printed.
+These designs:
+
+* link:20cm_base.svg[This SVG] may be laser cut, band saw, etc.
+* link:20cm_base.fcstd[This FreeCAD design] can be extruded and 3D printed.
 
 == License
 
