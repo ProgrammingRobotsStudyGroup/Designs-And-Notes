@@ -1,0 +1,22 @@
+= 20 CM Chassis
+
+These designs are 
+* link:20cm_base.svg[This svg] design which may be laser cut, band saw, etc.
+* link: 20cm_base.fcstd[This FreeCAD] design can be extruded and 3D printed.
+
+== License
+
+The materials for this class are licensed under the Apache license. See the file LICENSE for details.
+
+Copyright 2015 Marco Walther
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
