@@ -3,7 +3,7 @@
 These designs:
 
 * link:bracket1.stl[This STL file] may be 3D printed.
-* link:bracket1.fcstd[This FreeCAD design] of the braket.
+* link:bracket1.fcstd[This FreeCAD design] of the bracket.
 
 == License
 
