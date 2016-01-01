@@ -1,0 +1,70 @@
+= ROS ROV REV 2 Fabrication
+
+This is a build out to create revision 2 of our robot.
+
+== License
+
+The materials for this class are licensed under the Apache license. See the file LICENSE for details.
+
+Copyright 2015 F Douthit
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+== Overview
+
+This is a build out to create revision 2 of our robot.
+
+== Materials and Tools
+
+List of materials to make the robot from and the tools required tomake it
+
+=== Materials
+
+* 9"x9”x1/4" King StarBoard® HDPE Marine Building Material from TAP plastics.
+* Sand paper: 80 grit and 120 grit.
+* 8 4-40 ½” pan head screws each with nut and lock washer.
+* 4 4-40 ⅜” pan head screws.
+* link:http://www.element14.com/community/community/raspberry-pi/raspberrypi2[Raspberry Pi 2]
+* link:https://www.pololu.com/product/953[Pololu Ball Caster with 1/2″ Metal Ball]
+* link:https://www.pololu.com/product/1081[Pololu Universal Aluminum Mounting Hub for 4mm Shaft, #4-40 Holes (2-Pack)]
+* link:https://www.pololu.com/product/1428[Pololu Wheel 70×8mm Pair - Blue] - there are other colors
+* link:https://www.pololu.com/product/2285[47:1 Metal Gearmotor 25Dx52L mm LP 6V with 48 CPR Encoder]
+* link:https://www.pololu.com/product/2676[Pololu 25D mm Metal Gearmotor Bracket Pair]
+* link:https://www.pololu.com/product/3117[A-Star 32U4 Robot Controller LV with Raspberry Pi Bridge]
+* Tenergy Li-Ion 18650 7.4V 2200mAh Rechargeable Battery module with PCB
+* Tenergy TLP4000 Li-Ion/Li-Po Battery Charger
+* Battery charger
+* Raspberry Pi 2 Case
+* 32GB SDCard of Raspberry Pi 2 image.
+* SVG of base - 20cm_base.svg
+* ½“ or ¾” Velcro tape.
+* 2.1x5.5 mm male connector
+* 22 gauge wire
+* Flat ribbon cable
+
+=== Optional
+
+* Pi Camera
+* GPIO Stacking Header for Pi A+/B+/Pi 2 - Extra-long 2x20 Pins
+
+=== Tools
+
+* 40 Watt Full Spectrum laser (optional)
+* Bandsaw or jigsaw
+* Drill press
+** 7/64“ Bit
+** 5/64“ Bit
+* Phillips screwdriver - take care that the blade fits the pan head screws nicely.
+
+== Instructions
+
+=== Assembling The Chassis
