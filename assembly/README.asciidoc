@@ -1,7 +1,9 @@
 = ROS ROV REV 2
 
 == Overview
-This is a build out to create revision 2 of our robot.
+This documents the assembly of our robots.
+
+ * link:ROSROV2Fabrication.asciidoc[ROS ROV 2 Fabrication]
 
 == License
 
