@@ -67,16 +67,12 @@ List of materials to make the robot from and the tools required tomake it
 
 == Instructions
 
-=== Assembling The Chassis
+=== Fabricating and Assembling The Chassis
 
 . You may want to print the design first in any case in order to verify that everything fits.
 
-Using a 40 Watt Full Spectrum laser, etch the design onto the board. Previous use of the
-same material revealed that attempting to cut this material resulted in melting instead of
-a clean cut. Using the laser cutter on low allows you to etch the plan, not cut the board.
-Settings: 100% Speed, 10% power. No excessive melting, little particulates and residue.
+  Using a 40 Watt Full Spectrum laser, etch the design onto the board. Previous use of the same material revealed that attempting to cut this material resulted in melting instead of a clean cut. Using the laser cutter on low allows you to etch the plan, not cut the board. Settings: 100% Speed, 10% power. No excessive melting, little particulates and residue.
 
-Another option is to print the design to paper and cut the outline with a mat knife or
-exacto knife to trace the pattern onto the HPDE.
-. Using a jigsaw or bandsaw, cut the base from the sheet of HPDE. This material is easy
-to cut and shouldn’t take long. Sand the edges for a more finished appearance.
+  Another option is to print the design to paper and cut the outline with a mat knife or exacto knife to trace the pattern onto the HPDE.
+
+. Using a jigsaw or bandsaw, cut the base from the sheet of HPDE. This material is easy to cut and shouldn’t take long. Sand the edges for a more finished appearance.
