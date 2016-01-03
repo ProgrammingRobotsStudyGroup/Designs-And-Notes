@@ -32,6 +32,8 @@ Some examples of the sort of data we may wish to share:
 
 * Written in python. This seems easiest to use across the platforms and does not require compilation for any target platform.
 * We will need both host and client code.
+* The code should be implemented as ROS nodes, which means we will be able to log and replay this data.
+* Synchronization and time base will reside on a 'shared' instance of ROS, which will also likely support the "god's eye".
 
 == Resources
 
