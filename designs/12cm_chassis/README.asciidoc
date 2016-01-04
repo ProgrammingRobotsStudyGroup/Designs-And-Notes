@@ -1,0 +1,40 @@
+= 12cm Chassis Design
+
+:imagesdir: .
+
+This design is a narrow robot, only 12cm in diameter, designed to be able to compete in Micro-mouse competitions with an 18cm square maze cell and 50mm high walls.
+
+image:micro-mouse.png[A view of the robot]
+
+== Parts
+
+Because of the small size, the robot is designed to use micro-metal gear motors rather than the larger 25mm gear motors.
+
+[cols="25%,75%"]
+|===
+| Quantity | Part
+
+| 2 | link:https://www.pololu.com/product/3077[210:1 Micro Metal Gearmotor HPCB with Extended Motor Shaft]
+| 1 (pair) | link:https://www.pololu.com/product/1452[Pololu Wheel 40×7mm Pair - Black]
+| 1 (pair) | link:https://www.pololu.com/product/1089[Pololu Micro Metal Gearmotor Bracket Extended Pair]
+| 1 (pair) | link:https://www.pololu.com/product/3081[Magnetic Encoder Pair Kit for Micro Metal Gearmotors, 12 CPR, 2.7-18V (HPCB compatible)]
+| 1 | link:https://www.pololu.com/product/2757[Raspberry Pi 2 Model B]
+| 1 | link:https://www.pololu.com/product/3117[A-Star 32U4 Robot Controller LV with Raspberry Pi Bridge]
+| 6 | link:https://www.pololu.com/product/2464[Sharp GP2Y0A41SK0F Analog Distance Sensor 4-30cm]
+|===
+
+I also populated the Arduino pins and the RPi GPIO extension on the A-Star with link:https://www.pololu.com/category/134/0.1-2.54-mm-male-headers[male headers]. I used multiple colors to categorize the pins, but that's not necessary, of course. (I prefer male headers on the A-Star because female pins on ribbon cable seem to seat more soundly. The downside is that you can accidentally drop something conductive on the exposed male pins, of course.)
+
+== Design Files
+
+link:micro-mouse.scad[]::
+An OpenSCAD 3-D view of the robot design. This is not suitable for 3-D printing, only for viewing an approximation of the final robot layout.
+
+link:micro-mouse-layers.svg[]::
+An Inkscape design for cutting the base and top from acrylic or wood. Both the base and top are in a single file. Make either the `Top` or `Base` layer the only one visible before printing or exporting to PDF.
+
+link:base.pdf[]::
+A PDF of the base plate printed from the Inkscape design.
+
+link:top.pdf[]::
+A PDF of the top plate printed from the Inkscape design.
