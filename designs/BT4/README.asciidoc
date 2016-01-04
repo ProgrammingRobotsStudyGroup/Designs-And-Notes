@@ -41,3 +41,4 @@ Some examples of the sort of data we may wish to share:
 * link:http://www.elinux.org/RPi_Bluetooth_LE[Raspberry Pi BT]
 * link:https://people.csail.mit.edu/albert/bluez-intro/c212.html[Programming BT with Python]
 * link:https://github.com/loeschg/bluetooth-innmotion/tree/master/Application%20Accelerator%20v1.0.1/Android/BLEDemo[Github generic Android BLE app with heart rate variability.]
+
