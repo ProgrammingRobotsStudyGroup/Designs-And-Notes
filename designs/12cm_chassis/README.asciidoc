@@ -18,12 +18,33 @@ Because of the small size, the robot is designed to use micro-metal gear motors 
 | 1 (pair) | link:https://www.pololu.com/product/1452[Pololu Wheel 40×7mm Pair - Black]
 | 1 (pair) | link:https://www.pololu.com/product/1089[Pololu Micro Metal Gearmotor Bracket Extended Pair]
 | 1 (pair) | link:https://www.pololu.com/product/3081[Magnetic Encoder Pair Kit for Micro Metal Gearmotors, 12 CPR, 2.7-18V (HPCB compatible)]
+| 1 | link:https://www.pololu.com/product/951[Pololu Ball Caster with 3/8″ Metal Ball]
 | 1 | link:https://www.pololu.com/product/2757[Raspberry Pi 2 Model B]
 | 1 | link:https://www.pololu.com/product/3117[A-Star 32U4 Robot Controller LV with Raspberry Pi Bridge]
 | 6 | link:https://www.pololu.com/product/2464[Sharp GP2Y0A41SK0F Analog Distance Sensor 4-30cm]
+| 3 (pairs) | link:https://www.pololu.com/product/2677[Bracket Pair for Sharp GP2Y0A02, GP2Y0A21, and GP2Y0A41 Distance Sensors - Perpendicular]
+| 6 | link:https://www.pololu.com/product/1798[3-Pin Female JST PH-Style Cable (30 cm) with Female Pins for 0.1" Housings]
+| 1 (25-pack) | link:https://www.pololu.com/product/1902[0.1" (2.54mm) Crimp Connector Housing: 1x3-Pin 25-Pack]
+| 1 (4-pack) | link:https://www.pololu.com/product/1946[Aluminum Standoff: 1/4" Length, 4-40 Thread, M-F (4-Pack)]
+| 1 (4-pack) | link:https://www.pololu.com/product/1948[Aluminum Standoff: 1/2" Length, 4-40 Thread, M-F (4-Pack)]
+| 1 (4-pack) | link:https://www.pololu.com/product/1951[Aluminum Standoff: 1-1/4" Length, 4-40 Thread, M-F (4-Pack)]
+| 1 (4-pack) | link:https://www.pololu.com/product/1949[Aluminum Standoff: 3/4" Length, 4-40 Thread, M-F (4-Pack)]
+| 1 | link:http://battery-superstore.com/7.2V-Tenergy-2000-mAH-NiMH-Square/M/B00384PLKO.htm[7.2V Tenergy 2000 mAH NiMH Square Rechargeable Battery Pack for Walking Robots and RC Planes]
+| 8 | 4-40 hex nuts
+| 8 | 4-40 1/4" machine screws
+| 2 | 6-conductor ribbon cable for soldering the encoders; 4 wires on each encoder need a female pin and header (+5V, GND, and the encoder outputs)
+| 2 | short cable ties to tie the encoder ribbon cable to the motor, through the base, to take up any strain, since the encoders are delicate
 |===
 
 I also populated the Arduino pins and the RPi GPIO extension on the A-Star with link:https://www.pololu.com/category/134/0.1-2.54-mm-male-headers[male headers]. I used multiple colors to categorize the pins, but that's not necessary, of course. (I prefer male headers on the A-Star because female pins on ribbon cable seem to seat more soundly. The downside is that you can accidentally drop something conductive on the exposed male pins, of course.)
+
+I did not use the M2.5 11mm standoffs that came with the A-Star, since I did not have any other M2.5 standoffs for the rest of the stack. Instead, I used 1/4" 4-40 standoffs below the RPi and 1/2" 4-40 standoffs between the RPi and A-Star.
+
+The long standoffs are used in a 1-3/4" + 3/4" combination to separate the base and top plates. The IR brackets are 1.8 inches tall, so you need at least 2" of separation between the plates.
+
+The battery is NiMH rather than Lithium ion or polymer. I chose it because of its small size, only 2" in the longest dimension. This is smaller than the 2000mAh battery used in the larger designs, albeit at almost double the weight, 6oz versus 3.2oz.
+
+The OpenSCAD design below shows two casters, front and rear. I have found the front caster is not needed due to the battery placement. The robot is quite stable even at high acceleration.
 
 == Design Files
 
