@@ -1,6 +1,9 @@
+:imagesdir: ./images
+:toc: macro
+
 = ROS ROV REV 2 Fabrication
 
-This text describes the materials, tools and assembly of revision 2 of our robot.
+toc::[]
 
 == License
 
@@ -21,15 +24,32 @@ limitations under the License.
 
 == Overview
 
-This is a build out to create revision 2 of our robot.
+This text describes the materials, tools and assembly of revision 2 of our robot.
 
 == Materials and Tools
 
-List of materials to make the robot from and the tools required tomake it
+List of materials to make the robot from and the tools required to make it
 
 === Materials
 
-* 9"x9”x1/4" King StarBoard® HDPE Marine Building Material from TAP plastics.
+==== Base Options
+* Platform Material
+** 9"x9”x1/4" King StarBoard® HDPE Marine Building Material 
+from TAP Plastics or a similar provider or
+** 9"x9”x1/8" Acrylic or
+** 9"x9”x1/8" Wood
+
+* We have a number of excellent base design options:
+** https://github.com/ProgrammingRobotsStudyGroup/prsg-misc/blob/master/designs/20cm_chassis/20cm_base.svg[20cm SVG base] or
+
+** https://github.com/ProgrammingRobotsStudyGroup/Designs-And-Notes/tree/master/designs/9in_3Rsquared[3RSquared] or
+
+** https://github.com/ProgrammingRobotsStudyGroup/Designs-And-Notes/tree/master/designs/9in_alt1[9in alt1]
+
+
+==== Common Components
+Some of these links point to supplies which far exceed your needs. You may be able to find better prices or a more appropriate quantity from other vendors.
+
 * Sand paper: 80 grit and 120 grit.
 * 8 4-40 ½” pan head screws each with nut and lock washer.
 * 4 4-40 ⅜” pan head screws.
@@ -42,37 +62,161 @@ List of materials to make the robot from and the tools required tomake it
 * link:https://www.pololu.com/product/3117[A-Star 32U4 Robot Controller LV with Raspberry Pi Bridge]
 * Tenergy Li-Ion 18650 7.4V 2200mAh Rechargeable Battery module with PCB
 * Tenergy TLP4000 Li-Ion/Li-Po Battery Charger
-* Battery charger
 * Raspberry Pi 2 Case
 * 32GB SDCard of Raspberry Pi 2 image.
-* SVG of base - 20cm_base.svg
 * ½“ or ¾” Velcro tape.
-* 2.1x5.5 mm male connector
-* 22 gauge wire
-* Flat ribbon cable
+* http://www.amazon.com/gp/product/B00LFDSM6K[1 set of 2.1x5.5mm Female and Male DC Power Adapter Connector]
+* http://www.amazon.com/gp/product/B00B4ZRPEY[22 gauge wire]
+* http://www.amazon.com/gp/product/B00M5WLZDW[Flat ribbon cable]
+* Pin headers: You can use either male of female pin headers, depending upon your preference. Myself I prefer female as they are less likely to bend or short. Male headers have the advantage of a lower profile.
+** Female pin headers
+** http://www.amazon.com/gp/product/B00TGOJE1W[Male pin headers]
+* IR Sensors
 
 === Optional
 
 * Pi Camera
-* GPIO Stacking Header for Pi A+/B+/Pi 2 - Extra-long 2x20 Pins
+* link:https://www.adafruit.com/products/2223[GPIO Stacking Header for Pi A+/B+/Pi 2 - Extra-long 2x20 Pins]
+* http://www.amazon.com/gp/product/B009ZIILLI[USB Bluetooth BLE Adapter]
 
 === Tools
-
+Use caution when operating any tool. Always follow the manufacturers recommendations. Get trained and be safe!
+[%hardbreaks]
 * 40 Watt Full Spectrum laser (optional)
 * Bandsaw or jigsaw
 * Drill press
 ** 7/64“ Bit
 ** 5/64“ Bit
 * Phillips screwdriver - take care that the blade fits the pan head screws nicely.
+* Protective eyeglasses.
 
-== Instructions
+== Assembly Instructions
 
 === Fabricating and Assembling The Chassis
+Always wear protective eyeglasses when using equipment.
+[%hardbreaks]
+. You may want to print the design first at full scale in order to verify that everything fits on your material.
 
-. You may want to print the design first in any case in order to verify that everything fits.
+ For HDPE, you can use a 40 Watt Full Spectrum laser to etch the design onto the board. Attempting to cut this material results in melting instead of a clean cut. Etch the plan instead. Use the laser cutter on low power. Settings: 100% Speed, 10% power. No excessive melting, little particulates and residue. This material can be flamable so use care.
 
-  Using a 40 Watt Full Spectrum laser, etch the design onto the board. Previous use of the same material revealed that attempting to cut this material resulted in melting instead of a clean cut. Using the laser cutter on low allows you to etch the plan, not cut the board. Settings: 100% Speed, 10% power. No excessive melting, little particulates and residue.
+ Acrylic and wood can be cut on a laser cutter. Use care when attempting this as the acrylic can melt badly leaving messy edges. Acrylic and wood can catch fire, so keep tabs on the laser cutter.
 
-  Another option is to print the design to paper and cut the outline with a mat knife or exacto knife to trace the pattern onto the HPDE.
+ Another option is to print the design to paper and cut the outline with a mat knife or exacto knife to trace the pattern onto the material.
 
-. Using a jigsaw or bandsaw, cut the base from the sheet of HPDE. This material is easy to cut and shouldn’t take long. Sand the edges for a more finished appearance.
+. If you only etched or scored the design into the base material, use a jigsaw or bandsaw to complete the task. The suggested materials should be easy to cut and shouldn’t take long. Sand the edges for a more finished appearance.
+
+. Drill the motor mount holes using the 7/64“ Bit. These holes go all the way through board. 
+
+. Fasten the motor mounts.
+
+. Drill the caster mount holes using the 5/64“ Bit. These holes go all the way through board.
+
+. Fasten the casters.
+
+. Put the Raspberry Pi 2 into its case.
+
+. Mount the Pi case and contents using velcro. Secure to base with Velcro. 
+
+. Apply velcro to the battery. Add male connector to battery. Secure battery to base with Velcro.
+
+
+=== Wiring the electronics
+
+==== Add Pin headers
+
+By far the most tedious and time consuming effort of the build, but worth it as it makes connecting the motors and sensors so much easier. You can use either male of female pin headers, depending upon your preference. Myself I prefer female as they are less likely to bend or short. Male headers have the advantage of a lower profile.
+
+. At minimum you will want to add headers to:
+
+ * The 32u4 GPIO, Vcc and Ground pins. 84 pins.
+ * The power block. 6 pins.
+ * The Raspberry Pi 2 GPIO pins. 26 pins.
+ * The LS1 level shifter pins. 4 pins.
+ 
+ That's 120 pins.
+
+. Since you're at it, you might want to complete the pin head wiring:
+ * The RPI power block: RPI5V, RPI3V3, AVR3V3 and RPISHDN. 6 pins.
+ * The LS2 and LS3 level shifter pins. 8 pins.
+ * The MISO / PDO, SCK, [overline]#RESET#, 5V, PB2, GND block. 6 pins.
+ * The REGSHDN and STAT pins. 2 pins.
+ * The Power control and shutodwn and unused pins. 3 pins. In this case I elected to add the unused pin for stability, but you can safely ignore it.
+ 
+ Another 24 or 25 pins for a grand total of 144 or 145 pins
+
+==== Wiring the Motor
+
+. Connect the battery to the 2.1x5.5 mm male connector. If you use a connector with tension screws to secure the battery wires secure those. Note that the center conductor should be positive.
+
+. Connect your motor to A-Star using the ribbon cable. Match the colors if you can (black to black and red to red). Remember, one of the motors should have the red & black wires reversed as it is on the opposite side. Connect the encoder power and ground. Connect encoder A and B. See table 1 for wiring harness details. This is the mapping I employed:
+[%hardbreaks]
+. Add the motor controller
+  * Motor 1
+  ** M1Pwr Red -> Motor 1 output
+  ** M1Pwr Black -> The other Motor 1 output
+  ** M1A -> A-Star pin 7
+  ** M1B -> A-Star pin 11
+  ** M1 Encoder Ground -> A-Star pin 7's GND
+  ** M1 Encoder Vcc -> A-Star pin 7's Vcc
+  * Motor 2 - note that M2Pwr red/black should be the reverse of M1
+  ** M2Pwr Red -> Motor 2 output
+  ** M2Pwr Black -> The other Motor 2 output
+  ** M2A -> A-Star pin 15
+  ** M2B -> A-Star pin 16
+  ** M2 Encoder Ground -> A-Star pin 16's GND
+  ** M2 Encoder Vcc -> A-Star pin 16's Vcc
+  
+. Communications between the A-Star to Raspberry Pi 2.
+  a. RPi GPIO pin 14 (TXD0) -> A-Star pin 0 (RX)
+  b. A-Star pin 1 (TX) -> 5V of 5V to 3V converter
+  c. 3V of 5V to 3V converter -> RPi GPIO pin 15 (RXD0)
+
+.Motor Wiring Harness
+[width="100%",options="header,footer"]
+|====================
+| **Color** |  **Function**
+| [red]*Red* |  motor power (connects to one motor terminal)
+| *Black* |  motor power (connects to one motor terminal)
+| [green]*Green* |  encoder GND
+| [blue]*Blue* |  encoder Vcc (3.5 – 20 V)
+| [yellow black-background]*Yellow* |  encoder A output
+| [white black-background]*White* |  encoder B output
+|====================
+
+=== Powering the A-Star 32u4 bus
+
+. You must provide voltage to the 32u4 optional power bus as it is not powered by default.
+
+    a.  Cut and install a short jumper to connect [underline]#**south VREG**# to the [underline]#**south side power strip**# of the 32u4 bus. It makes sense to use the PE2 and the nearest of 2 VREG connections.
+    
+    b.  Cut and install a jumper between the power strip connection of [underline]#**NOT RST**# to power strip of 32u4’s [underline]#**RX pin 0**#.
+    c.  Cut and install a jumper to connect the [underline]#**north VREG**# to the
+    [underline]#**north side power strip**# of the 32u4 bus. It makes
+    sense to use the PE2 and the nearest of 2 VREG connections.
+    
+=== Finishing Steps
+. IR. This step is required for use of the IR sensors.
+   * IR #1 --> A-Star A0
+   * IR #2 --> A-Star A2
+   * IR #3 --> A-Star A3
+   * IR #4 --> A-Star A4
+   * IR #5 --> A-Star A5
+   * IR #6 (on the little robot) --> A-Star A6
+   * Ground?
+
+. Attach the A-Star 32u4 to the Raspberry Pi 2. 
+  * If you have the stacking header, you'll want to attach that to the Pi first. This should leave space between the 2 boards for connecting the Pi Camera. 
+  * Attach the camera
+  * Seat the A-Star on the Raspberry Pi 2. Be sure to align to the proper pins.
+
+
+== Making it go: A-Star 32U4 software build
+. If you are using Linux, don’t forget the udev rules.
+
+. Pololu has marvelous documentation. Follow Getting Started in Pololu’s documentation in order to install and test your board. Try some of the examples from Files->Examples->AStar32U4. BuzzerBasics will validate that you can connect to the A-Star. Motors runs a simple motor test.
+
+. Create a directory maker/PID to build the code.
+
+. Download the latest release of Enable Interrupt. Unzip the release into your sketchbook/libraries folder, where sketchbook is the root of your Arduino sketches. You can find the directory by selecting file->preferences in the Arduino IDE.  Click here to learn more about the library.
+
+. Download the latest release of the SimplePID library. Click here to learn about the library. Unzip the release into your sketchbook/libraries folder, where sketchbook is the root of your Arduino sketches. You can find the directory by selecting file->preferences in the Arduino IDE. This includes an example for testing the PID constants which can be used as an alternative to the A* sample. It uses pin numbers for the DFRobot Romeo, however, so those may need changing. Open via File > Examples > SimplePID > RomeoPIDTest.
