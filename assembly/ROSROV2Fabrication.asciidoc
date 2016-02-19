@@ -37,7 +37,7 @@ List of materials to make the robot from and the tools required to make it
 ** 9"x9”x1/4" King StarBoard® HDPE Marine Building Material 
 from TAP Plastics or a similar provider or
 ** 9"x9”x1/8" Acrylic or
-** 9"x9”x1/8" Wood
+** 9"x9”x1/8" model plywood (3mm)
 
 * We have a number of excellent base design options:
 ** https://github.com/ProgrammingRobotsStudyGroup/prsg-misc/blob/master/designs/20cm_chassis/20cm_base.svg[20cm SVG base] or
@@ -78,6 +78,9 @@ Some of these links point to supplies which far exceed your needs. You may be ab
 * Pi Camera
 * link:https://www.adafruit.com/products/2223[GPIO Stacking Header for Pi A+/B+/Pi 2 - Extra-long 2x20 Pins]
 * http://www.amazon.com/gp/product/B009ZIILLI[USB Bluetooth BLE Adapter]
+* link:https://www.digikey.com/product-detail/en/SN74LS86AN/296-1669-5-ND/277315[or similar: 2 XOR gates to combine the motor encoder pins to use only one interrupt per motor]
+* link:https://www.adafruit.com/products/2310[Pi Hat perma board iff you want an additional layer for extra electronics]
+* DS3231 based Real Time Clock for the Pi
 
 === Tools
 Use caution when operating any tool. Always follow the manufacturers recommendations. Get trained and be safe!
@@ -89,6 +92,8 @@ Use caution when operating any tool. Always follow the manufacturers recommendat
 ** 5/64“ Bit
 * Phillips screwdriver - take care that the blade fits the pan head screws nicely.
 * Protective eyeglasses.
+* Soldering station (highly recommended)
+* Crimp tool for 0.1" jumper wires (optional)
 
 == Assembly Instructions
 
@@ -105,7 +110,7 @@ Always wear protective eyeglasses when using equipment.
 
 . If you only etched or scored the design into the base material, use a jigsaw or bandsaw to complete the task. The suggested materials should be easy to cut and shouldn’t take long. Sand the edges for a more finished appearance.
 
-. Drill the motor mount holes using the 7/64“ Bit. These holes go all the way through board. 
+. Drill the motor mount holes using the 7/64“ Bit. These holes go all the way through board.
 
 . Fasten the motor mounts.
 
@@ -115,7 +120,7 @@ Always wear protective eyeglasses when using equipment.
 
 . Put the Raspberry Pi 2 into its case.
 
-. Mount the Pi case and contents using velcro. Secure to base with Velcro. 
+. Mount the Pi case and contents using velcro. Secure to base with Velcro.
 
 . Apply velcro to the battery. Add male connector to battery. Secure battery to base with Velcro.
 
@@ -132,7 +137,7 @@ By far the most tedious and time consuming effort of the build, but worth it as 
  * The power block. 6 pins.
  * The Raspberry Pi 2 GPIO pins. 26 pins.
  * The LS1 level shifter pins. 4 pins.
- 
+
  That's 120 pins.
 
 . Since you're at it, you might want to complete the pin head wiring:
@@ -141,7 +146,7 @@ By far the most tedious and time consuming effort of the build, but worth it as 
  * The MISO / PDO, SCK, [overline]#RESET#, 5V, PB2, GND block. 6 pins.
  * The REGSHDN and STAT pins. 2 pins.
  * The Power control and shutodwn and unused pins. 3 pins. In this case I elected to add the unused pin for stability, but you can safely ignore it.
- 
+
  Another 24 or 25 pins for a grand total of 144 or 145 pins
 
 ==== Wiring the Motor
@@ -165,7 +170,7 @@ By far the most tedious and time consuming effort of the build, but worth it as 
   ** M2B -> A-Star pin 16
   ** M2 Encoder Ground -> A-Star pin 16's GND
   ** M2 Encoder Vcc -> A-Star pin 16's Vcc
-  
+
 . Communications between the A-Star to Raspberry Pi 2.
   a. RPi GPIO pin 14 (TXD0) -> A-Star pin 0 (RX)
   b. A-Star pin 1 (TX) -> 5V of 5V to 3V converter
@@ -188,12 +193,12 @@ By far the most tedious and time consuming effort of the build, but worth it as 
 . You must provide voltage to the 32u4 optional power bus as it is not powered by default.
 
     a.  Cut and install a short jumper to connect [underline]#**south VREG**# to the [underline]#**south side power strip**# of the 32u4 bus. It makes sense to use the PE2 and the nearest of 2 VREG connections.
-    
+
     b.  Cut and install a jumper between the power strip connection of [underline]#**NOT RST**# to power strip of 32u4’s [underline]#**RX pin 0**#.
     c.  Cut and install a jumper to connect the [underline]#**north VREG**# to the
     [underline]#**north side power strip**# of the 32u4 bus. It makes
     sense to use the PE2 and the nearest of 2 VREG connections.
-    
+
 === Finishing Steps
 . IR. This step is required for use of the IR sensors.
    * IR #1 --> A-Star A0
@@ -204,8 +209,8 @@ By far the most tedious and time consuming effort of the build, but worth it as 
    * IR #6 (on the little robot) --> A-Star A6
    * Ground?
 
-. Attach the A-Star 32u4 to the Raspberry Pi 2. 
-  * If you have the stacking header, you'll want to attach that to the Pi first. This should leave space between the 2 boards for connecting the Pi Camera. 
+. Attach the A-Star 32u4 to the Raspberry Pi 2.
+  * If you have the stacking header, you'll want to attach that to the Pi first. This should leave space between the 2 boards for connecting the Pi Camera.
   * Attach the camera
   * Seat the A-Star on the Raspberry Pi 2. Be sure to align to the proper pins.
 
