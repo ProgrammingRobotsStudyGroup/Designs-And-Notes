@@ -217,10 +217,22 @@ By far the most tedious and time consuming effort of the build, but worth it as 
 
 
 == Making it go: A-Star 32U4 software build
-. If you are using Linux, don’t forget the udev rules.
 
-. Pololu has marvelous documentation. Follow Getting Started in Pololu’s documentation in order to install and test your board. Try some of the examples from Files->Examples->AStar32U4. BuzzerBasics will validate that you can connect to the A-Star. Motors runs a simple motor test.
+=== Getting your development environment working
+. Pololu has marvelous documentation. Follow https://www.pololu.com/docs/0J66/4[Getting Started] in Pololu’s documentation in order to install and test your board. 
 
+  * Windows Drivers vs UDEV?
+  ** If you are using Windows, start with https://www.pololu.com/docs/0J66/4.1[4.1 installing Windows drivers]. Skip 4.2.
+  ** If you are using Linux:
+  *** skip 4.1 
+  *** Read https://github.com/pololu/a-star[== udev rules ==] section of Pololu's A-Star repository to install your https://github.com/pololu/a-star/blob/master/udev-rules/a-star.rules[udev rules].
+  
+  * Install the Arduino IDE and associated code as specified in https://www.pololu.com/docs/0J66/4.2[4.2]. Pololu also provides more generic documentation for their family of boards  https://github.com/pololu/a-star[in A-Star's github repository], covering some of the same topics, but not the specifically to the board we use.
+
+  * Try some of the examples from Files->Examples->AStar32U4. BuzzerBasics will validate that you can connect to the A-Star. Motors runs a simple motor test.
+
+
+=== Creating our robotics software
 . Create a directory maker/PID to build the code.
 
 . Download the latest release of Enable Interrupt. Unzip the release into your sketchbook/libraries folder, where sketchbook is the root of your Arduino sketches. You can find the directory by selecting file->preferences in the Arduino IDE.  Click here to learn more about the library.
