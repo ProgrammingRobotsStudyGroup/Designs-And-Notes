@@ -233,8 +233,10 @@ By far the most tedious and time consuming effort of the build, but worth it as 
 
 
 === Creating our robotics software
-. Create a directory maker/PID to build the code.
+. Install https://github.com/GreyGnome/EnableInterrupt/[Enable Interrupt code].
+ * Download the latest release of https://github.com/GreyGnome/EnableInterrupt/releases[Enable Interrupt].
+ * Unzip the release into your *sketchbook/libraries* folder, where sketchbook is the root of your Arduino sketches. You can find the directory by selecting file->preferences in the Arduino IDE.  https://github.com/GreyGnome/EnableInterrupt/[Click here] to learn more about the library.
 
-. Download the latest release of Enable Interrupt. Unzip the release into your sketchbook/libraries folder, where sketchbook is the root of your Arduino sketches. You can find the directory by selecting file->preferences in the Arduino IDE.  Click here to learn more about the library.
+. Create a directory maker/PID to build the code.
 
 . Download the latest release of the SimplePID library. Click here to learn about the library. Unzip the release into your sketchbook/libraries folder, where sketchbook is the root of your Arduino sketches. You can find the directory by selecting file->preferences in the Arduino IDE. This includes an example for testing the PID constants which can be used as an alternative to the A* sample. It uses pin numbers for the DFRobot Romeo, however, so those may need changing. Open via File > Examples > SimplePID > RomeoPIDTest.
