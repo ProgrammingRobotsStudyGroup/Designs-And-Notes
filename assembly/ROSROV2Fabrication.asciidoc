@@ -132,7 +132,7 @@ You may find it helpful to refer to this document throughout the electronics bui
 
 image::https://github.com/ProgrammingRobotsStudyGroup/Designs-And-Notes/blob/master/images/a_star_bridge_pinout_dia.jpg[A-Star Pin Out Diagram]
 
-image::images/a_star_bridge_pinout_dia.jpg[A-Star Pin Out Diagram]
+image::/a_star_bridge_pinout_dia.jpg[A-Star Pin Out Diagram]
 
 
 ==== Add Pin headers
