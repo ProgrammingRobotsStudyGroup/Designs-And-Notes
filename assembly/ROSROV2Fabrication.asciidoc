@@ -239,4 +239,7 @@ By far the most tedious and time consuming effort of the build, but worth it as 
 
 . Create a directory maker/PID to build the code.
 
-. Download the latest release of the SimplePID library. Click here to learn about the library. Unzip the release into your sketchbook/libraries folder, where sketchbook is the root of your Arduino sketches. You can find the directory by selecting file->preferences in the Arduino IDE. This includes an example for testing the PID constants which can be used as an alternative to the A* sample. It uses pin numbers for the DFRobot Romeo, however, so those may need changing. Open via File > Examples > SimplePID > RomeoPIDTest.
+. Simple https://github.com/merose/SimplePID[PID Libary]. Click the link to learn about the library.
+ * Download the https://github.com/merose/SimplePID/releases[latest release of the SimplePID library].
+ * Unzip the release into your *sketchbook/libraries* folder, where sketchbook is the root of your Arduino sketches. You can find the directory by selecting file->preferences in the Arduino IDE. 
+ * This library includes an example for testing the PID constants which can be used as an alternative to the A-Star sample. It uses pin numbers for the DFRobot Romeo, however, so those may need changing. Open via File > Examples > SimplePID > RomeoPIDTest. *NEED AN A-STAR EXAMPLE*.
