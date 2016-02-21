@@ -9,6 +9,8 @@ toc::[]
 
 The materials for this class are licensed under the Apache license. See the file LICENSE for details.
 
+Copyright 2015 D.P.Nielsen (Microsat)
+
 Copyright 2015 F Douthit
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -127,6 +129,11 @@ Always wear protective eyeglasses when using equipment.
 
 === Wiring the electronics
 You may find it helpful to refer to this document throughout the electronics build: link:https://github.com/ProgrammingRobotsStudyGroup/Designs-And-Notes/blob/master/Data%20Sheets/Pololu/a-star-32u4-robot-controller-lv-with-raspberry-pi-bridge-pinout-power.pdf[A-Star pinout].
+
+image::https://github.com/ProgrammingRobotsStudyGroup/Designs-And-Notes/blob/master/assembly/images/a_star_bridge_pinout_dia.jpg[A-Star Pin Out Diagram]
+
+
+
 
 ==== Add Pin headers
 
