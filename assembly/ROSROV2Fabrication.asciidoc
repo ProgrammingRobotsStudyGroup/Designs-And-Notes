@@ -130,8 +130,7 @@ Always wear protective eyeglasses when using equipment.
 === Wiring the electronics
 You may find it helpful to refer to this document throughout the electronics build: link:https://github.com/ProgrammingRobotsStudyGroup/Designs-And-Notes/blob/master/Data%20Sheets/Pololu/a-star-32u4-robot-controller-lv-with-raspberry-pi-bridge-pinout-power.pdf[A-Star pinout].
 
-image::https://github.com/ProgrammingRobotsStudyGroup/Designs-And-Notes/blob/master/assembly/images/a_star_bridge_pinout_dia.jpg[A-Star Pin Out Diagram]
-
+image::a_star_bridge_pinout_dia.jpg[A-Star Pin Out Diagram]
 
 
 
