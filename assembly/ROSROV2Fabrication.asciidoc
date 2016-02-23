@@ -8,7 +8,9 @@
 The materials for this class are licensed under the Apache license. See the file LICENSE for details.
 
 Copyright 2015, 2016 F Douthit
+
 Copyright 2016 M. Walther (mw46d)
+
 Copyright 2015 D.P.Nielsen (Microsat)
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -369,6 +371,12 @@ You have a couple of options.
  . Start the Code
  
  roslaunch romeo_launch romeo-standalone.launch
+
+=== Android Control Software
+* Android control software can connect to ros master and publish twist messages on the node *cmd_vel*.
+* This code is built with ROS Java and ROS Android.
+* You can get a copy from https://github.com/ProgrammingRobotsStudyGroup/AndroidControl[this repository].
+* Installation is typical of and side loaded Android application. As always, no warranty!
  
 === Shutdown Switch
 This is an optional switch which can be used to shutdown the Pi.
