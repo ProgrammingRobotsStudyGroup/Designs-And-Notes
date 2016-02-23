@@ -72,8 +72,8 @@ Some of these links point to supplies which far exceed your needs. You may be ab
 * http://www.amazon.com/gp/product/B00B4ZRPEY[22 gauge wire]
 * http://www.amazon.com/gp/product/B00M5WLZDW[Flat ribbon cable]
 * Pin headers: You can use either male of female pin headers, depending upon your preference. Myself I prefer female as they are less likely to bend or short. Male headers have the advantage of a lower profile.
-** Female pin headers
-** http://www.amazon.com/gp/product/B00TGOJE1W[Male pin headers]
+** http://www.amazon.com/gp/product/B00TGOJE1W[Female pin headers]
+** Male pin headers
 * IR Sensors
 
 === Optional
@@ -240,10 +240,10 @@ There are a number of ways to connect the Pi and the A-Star. The options are *US
 ==== RPi->A-Star USB
 * Probably the simplest method since just a USB cable is required.
 * One drawback is that you need a USB cable which flops about.
-* Amazon & friends have very short USB cables;-)
+* http://www.amazon.com/gp/product/B00WMF7JUA[Amazon has very short USB cables]
 
 ===== Wiring
-* USB cable between 
+* USB cable between A-Star and RPi.
 
 ==== RPi->A-Star https://en.wikipedia.org/wiki/I%C2%B2C[I2C]
 * I2C is a common means of connecting sensors and controllers.
@@ -258,6 +258,7 @@ There are a number of ways to connect the Pi and the A-Star. The options are *US
 * https://github.com/mw46d/ros_arduino_bridge - Not all of the original code is working over I2C yet!!
 
 ==== Serial Port RPi->A-Star
+image::serial_comm.jpg[Serial comm option]
 * Low profile.
 * You have to make sure, the Pi does not use this serial port as console! 
 
