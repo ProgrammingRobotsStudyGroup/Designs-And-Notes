@@ -9,9 +9,9 @@ toc::[]
 
 The materials for this class are licensed under the Apache license. See the file LICENSE for details.
 
-Copyright 2015 D.P.Nielsen (Microsat)
+Copyright 2015, 2016 F Douthit
 
-Copyright 2015 F Douthit
+Copyright 2015 D.P.Nielsen (Microsat)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -191,7 +191,7 @@ By far the most tedious and time consuming effort of the build, but worth it as 
 |====================
 
 === Powering the A-Star 32u4 bus
-
+image::board_power.jpg[A-Star Bus Power]
 . You must provide voltage to the 32u4 optional power bus as it is not powered by default.
 
     a.  Cut and install a short jumper wire to connect [underline]#**south VREG**# to the [underline]#**south side power strip**# of the 32u4 bus. It makes sense to use the PE2 and the nearest of 2 VREG connections.
@@ -239,6 +239,9 @@ There are a number of ways to connect the Pi and the A-Star. The options are *US
 * Probably the simplest method since just a USB cable is required.
 * One drawback is that you need a USB cable which flops about.
 
+===== Wiring
+* USB cable between 
+
 ==== RPi->A-Star https://en.wikipedia.org/wiki/I%C2%B2C[I2C]
 * I2C is a common means of connecting sensors and controllers. 
 * Data rate is limited to ~30KBaud. 
@@ -261,7 +264,7 @@ When the Raspberry Pi boots up, all the bootup information is sent to the serial
  * Ubuntu
  ** No change?
  * Raspian
- ** Joe?
+ ** ???
  
 === Name your RPi
  * Set your machine name to something unique.
@@ -299,18 +302,76 @@ You have a couple of options.
  git clone https://github.com/microsat/3r2_robot.git
  
  ** copy /3r2_robot/robot_3r2_firmware/ros_lib/ to <arduinosketch>/library
+ ** ros.h mod:
+
+ //  typedef NodeHandle_<ArduinoHardware> NodeHandle;
+  typedef NodeHandle_<ArduinoHardware, 10, 10, 256, 256> NodeHandle;
+
+ 
  * Build the library yourself
  ** See http://wiki.ros.org/rosserial_arduino/
 
 . Build your Arduino Sketch.
 
  cd <arduinosketchdir>
- git clone https://github.com/koning/ROSAstarNode.git
+ git clone https://github.com/merose/ROSRobotControl.git
  
+-or-
+
+ cd <arduinosketchdir>
+ git clone https://github.com/koning/ROSAstarNode.git
+
  * Start the Arduino IDE.
- * Open the code: file->Sketchbook->ROSAstartNode.
+ * Open the code: file->Sketchbook->ROSAstartNode or ROSRobotControl
  * Make sure you have the A-Star board selected: Tools->Board->Pololu A-Star 32u4.
  * Test compile the code using the check mark at the top of the screen.
  * If you have no errors, compile and deploy to the A-Star.
  
+=== Pi Code
+ . Ensure that your .bashrc contains
+ 
+ source ~/catkin_ws/devel/setup.bash
 
+ . Add rosserial_python and rosserial_msgs
+ 
+  cd ~/Development
+  git clone -b indigo https://github.com/ros-drivers/rosserial
+  cp -r ~/Development/rosserial/rosserial_python ~/catkin_ws/src/rosserial_python
+  cp -r ~/Development/rosserial/rosserial_msgs ~/catkin_ws/src/rosserial_msgs
+  
+ . Retrieve the code custom code
+ 
+ cd ~/catkin_ws/src/
+ git clone https://github.com/merose/differential-drive
+ git clone https://github.com/merose/romeo_launch
+ 
+ . Build the code
+ 
+ cd ~/catkin_ws
+ catkin_make
+ 
+ . Determine Which tty
+ 
+ ls /dev/tty*
+ 
+ * Make changes to this line in romeo-common.xml if the TTY isn't ttyACM0.
+ 
+ <arg name="tty" default="$(optenv ARDUINO_TTY /dev/ttyACM0)
+ 
+ . Start the Code
+ 
+ roslaunch romeo_launch romeo-standalone.launch
+ 
+=== Shutdown Switch
+This is an optional switch which can be used to shutdown the Pi.
+
+==== Hardware
+ * You will need a momentary switch. A momentary switch closes the circuit for only as long as it is pressed. 
+ * The switch should be easy to reach so you should allow enough wire length to moount it in a convenient place. The Ends of the 2 leads should be finished so that they can plug into your pin headers, male or female.
+
+==== Software
+ * Clone this repository
+ 
+ git clone https://github.com/merose/MakeyPiano
+ cd MakeyPiano
+ cp shutdownSwitch.py <dest dir on pi>
