@@ -3,8 +3,6 @@
 
 = ROS ROV REV 2 Fabrication
 
-toc::[]
-
 == License
 
 The materials for this class are licensed under the Apache license. See the file LICENSE for details.
@@ -12,6 +10,8 @@ The materials for this class are licensed under the Apache license. See the file
 Copyright 2015 D.P.Nielsen (Microsat)
 
 Copyright 2015 F Douthit
+
+Copyright 2016 M. Walther (mw46d)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -23,6 +23,8 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+toc::[]
 
 == Overview
 
@@ -67,6 +69,7 @@ Some of these links point to supplies which far exceed your needs. You may be ab
 * Raspberry Pi 2 Case
 * 32GB SDCard of Raspberry Pi 2 image.
 * ½“ or ¾” Velcro tape.
+* 3M Command strips
 * http://www.amazon.com/gp/product/B00LFDSM6K[1 set of 2.1x5.5mm Female and Male DC Power Adapter Connector]
 * http://www.amazon.com/gp/product/B00B4ZRPEY[22 gauge wire]
 * http://www.amazon.com/gp/product/B00M5WLZDW[Flat ribbon cable]
@@ -80,8 +83,8 @@ Some of these links point to supplies which far exceed your needs. You may be ab
 * Pi Camera
 * link:https://www.adafruit.com/products/2223[GPIO Stacking Header for Pi A+/B+/Pi 2 - Extra-long 2x20 Pins]
 * http://www.amazon.com/gp/product/B009ZIILLI[USB Bluetooth BLE Adapter]
-* link:https://www.digikey.com/product-detail/en/SN74LS86AN/296-1669-5-ND/277315[or similar: 2 XOR gates to combine the motor encoder pins to use only one interrupt per motor]
-* link:https://www.adafruit.com/products/2310[Pi Hat perma board iff you want an additional layer for extra electronics]
+* link:https://www.digikey.com/product-detail/en/SN74LS86AN/296-1669-5-ND/277315[2 XOR gates] to combine the motor encoder pins to use only one interrupt per motor
+* link:https://www.adafruit.com/products/2310[Pi Hat perma board] iff you want an additional layer for extra electronics
 * DS3231 based Real Time Clock for the Pi
 
 === Tools
@@ -120,7 +123,7 @@ Always wear protective eyeglasses when using equipment.
 
 . Fasten the casters.
 
-. Put the Raspberry Pi 2 into its case.
+. Put the Raspberry Pi 2 into its case. (I actually just used sturdy cardboard as an layer under the Pi)
 
 . Mount the Pi case and contents using velcro. Secure to base with Velcro.
 
@@ -128,7 +131,7 @@ Always wear protective eyeglasses when using equipment.
 
 
 === Wiring the electronics
-You may find it helpful to refer to this document throughout the electronics build: link:https://github.com/ProgrammingRobotsStudyGroup/Designs-And-Notes/blob/master/Data%20Sheets/Pololu/a-star-32u4-robot-controller-lv-with-raspberry-pi-bridge-pinout-power.pdf[A-Star pinout].
+You may find it helpful to refer to this document throughout the electronics build: link:https://github.com/ProgrammingRobotsStudyGroup/Designs-And-Notes/blob/master/Data%20Sheets/Pololu/a-star-32u4-robot-controller-lv-with-raspberry-pi-bridge-pinout-power.pdf[A-Star pinout]. (Image curtesy of Pololu.com)
 
 image::a_star_bridge_pinout_dia.jpg[A-Star Pin Out Diagram]
 
@@ -227,6 +230,7 @@ By far the most tedious and time consuming effort of the build, but worth it as 
   ** If you are using Linux:
   *** skip 4.1 
   *** Read https://github.com/pololu/a-star[== udev rules ==] section of Pololu's A-Star repository to install your https://github.com/pololu/a-star/blob/master/udev-rules/a-star.rules[udev rules].
+  *** Make sure, your user is in the _dialout_ group! If you have to add the user to that group, remember to log out & back in so it will take effect.
   
   * Install the Arduino IDE and associated code as specified in https://www.pololu.com/docs/0J66/4.2[4.2]. Pololu also provides more generic documentation for their family of boards  https://github.com/pololu/a-star[in A-Star's github repository], covering some of the same topics, but not the specifically to the board we use.
 
@@ -238,19 +242,23 @@ There are a number of ways to connect the Pi and the A-Star. The options are *US
 ==== RPi->A-Star USB
 * Probably the simplest method since just a USB cable is required.
 * One drawback is that you need a USB cable which flops about.
+* Amazon & friends have very short USB cables;-)
 
 ==== RPi->A-Star https://en.wikipedia.org/wiki/I%C2%B2C[I2C]
-* I2C is a common means of connecting sensors and controllers. 
-* Data rate is limited to ~30KBaud. 
+* I2C is a common means of connecting sensors and controllers.
+* There is no special wiring needed. The a* is already connected/level shifted to the Pi's I2C pins.
+* Data rate is limited to ~30KBaud. At least that's working pretty well.
+* I currently only have a ROS-Arduino-Bridge based setup working with I2C.
 
 *Resources*
 
 * http://i2c.info/
 * https://en.wikipedia.org/wiki/I%C2%B2C[https://en.wikipedia.org/wiki/I²C]
+* https://github.com/mw46d/ros_arduino_bridge - Not all of the original code is working over I2C yet!!
 
 ==== Serial Port RPi->A-Star
 * Low profile.
-When the Raspberry Pi boots up, all the bootup information is sent to the serial port. Since we expect the 
+* You have to make sure, the Pi does not use this serial port as console! 
 
 ===== Wiring
  * RPi GPIO pin 14 (TXD0) -> A-Star pin 0 (RX)
@@ -259,9 +267,10 @@ When the Raspberry Pi boots up, all the bootup information is sent to the serial
 
 ===== Software
  * Ubuntu
- ** No change?
+ ** Ubuntu uses tty1 (on the frame buffer) as console by default. But you can check the files mentioned below to make sure.
  * Raspian
- ** Joe?
+ ** Check _/boot/cmdline.txt_ that _console=_ does NOT point to _ttyAMA0_. It's not a problem on my Wheezy based Raspian.
+ ** Check _/etc/inittab_ that there is no _*getty_ started on _ttyAMA0_.  It's commented on my Wheezy based Raspian.
  
 === Name your RPi
  * Set your machine name to something unique.
