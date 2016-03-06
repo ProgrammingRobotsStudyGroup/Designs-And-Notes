@@ -1,0 +1,79 @@
+:imagesdir: ./images
+:toc: macro
+
+= ROS Session 1 - TurtleSim Demo
+
+toc::[]
+
+
+== License
+
+The materials for this class are licensed under the Apache license. See the file LICENSE for details.
+
+Copyright 2015, 2016 F Douthit
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+
+== Overview
+
+This text is a demo of TurtleSim to accompany ROS Session 1.
+
+
+== TurtleSim Demo Notes
+
+This document is written assuming Ubuntu Linux.
+
+ * *Start* http://wiki.ros.org/roscore[roscore] (ROS Master, parameter server and logger.) In a new terminal
+ type:
+ 
+ roscore
+ 
+ * *Start* http://wiki.ros.org/turtlesim[TurtleSim]. In a new terminal type:
+ 
+ rosrun turtlesim turtlesim_node
+
+ * *Start turtle keyboard teleoperation*. This code ‘drives’ the turtle simulator. In a new terminal type:
+ 
+ rosrun turtlesim turtle_teleop_key
+ 
+ * http://wiki.ros.org/rqt_graph[Create a dynamic graph of what’s going on in the system]. In a new terminal type:
+ 
+ rosrun rqt_graph rqt_graph
+ 
+ * http://wiki.ros.org/rostopic[Display information about ROS topics]. Command prototype:
+ 
+ rostopic arg /topic
+ 
+ ** *Trace a topic*. In a new terminal type:
+ 
+ rostopic echo /turtle1/cmd_vel
+ 
+ ** *List topics* (verbose). In a new terminal type:
+ 
+ rostopic list -v
+  
+ ** *Print topic type*. In a new terminal type:
+ 
+  rostopic type /turtle1/cmd_vel
+
+ * http://wiki.ros.org/rosmsg[Display information about ROS Message types]. Command prototype:
+ 
+ rosmsg arg arg
+ 
+e.g., in a new terminal type:
+
+ rosmsg show geometry_msgs/Twist
+ 
+ * http://wiki.ros.org/roswtf[Diagnose issues with a running ROS system]. In a new terminal type:
+ 
+ roswtf

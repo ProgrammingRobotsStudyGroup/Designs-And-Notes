@@ -1,0 +1,71 @@
+:imagesdir: ./images
+:toc: macro
+
+= ROS Session 3
+
+toc::[]
+
+
+== License
+
+The materials for this class are licensed under the Apache license. See the file LICENSE for details.
+
+Copyright 2015, 2016 F Douthit
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+
+== Overview
+
+With this text, learn how to create ROS nodes and services using exercises from http://wiki.ros.org/[wiki.ros.org].
+
+== Creating and Publishing Nodes and Services
+
+We’ll be working the latest http://wiki.ros.org/catkin/Tutorials[catkin based tutorials] from wiki.ros.org. The site is a bit cluttered, so I am providing links directly to the relevant material.
+
+
+=== http://wiki.ros.org/catkin[What is catkin?]
+ 
+ ** Go forward build system. Replaces rosbuild.
+ 
+ ** Cross platform. Previous build approaches were
+ not cross platform.
+ ** Leverages cmake, which translates into 
+ platform specific make.
+ ** Since we don’t plan to address previous build systems, 
+ we won’t address older techniques.
+
+=== http://wiki.ros.org/catkin/Tutorials/create_a_workspace[Create a workspace].
+
+=== http://wiki.ros.org/catkin/Tutorials/CreatingPackage[Create a Package].
+
+=== http://wiki.ros.org/catkin/Tutorials/using_a_workspace[Building and using catkin packages in a workspace].
+
+=== http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv[Create and build msg and srv files]. 
+
+At the top of the page, please be sure to select catkin, not rosbuild.
+
+=== http://wiki.ros.org/rospy_tutorials/Tutorials/WritingPublisherSubscriber[Writing a simple publisher node in Python].
+
+At the top of the page, please be sure to select catkin, not rosbuild. http://wiki.ros.org/ROS/Tutorials/WritingPublisherSubscriber%28python%29[This version contains a video of how to use eclipse to do some of the work].
+
+=== http://wiki.ros.org/rospy_tutorials/Tutorials/WritingServiceClient[Writing a service in Python].
+
+At the top of the page, please be sure to select catkin, not rosbuild. http://wiki.ros.org/ROS/Tutorials/WritingServiceClient%28python%29[Alternate version, largely the same].
+
+=== http://wiki.ros.org/ROS/Tutorials/WritingPublisherSubscriber%28c%2B%2B%29[Writing a simple publisher node in C++]. 
+
+At the top of the page, please be sure to select catkin, not rosbuild.
+
+=== http://wiki.ros.org/ROS/Tutorials/WritingServiceClient%28c%2B%2B%29[Writing a service in C++].
+
+At the top of the page, please be sure to select catkin, not rosbuild.
