@@ -1,0 +1,13 @@
+[index]
+== Example Index
+////////////////////////////////////////////////////////////////
+The index is normally left completely empty, it's contents being
+generated automatically by the DocBook toolchain.
+////////////////////////////////////////////////////////////////  
+
+=== Typical Hardware You Will Need
+
+include::RPi-hwd-basic-setup.adoc[RPi Hardware Basic Setup]
+
+
+include::Prepared-Operating-System-SD-Card.adoc[Prepared SD RPi]

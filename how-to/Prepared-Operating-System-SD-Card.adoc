@@ -38,3 +38,5 @@ include::ARM-install-of-ROS-Indigo.adoc[ROS Indigo]
 
 ==== ROS specific Package for Programming Robots Study Group
 
+include::specific-Package-for-PRSG.adoc[ROS specific Package]
+
