@@ -1,0 +1,9 @@
+= **Here we have a Few How-to**
+
+=== Prepared Operating System SD Card
+
+include::Prepared-Operating-System-SD-Card.adoc[Prepared SD RPi]
+
+=== Typical Hardware You Will Need
+
+include::RPi-hwd-basic-setup.adoc[RPi Hardware Basic Setup]

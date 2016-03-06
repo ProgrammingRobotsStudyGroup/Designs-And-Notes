@@ -1,0 +1,77 @@
+
+
+**tf**
+
+==== Package Summary
+tf is a package that lets the user keep track of multiple coordinate frames over time. tf maintains the relationship between coordinate frames in a tree structure buffered in time, and lets the user transform points, vectors, etc between any two coordinate frames at any desired point in time.
+
+----
+sudo apt-get install ros-indigo-tf
+----
+
+**rosserial**
+
+rosserial is a protocol for wrapping standard ROS serialized messages and multiplexing multiple topics and services over a character device such as a serial port or network socket.
+
+====  Installing Binaries on the ROS workstation
+
+You can install rosserial for Arduino by running:
+
+[source,java]
+----
+sudo apt-get install ros-indigo-rosserial-arduino
+sudo apt-get install ros-indigo-rosserial
+----
+
+==== Installing from Source onto the ROS workstation
+
+Source build instructions are different for groovy+ (catkin) than for earlier (rosbuild) releases. Select the build system based on your release to see appropriate instructions.
+
+
+Rosserial has been catkin-ized since the groovy release, and the workflow is a bit different from fuerte and earlier releases. Rather than running the library generator over each package you want to use, you run it once and generate libraries for all installed messages. In the instructions below, <ws> represents your catkin workspace.
+
+
+[source,java]
+----
+  cd <ws>/src
+  git clone https://github.com/ros-drivers/rosserial.git
+  cd <ws>
+  catkin_make
+  catkin_make install
+  source <ws>/install/setup.bash
+----
+
+These commands clone rosserial from the github repository, generate the rosserial_msgs needed for communication, and make the `ros_lib` library in the <ws>/install directory.
+
+.Note
+[IMPORTANT]
+====
+currently you HAVE to run catkin_make install, otherwise portions of the ros_lib directory will be missing. This will hopefully be fixed soon.
+====
+
+==== Install ros_lib into the Arduino Environment
+
+The preceding installation steps created ros_lib, which must be copied into the Arduino build environment to enable Arduino programs to interact with ROS.
+
+In the steps below, <sketchbook> is the directory where the Linux Arduino environment saves your sketches. Typically this is a directory called __sketchbook__ in your home directory. Alternately, you can install into a Windows Arduino environment.
+
+Ros_lib installation instructions are different for groovy source (catkin) than for earlier (rosbuild) or binary releases. Be sure you've selected the correct build system above to see appropriate instructions - catkin for a groovy source build, rosbuild otherwise.
+
+**Note:** you have to delete libraries/ros_lib in order to regenerate as its existence causes an error.
+
+[source,java]
+----
+  cd <sketchbook>/libraries
+  rm -rf ros_lib
+  rosrun rosserial_arduino make_libraries.py .
+----
+
+If you are building the Arduino on Windows, you need to create the ros_lib folder in some convenient directory.
+
+[source,java]
+----
+  cd <some_empty_directory>
+  rosrun rosserial_arduino make_libraries.py .
+----
+
+If you are building Arduino on Windows, copy the ros_lib directory from Linux to the Windows sytem's sketchbook/libraries folder (typically found in My Documents).

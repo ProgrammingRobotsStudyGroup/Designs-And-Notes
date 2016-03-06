@@ -1,0 +1,139 @@
+==== Ubuntu ARM install of ROS Indigo
+
+There are currently builds of ROS for Ubuntu Trusty armhf. These builds include most but not all packages, and save a considerable amount of time compared to doing a full source-based installation.
+
+
+
+==== Installation
+
+===== Configure your Ubuntu repositories
+
+* Configure your Ubuntu repositories to allow "restricted," "universe," and "multiverse." You can https://help.ubuntu.com/community/Repositories/Ubuntu[follow the Ubuntu guide]for instructions on doing this.
+
+===== Set your Locale
+
+* Boost and some of the ROS tools require that the system locale be set. You can set it with:
+
+----
+sudo update-locale LANG=C LANGUAGE=C LC_ALL=C LC_MESSAGES=POSIX
+----
+If there is a problem. Then try (other languages could be added):
+
+[source,java]
+----
+$ export LANGUAGE=en_US.UTF-8
+$ export LANG=en_US.UTF-8
+$ export LC_ALL=en_US.UTF-8
+$ locale-gen en_US.UTF-8
+$ dpkg-reconfigure locales
+----
+
+===== Setup your sources.list
+
+Setup your computer to accept software from the ARM mirror on packages.ros.org.
+
+Due to limited resources, there are only active builds for Trusty armhf (14.04), since this is the stable, long-term Ubuntu release and is the most-requested distribution in conjunction with ROS Indigo.
+
+*   **Ubuntu 14.04 (Trusty armhf)**
+----
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu trusty main" > /etc/apt/sources.list.d/ros-latest.list'
+----
+
+=== Set up your keys
+
+----
+sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net --recv-key 0xB01FA116
+----
+
+===== Installation
+
+* First, make sure your Debian package index is up-to-date:
+
+----
+sudo apt-get update
+----
+* There are many different libraries and tools in ROS - not all compile fully on ARM. You can also install ROS packages individually.
+
+.**ROS-Base: (Bare Bones)**
+[NOTE]
+====
+ROS package, build, and communication libraries. No GUI tools.
+==== 
+
+----
+sudo apt-get install ros-indigo-ros-base
+----
+
+===== Add Individual Packages
+
+*   You can install a specific ROS package (replace underscores with dashes of the package name):
+
+----
+sudo apt-get install ros-indigo-PACKAGE
+----
+
+**  e.g.
+
+----
+sudo apt-get install ros-indigo-navigation
+----
+* To find available packages, use:
+
+----
+apt-cache search ros-indigo
+----
+
+==== Initialize rosdep
+
+Before you can use ROS, you will need to install and initialize `rosdep`. ``rosdep` enables you to easily install system dependencies for source you want to compile and is required to run some core components in ROS.
+
+[source,java]
+----
+sudo apt-get install python-rosdep
+sudo rosdep init
+rosdep update
+----
+
+===== Environment setup
+
+* It's convenient if the ROS environment variables are automatically added to your bash session every time a new shell is launched:
+
+[source,java]
+----
+echo "source /opt/ros/indigo/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+----
+
+If you just want to change the environment of your current shell, you can type:
+
+----
+source /opt/ros/indigo/setup.bash
+----
+
+
+==== Getting rosinstall
+
+http://wiki.ros.org/rosinstall[rosinstall] is a frequently used command-line tool in ROS that is distributed separately. It enables you to easily download many source trees for ROS packages with one command.
+
+To install this tool on Ubuntu, run:
+
+----
+sudo apt-get install python-rosinstall
+----
+
+==== Verifying OS name
+
+Make sure your OS name defined at /etc/lsb-release is as the following. Since ros does not recognize Linaro as an OS, this is necessary. The following is for Ubuntu 14.04, trusty. Modify the release number and name as per your target.
+
+[source,java]
+----
+DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=14.04
+DISTRIB_CODENAME=trusty
+DISTRIB_DESCRIPTION="Ubuntu 14.04"
+----
+
+
+
+
+

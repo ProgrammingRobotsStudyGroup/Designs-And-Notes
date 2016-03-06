@@ -1,0 +1,82 @@
+==== Ubuntu Setup on the Raspberry Pi
+
+Once you have written the Ubuntu image to the SD card you should be able to boot the Raspberry Pi. The next steps are done on the Raspberry Pi. The first few steps require you to connect an HDMI monitor and USB keyboard. After that you can connect via SSH.
+
+* Insert the SD card into the Raspbery Pi, connect to an HDMI monitor and USB keyboard, and turn on the power.
+
+* You will see a text login prompt. Log in with user ``ubuntu`` and password ``ubuntu``.
+
+* There are no Raspbian-specific utilities included, specifically no automatic root resizer. However, it's not hard to do manually. Once booted:
+
+* Delete the second partition and re-create it.
+
+----
+sudo fdisk /dev/mmcblk0
+----
+
+* Delete the second partition (d, 2), then re-create it using the defaults (n, p, 2, enter, enter), then write and exit (w). Reboot the system, then:
+
+* After reboot resize the second partition
+
+----
+sudo resize2fs /dev/mmcblk0p2
+----
+
+* There is no swap partition/file included. If you want swap, it's recommended you do:
+
+----
+ sudo apt-get install dphys-swapfile
+----
+
+You should have a (resized) SD card at least 4GB, because by default it will want to create a ~2GB swapfile.
+
+* Update the package index and upgrade all installed packages.
+
+----
+sudo apt-get update
+sudo apt-get upgrade
+----
+
+
+*   If you are using a wifi dongle, you will likely need to get the linux-firmware package:
+
+----
+ sudo apt-get install linux-firmware
+----
+
+
+* If you would like to install an SSH server for remote access: (it's recommended you do)
+
+----
+sudo apt-get install openssh-server
+----
+
+* **This is a minimal ubuntu-standard image**
+
+*   If you want a full desktop, go ahead and do so:
+[source,java]
+----
+sudo apt-get install xubuntu-desktop  # or
+sudo apt-get install lubuntu-desktop  # or
+sudo apt-get install kubuntu-desktop  # etc
+----
+
+Ubuntu (Unity) and Ubuntu-GNOME just display a blank screen, presumably because they require 3D compositing. Kubuntu works but is slow unless you turn off desktop effects under System Settings. Xubuntu and Lubuntu work fine out of the box.
+
+*   An accelerated x.org video driver is available (fbturbo), though this is limited to hardware accelerated window moving/scrolling on the Raspberry Pi. To install:
+
+----
+$ sudo apt-get install xserver-xorg-video-fbturbo
+----
+
+Then add this to `/etc/X11/xorg.conf` (create if it doesn't already exist):
+
+[source,java]
+----
+Section "Device"
+    Identifier "Raspberry Pi FBDEV"
+    Driver "fbturbo"
+    Option "fbdev" "/dev/fb0"
+    Option "SwapbuffersWait" "true"
+EndSection
+----
