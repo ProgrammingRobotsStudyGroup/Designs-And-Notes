@@ -1,6 +1,6 @@
 Here we have a Few How-to
 
-=== = Prepared Operating System SD Card
+=== Prepared Operating System SD Card
 
 include::Prepared-Operating-System-SD-Card.adoc[Prepared SD RPi]
 
