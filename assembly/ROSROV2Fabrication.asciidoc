@@ -3,15 +3,15 @@
 
 = ROS ROV REV 2 Fabrication
 
-toc::[]
-
 == License
 
 The materials for this class are licensed under the Apache license. See the file LICENSE for details.
 
-Copyright 2015 D.P.Nielsen (Microsat)
+Copyright 2015, 2016 F Douthit
 
-Copyright 2015 F Douthit
+Copyright 2016 M. Walther (mw46d)
+
+Copyright 2015 D.P.Nielsen (Microsat)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -23,6 +23,8 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+toc::[]
 
 == Overview
 
@@ -67,12 +69,13 @@ Some of these links point to supplies which far exceed your needs. You may be ab
 * Raspberry Pi 2 Case
 * 32GB SDCard of Raspberry Pi 2 image.
 * ½“ or ¾” Velcro tape.
+* 3M Command strips
 * http://www.amazon.com/gp/product/B00LFDSM6K[1 set of 2.1x5.5mm Female and Male DC Power Adapter Connector]
 * http://www.amazon.com/gp/product/B00B4ZRPEY[22 gauge wire]
 * http://www.amazon.com/gp/product/B00M5WLZDW[Flat ribbon cable]
 * Pin headers: You can use either male of female pin headers, depending upon your preference. Myself I prefer female as they are less likely to bend or short. Male headers have the advantage of a lower profile.
-** Female pin headers
-** http://www.amazon.com/gp/product/B00TGOJE1W[Male pin headers]
+** http://www.amazon.com/gp/product/B00TGOJE1W[Female pin headers]
+** Male pin headers
 * IR Sensors
 
 === Optional
@@ -80,8 +83,8 @@ Some of these links point to supplies which far exceed your needs. You may be ab
 * Pi Camera
 * link:https://www.adafruit.com/products/2223[GPIO Stacking Header for Pi A+/B+/Pi 2 - Extra-long 2x20 Pins]
 * http://www.amazon.com/gp/product/B009ZIILLI[USB Bluetooth BLE Adapter]
-* link:https://www.digikey.com/product-detail/en/SN74LS86AN/296-1669-5-ND/277315[or similar: 2 XOR gates to combine the motor encoder pins to use only one interrupt per motor]
-* link:https://www.adafruit.com/products/2310[Pi Hat perma board iff you want an additional layer for extra electronics]
+* link:https://www.digikey.com/product-detail/en/SN74LS86AN/296-1669-5-ND/277315[2 XOR gates] to combine the motor encoder pins to use only one interrupt per motor
+* link:https://www.adafruit.com/products/2310[Pi Hat perma board] iff you want an additional layer for extra electronics
 * DS3231 based Real Time Clock for the Pi
 
 === Tools
@@ -120,7 +123,7 @@ Always wear protective eyeglasses when using equipment.
 
 . Fasten the casters.
 
-. Put the Raspberry Pi 2 into its case.
+. Put the Raspberry Pi 2 into its case. (I actually just used sturdy cardboard as an layer under the Pi)
 
 . Mount the Pi case and contents using velcro. Secure to base with Velcro.
 
@@ -128,10 +131,9 @@ Always wear protective eyeglasses when using equipment.
 
 
 === Wiring the electronics
-You may find it helpful to refer to this document throughout the electronics build: link:https://github.com/ProgrammingRobotsStudyGroup/Designs-And-Notes/blob/master/Data%20Sheets/Pololu/a-star-32u4-robot-controller-lv-with-raspberry-pi-bridge-pinout-power.pdf[A-Star pinout].
+You may find it helpful to refer to this document throughout the electronics build: link:https://github.com/ProgrammingRobotsStudyGroup/Designs-And-Notes/blob/master/Data%20Sheets/Pololu/a-star-32u4-robot-controller-lv-with-raspberry-pi-bridge-pinout-power.pdf[A-Star pinout]. (Image curtesy of Pololu.com)
 
-image::https://github.com/ProgrammingRobotsStudyGroup/Designs-And-Notes/blob/master/assembly/images/a_star_bridge_pinout_dia.jpg[A-Star Pin Out Diagram]
-
+image::a_star_bridge_pinout_dia.jpg[A-Star Pin Out Diagram]
 
 
 
@@ -179,11 +181,6 @@ By far the most tedious and time consuming effort of the build, but worth it as 
   ** M2 Encoder Ground -> A-Star pin 16's GND
   ** M2 Encoder Vcc -> A-Star pin 16's Vcc
 
-. Communications between the A-Star to Raspberry Pi 2.
-  a. RPi GPIO pin 14 (TXD0) -> A-Star pin 0 (RX)
-  b. A-Star pin 1 (TX) -> 5V of 5V to 3V converter
-  c. 3V of 5V to 3V converter -> RPi GPIO pin 15 (RXD0)
-
 .Motor Wiring Harness
 [width="100%",options="header,footer"]
 |====================
@@ -197,13 +194,13 @@ By far the most tedious and time consuming effort of the build, but worth it as 
 |====================
 
 === Powering the A-Star 32u4 bus
-
+image::board_power.jpg[A-Star Bus Power]
 . You must provide voltage to the 32u4 optional power bus as it is not powered by default.
 
-    a.  Cut and install a short jumper to connect [underline]#**south VREG**# to the [underline]#**south side power strip**# of the 32u4 bus. It makes sense to use the PE2 and the nearest of 2 VREG connections.
+    a.  Cut and install a short jumper wire to connect [underline]#**south VREG**# to the [underline]#**south side power strip**# of the 32u4 bus. It makes sense to use the PE2 and the nearest of 2 VREG connections.
 
-    b.  Cut and install a jumper between the power strip connection of [underline]#**NOT RST**# to power strip of 32u4’s [underline]#**RX pin 0**#.
-    c.  Cut and install a jumper to connect the [underline]#**north VREG**# to the
+    b.  Cut and install a jumper wire between the power strip connection of [underline]#**NOT RST**# to power strip of 32u4’s [underline]#**RX pin 0**#.
+    c.  Cut and install a jumper wire to connect the [underline]#**north VREG**# to the
     [underline]#**north side power strip**# of the 32u4 bus. It makes
     sense to use the PE2 and the nearest of 2 VREG connections.
 
@@ -233,17 +230,164 @@ By far the most tedious and time consuming effort of the build, but worth it as 
   ** If you are using Linux:
   *** skip 4.1 
   *** Read https://github.com/pololu/a-star[== udev rules ==] section of Pololu's A-Star repository to install your https://github.com/pololu/a-star/blob/master/udev-rules/a-star.rules[udev rules].
+  *** Make sure, your user is in the _dialout_ group! If you have to add the user to that group, remember to log out & back in so it will take effect.
   
   * Install the Arduino IDE and associated code as specified in https://www.pololu.com/docs/0J66/4.2[4.2]. Pololu also provides more generic documentation for their family of boards  https://github.com/pololu/a-star[in A-Star's github repository], covering some of the same topics, but not the specifically to the board we use.
 
   * Try some of the examples from Files->Examples->AStar32U4. BuzzerBasics will validate that you can connect to the A-Star. Motors runs a simple motor test.
 
+=== Communication between A-Star and Raspberry Pi 2
+There are a number of ways to connect the Pi and the A-Star. The options are *USB, Serial port* and *I2C*. Each option offers advantages and disadvantages.
 
-=== Creating our robotics software
+==== RPi->A-Star USB
+* Probably the simplest method since just a USB cable is required.
+* One drawback is that you need a USB cable which flops about.
+* http://www.amazon.com/gp/product/B00WMF7JUA[Amazon has very short USB cables]
+
+===== Wiring
+* USB cable between A-Star and RPi.
+
+==== RPi->A-Star https://en.wikipedia.org/wiki/I%C2%B2C[I2C]
+* I2C is a common means of connecting sensors and controllers.
+* There is no special wiring needed. The a* is already connected/level shifted to the Pi's I2C pins.
+* Data rate is limited to ~30KBaud. At least that's working pretty well.
+* I currently only have a ROS-Arduino-Bridge based setup working with I2C.
+
+*Resources*
+
+* http://i2c.info/
+* https://en.wikipedia.org/wiki/I%C2%B2C[https://en.wikipedia.org/wiki/I²C]
+* https://github.com/mw46d/ros_arduino_bridge - Not all of the original code is working over I2C yet!!
+
+==== Serial Port RPi->A-Star
+image::serial_comm.jpg[Serial comm option]
+* Low profile.
+* You have to make sure, the Pi does not use this serial port as console! 
+
+===== Wiring
+ * RPi GPIO pin 14 (TXD0) -> A-Star pin 0 (RX)
+ * A-Star pin 1 (TX) -> 5V of 5V to 3V converter
+ * 3V of 5V to 3V converter -> RPi GPIO pin 15 (RXD0)
+
+===== Software
+ * Ubuntu
+ ** Ubuntu uses tty1 (on the frame buffer) as console by default. But you can check the files mentioned below to make sure.
+ * Raspian
+ ** Check _/boot/cmdline.txt_ that _console=_ does NOT point to _ttyAMA0_. It's not a problem on my Wheezy based Raspian.
+ ** Check _/etc/inittab_ that there is no _*getty_ started on _ttyAMA0_.  It's commented on my Wheezy based Raspian.
+ 
+=== Name your RPi
+ * Set your machine name to something unique.
+ * Type the command
+ 
+ sudo pico /etc/hostname
+
+ * Change the name to something you like. Make it personal and unique.
+
+=== Creating our robotics software MJ ROS Serial approach
 . Install https://github.com/GreyGnome/EnableInterrupt/[Enable Interrupt code].
  * Download the latest release of https://github.com/GreyGnome/EnableInterrupt/releases[Enable Interrupt].
  * Unzip the release into your *sketchbook/libraries* folder, where sketchbook is the root of your Arduino sketches. You can find the directory by selecting file->preferences in the Arduino IDE.  https://github.com/GreyGnome/EnableInterrupt/[Click here] to learn more about the library.
 
-. Create a directory maker/PID to build the code.
+. Simple https://github.com/merose/SimplePID[PID Libary]. Click the link to learn about the library.
 
-. Download the latest release of the SimplePID library. Click here to learn about the library. Unzip the release into your sketchbook/libraries folder, where sketchbook is the root of your Arduino sketches. You can find the directory by selecting file->preferences in the Arduino IDE. This includes an example for testing the PID constants which can be used as an alternative to the A* sample. It uses pin numbers for the DFRobot Romeo, however, so those may need changing. Open via File > Examples > SimplePID > RomeoPIDTest.
+ * Get the release software
+ ** Download the https://github.com/merose/SimplePID/releases[latest release of the SimplePID library].
+ ** Unzip the release into your *sketchbook/libraries* folder, where sketchbook is the root of your Arduino sketches. You can find the directory by selecting file->preferences in the Arduino IDE. 
+
+ * OR for latest check in...
+ ** cd  *sketchbook/libraries*
+ ** git clone https://github.com/merose/SimplePID.git
+[%hardbreaks]
+[NOTE]
+ This library includes an example for testing the PID constants which can be used as an alternative to the A-Star sample. It uses pin numbers for the DFRobot Romeo, however, so those may need changing. Open via File -> Examples -> SimplePID -> RomeoPIDTest.
+
+. Install rosserial_arduino
+[NOTE]
+You have a couple of options.
+
+ * Get pre-built code
+ ** Clone this repository
+
+ git clone https://github.com/microsat/3r2_robot.git
+ 
+ ** copy /3r2_robot/robot_3r2_firmware/ros_lib/ to <arduinosketch>/library
+ ** ros.h mod:
+
+ //  typedef NodeHandle_<ArduinoHardware> NodeHandle;
+  typedef NodeHandle_<ArduinoHardware, 10, 10, 256, 256> NodeHandle;
+
+ 
+ * Build the library yourself
+ ** See http://wiki.ros.org/rosserial_arduino/
+
+. Build your Arduino Sketch.
+
+ cd <arduinosketchdir>
+ git clone https://github.com/merose/ROSRobotControl.git
+ 
+-or-
+
+ cd <arduinosketchdir>
+ git clone https://github.com/koning/ROSAstarNode.git
+
+ * Start the Arduino IDE.
+ * Open the code: file->Sketchbook->ROSAstartNode or ROSRobotControl
+ * Make sure you have the A-Star board selected: Tools->Board->Pololu A-Star 32u4.
+ * Test compile the code using the check mark at the top of the screen.
+ * If you have no errors, compile and deploy to the A-Star.
+ 
+=== Pi Code
+ . Ensure that your .bashrc contains
+ 
+ source ~/catkin_ws/devel/setup.bash
+
+ . Add rosserial_python and rosserial_msgs
+ 
+  cd ~/Development
+  git clone -b indigo https://github.com/ros-drivers/rosserial
+  cp -r ~/Development/rosserial/rosserial_python ~/catkin_ws/src/rosserial_python
+  cp -r ~/Development/rosserial/rosserial_msgs ~/catkin_ws/src/rosserial_msgs
+  
+ . Retrieve the code custom code
+ 
+ cd ~/catkin_ws/src/
+ git clone https://github.com/merose/differential-drive
+ git clone https://github.com/merose/romeo_launch
+ 
+ . Build the code
+ 
+ cd ~/catkin_ws
+ catkin_make
+ 
+ . Determine Which tty
+ 
+ ls /dev/tty*
+ 
+ * Make changes to this line in romeo-common.xml if the TTY isn't ttyACM0.
+ 
+ <arg name="tty" default="$(optenv ARDUINO_TTY /dev/ttyACM0)
+ 
+ . Start the Code
+ 
+ roslaunch romeo_launch romeo-standalone.launch
+
+=== Android Control Software
+* Android control software can connect to ros master and publish twist messages on the node *cmd_vel*.
+* This code is built with ROS Java and ROS Android.
+* You can get a copy from https://github.com/ProgrammingRobotsStudyGroup/AndroidControl[this repository].
+* Installation is typical of and side loaded Android application. As always, no warranty!
+ 
+=== Shutdown Switch
+This is an optional switch which can be used to shutdown the Pi.
+
+==== Hardware
+ * You will need a momentary switch. A momentary switch closes the circuit for only as long as it is pressed. 
+ * The switch should be easy to reach so you should allow enough wire length to moount it in a convenient place. The Ends of the 2 leads should be finished so that they can plug into your pin headers, male or female.
+
+==== Software
+ * Clone this repository
+ 
+ git clone https://github.com/merose/MakeyPiano
+ cd MakeyPiano
+ cp shutdownSwitch.py <dest dir on pi>

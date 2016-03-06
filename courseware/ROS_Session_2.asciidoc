@@ -1,0 +1,492 @@
+:imagesdir: ./images
+:toc: macro
+
+= ROS Session 2
+
+toc::[]
+
+
+== License
+
+The materials for this class are licensed under the Apache license. See the file LICENSE for details.
+
+Copyright 2015, 2016 F Douthit
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+
+== Overview
+
+This text describes ROS naming and some of the most common command line tools.
+
+== ROS Naming
+
+Understanding how ROS handles names is key to utilizing the resources that ROS provides.  A more complete discussion can be found here. You should read this information for a more complete treatment. Below is some information about the two types of names in ROS:
+Graph Resource Names
+
+=== Graph resource names apply to Nodes, Parameters, Topics, and Services.
+
+==== Examples:
+
+* /(the global namespace)
+
+* /stanford/robot/name
+
+==== Resolving names:
+
+There are four types of Graph Resource Names in ROS: base, relative, global, and private, which have the following syntax:
+
+* base
+* relative/name
+* /global/name
+* ~private/name – only know to the namespace in which they exist.
+
+=== Package Resource Names
+
+Package Resource Names are very similar to file paths, except they are much shorter. This is due to the ability of ROS to locate Packages on disk and make additional assumptions about their contents. For example, Message descriptions are always stored in the msg subdirectory and have the .msg extension, so std_msgs/msg/String is shorthand for path to <install base>/share/std_msgs/msg/String.msg. Similarly, the Node type foo/bar is equivalent to searching for a file named bar in Package foo with executable permissions.
+
+== Command Line Tools
+
+While we have documented a number of commands we feel are important, we’ve borrowed extensively from http://wiki.ros.org:
+
+=== http://wiki.ros.org/ROS/CommandLineTools[Complete set of command line tools]
+
+=== http://docs.ros.org/independent/api/rospkg/html/rospack.html[rospack]
+
+==== Overview
+
+*rospack* is a command-line tool for retrieving information about ROS 
+http://wiki.ros.org/Packages[packages] available on the filesystem. 
+It implements a wide variety of commands ranging from locating ROS packages in the filesystem.
+
+==== Examples
+
+ ros@indigo:~$ rospack list | grep roscpp
+ roscpp /opt/ros/indigo/share/roscpp
+ roscpp_serialization /opt/ros/indigo/share/roscpp_serialization
+ roscpp_traits /opt/ros/indigo/share/roscpp_traits
+ roscpp_tutorials /opt/ros/indigo/share/roscpp_tutorials
+
+ ros@indigo:~$ rospack list-names
+ actionlib
+ actionlib_msgs
+ actionlib_tutorials
+ angles
+ bond
+ bondcpp
+ ...
+
+Many more useful examples can be found at http://docs.ros.org/independent/api/rospkg/html/rospack.html[this link]
+
+=== http://wiki.ros.org/rostopic[rostopic]
+
+==== Overview
+
+rostopic contains the rostopic command-line tool for displaying debug information about http://www.ros.org/wiki/Topics[ROS] Topics, including publishers, subscribers, publishing rate, and http://www.ros.org/wiki/Messages[ROS] Messages. It also contains an experimental Python library for getting information about and interacting with topics dynamically. This library is for internal-use only as the code API may change, though it does provide examples of how to implement dynamic subscription and publication behaviors in ROS.
+
+It may go without saying, rostopic can only be used when there is a master to communicate with.
+
+==== Example
+
+ ros@indigo:~$ rostopic list
+ /rosout
+ /rosout_agg
+ /turtle1/cmd_vel
+ /turtle1/color_sensor
+ /turtle1/pose
+
+ ros@indigo:~$ rostopic echo /turtle1/cmd_vel
+ linear: 
+   x: 2.0
+   y: 0.0
+   z: 0.0
+ angular: 
+   x: 0.0
+   y: 0.0
+   z: 0.0
+
+=== http://wiki.ros.org/rosmsg[rosmsg/rossrv]
+
+==== Overview
+
+rosmsg contains two command-line tools: rosmsg and rossrv. rosmsg is a command-line tool for displaying information about http://www.ros.org/wiki/msg[ROS Message types]. rossrv is a command-line tool for displaying information about http://www.ros.org/wiki/srv[ROS Service types].
+
+==== Example
+
+ ros@indigo:~$ rosmsg list | grep turtle
+ turtle_actionlib/ShapeAction
+ turtle_actionlib/ShapeActionFeedback
+ turtle_actionlib/ShapeActionGoal
+ turtle_actionlib/ShapeActionResult
+ turtle_actionlib/ShapeFeedback
+ turtle_actionlib/ShapeGoal
+ turtle_actionlib/ShapeResult
+ turtle_actionlib/Velocity
+ turtlesim/Color
+ turtlesim/Pose
+
+ ros@indigo:~$ rosmsg show turtle_actionlib/Velocity
+ float32 linear
+ float32 angular
+
+ ros@indigo:~$ rossrv list | grep turtle
+ turtlesim/Kill
+ turtlesim/SetPen
+ turtlesim/Spawn
+ turtlesim/TeleportAbsolute
+ turtlesim/TeleportRelative
+
+ ros@indigo:~$ rossrv show turtlesim/Spawn
+ float32 x
+ float32 y
+ float32 theta
+ string name
+ ---
+ string name
+
+=== http://wiki.ros.org/rosbag[rosbag]
+
+==== Overview
+
+This is a set of tools for recording from and playing back to ROS topics. It is intended to be high performance and avoids deserialization and reserialization of the messages.
+
+The rosbag package provides a command-line tool for working with http://wiki.ros.org/Bags[bags] as well as code APIs for reading/writing bags in http://wiki.ros.org/rosbag/Code%20API#cpp_api[C++] and http://wiki.ros.org/rosbag/Code%20API#py_api[Python].
+
+To find out more about the rosbag command-line tool, see http://wiki.ros.org/rosbag/Commandline[rosbag Command-line Usage].
+
+rosbag has code APIs for reading and writing bags in either C++ or Python. For a description of these APIs, see http://wiki.ros.org/rosbag/Code%20API[rosbag Code API].
+
+For technical details on the contents of bag files, see http://wiki.ros.org/Bags/Format[Bag file format].
+
+Outside of rosbag package, from http://wiki.ros.org/groovy[groovy] there’s a gui client http://wiki.ros.org/rqt_bag[rqt_bag].
+
+==== Example
+
+ $ rosbag info foo.bag
+ path:        foo.bag
+ version:     2.0
+ duration:    1.2s
+ start:       Jun 17 2010 14:24:58.83 (1276809898.83)
+ end:         Jun 17 2010 14:25:00.01 (1276809900.01)
+ size:        14.2 KB
+ messages:    119
+ compression: none [1/1 chunks]
+ types:       geometry_msgs/Point [4a842b65f413084dc2b10fb484ea7f17]
+ topics:      /points   119 msgs @ 100.0 Hz : geometry_msgs/Point
+
+=== http://www.robotgarden.org/wiki/robotics/programming-robots-study-group-session-2/wiki.ros.org/rosbash[rosbash]
+
+==== Overview
+
+Assorted shell commands for using ros with bash.
+
+===== roscd
+
+====== Overview
+
+roscd allows you to change directories using a package name, stack name, or special location.
+
+====== Example
+
+ ros@indigo:~$ roscd turtle_tf2
+ ros@indigo:/opt/ros/indigo/share/turtle_tf2$
+
+===== http://wiki.ros.org/rosbash#rosrun[rosrun]
+
+====== Overview
+
+rosrun allows you to run an executable in an arbitrary package from anywhere without having to give its full path or cd/roscd there first.
+
+====== Example
+
+ ros@indigo:~$ rosrun turtlesim turtlesim_node
+ [ INFO] [1425073909.268675147]: Starting turtlesim with node name /turtlesim
+ [ INFO] [1425073909.381162772]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+
+===== http://wiki.ros.org/rosbash#rosls[rosls]
+
+====== Overview
+
+rosls allows you to view the contents of a package, stack, or location.
+
+====== Example
+
+ ros@indigo:/opt/ros/indigo/share/turtlesim$ rosls
+ cmake  images  msg  package.xml  srv
+
+*Please note*: this is not an exhaustive list of rosbash shell commands.  Here are the links to the others:
+
+* http://wiki.ros.org/rosbash#rospd[rospd]
+* http://wiki.ros.org/rosbash#rosd[rosd]
+* http://wiki.ros.org/rosbash#rosed[rosed]
+* http://wiki.ros.org/rosbash#rospd[rospd]
+
+=== http://wiki.ros.org/rosclean[rosclean]
+
+==== Overview
+
+rosclean: report and cleanup filesystem resources (e.g. log files).
+
+==== Example
+
+ ros@indigo:~$ rosclean check
+ 164K ROS node logs
+
+
+ ros@indigo:~$ rosclean purge
+ Purging ROS node logs.
+ PLEASE BE CAREFUL TO VERIFY THE COMMAND BELOW!
+ Okay to execute:
+ rm -rf /home/ros/.ros/log
+ (y/n)?
+
+=== http://wiki.ros.org/roscore[roscore]
+
+==== Overview
+
+roscore is a collection of nodes and programs that are pre-requisites of a ROS-based system. You must have a roscore running in order for ROS nodes to communicate. It is launched using the roscore command.
+
+NOTE: If you use roslaunch, it will automatically start roscore if it detects that it is not already running.  roscore will start up:
+
+* ROS Master
+* ROS Parameter Server
+* rosout logging node
+
+You can optionally pass the -p option to specify a port.
+
+Please review the ros wiki for important information about the roscore.xml and roslaunch behavior.
+
+==== Example
+
+----
+ ros@indigo:~$ roscore -p 8080
+ ... logging to /home/ros/.ros/log/eef55154-bd04-11e4-a591-080027af271b/roslaunch-indigo-2024.log
+ Checking log directory for disk usage. This may take awhile.
+ Press Ctrl-C to interrupt
+ Done checking log file disk usage. Usage is <1GB.
+ 
+ started roslaunch server http://indigo:34952/
+ ros_comm version 1.11.10
+
+ SUMMARY
+ ========
+ 
+ PARAMETERS
+  * /rosdistro: indigo
+  * /rosversion: 1.11.10
+
+ NODES
+
+ WARNING: ROS_MASTER_URI port [11311] does not match this roscore [8080]
+ auto-starting new master
+ process[master]: started with pid [2036]
+ ROS_MASTER_URI=http://indigo:8080/
+
+ setting /run_id to eef55154-bd04-11e4-a591-080027af271b
+ process[rosout-1]: started with pid [2049]
+ started core service [/rosout]
+----
+
+=== http://wiki.ros.org/roslaunch[roslaunch]
+
+==== Overview
+
+roslaunch is a tool for easily launching multiple ROS nodes locally and remotely via SSH, as well as setting parameters on the Parameter Server. It includes options to automatically respawn processes that have already died. roslaunch takes in one or more XML configuration files (with the .launch extension) that specify the parameters to set and nodes to launch, as well as the machines that they should be run on.
+
+Much more information is on the ros wiki regarding roslaunch – for an overview of the roslaunch commandline tools available see: http://wiki.ros.org/roslaunch/Commandline%20Tools[roslaunch/Commandline Tools]
+
+==== Example
+
+----
+ros@indigo:~$ roslaunch /opt/ros/indigo/share/turtle_tf/launch/turtle_tf_demo.launch
+... logging to /home/ros/.ros/log/299f0fe2-bd06-11e4-b39b-080027af271b/roslaunch-indigo-2137.log
+Checking log directory for disk usage. This may take awhile.
+Press Ctrl-C to interrupt
+Done checking log file disk usage. Usage is <1GB.
+
+started roslaunch server http://indigo:56331/
+
+SUMMARY
+========
+
+PARAMETERS
+ * /rosdistro: indigo
+ * /rosversion: 1.11.10
+ * /scale_angular: 2.0
+ * /scale_linear: 2.0
+ * /turtle1_tf_broadcaster/turtle: turtle1
+ * /turtle2_tf_broadcaster/turtle: turtle2
+
+NODES
+  /
+    sim (turtlesim/turtlesim_node)
+    teleop (turtlesim/turtle_teleop_key)
+    turtle1_tf_broadcaster (turtle_tf/turtle_tf_broadcaster.py)
+    turtle2_tf_broadcaster (turtle_tf/turtle_tf_broadcaster.py)
+    turtle_pointer (turtle_tf/turtle_tf_listener.py)
+
+auto-starting new master
+process[master]: started with pid [2149]
+ROS_MASTER_URI=http://localhost:11311
+
+setting /run_id to 299f0fe2-bd06-11e4-b39b-080027af271b
+process[rosout-1]: started with pid [2162]
+started core service [/rosout]
+process[sim-2]: started with pid [2179]
+process[teleop-3]: started with pid [2180]
+Reading from keyboard
+---------------------------
+Use arrow keys to move the turtle.
+process[turtle1_tf_broadcaster-4]: started with pid [2195]
+process[turtle2_tf_broadcaster-5]: started with pid [2196]
+process[turtle_pointer-6]: started with pid [2197]
+[sim-2] process has finished cleanly
+log file: /home/ros/.ros/log/299f0fe2-bd06-11e4-b39b-080027af271b/sim-2*.log
+----
+
+=== http://wiki.ros.org/rosnode[rosnode]
+
+==== Overview
+
+rosnode is a command-line tool for displaying debug information about http://www.ros.org/wiki/Nodes[ROS Nodes], including publications, subscriptions and connections. It also contains an experimental library for retrieving node information. This library is intended for internal use only.
+Example
+
+----
+ros@indigo:~$ rosnode list
+/rosout
+/turtlesim
+
+ros@indigo:~$ rosnode info turtlesim
+--------------------------------------------------------------------------------
+Node [/turtlesim]
+Publications: 
+ * /turtle1/color_sensor [turtlesim/Color]
+ * /rosout [rosgraph_msgs/Log]
+ * /turtle1/pose [turtlesim/Pose]
+
+Subscriptions: 
+ * /turtle1/cmd_vel [unknown type]
+
+Services: 
+ * /turtle1/teleport_absolute
+ * /turtlesim/get_loggers
+ * /turtlesim/set_logger_level
+ * /reset
+ * /spawn
+ * /clear
+ * /turtle1/set_pen
+ * /turtle1/teleport_relative
+ * /kill
+
+
+contacting node http://indigo:60086/ ...
+Pid: 2847
+Connections:
+ * topic: /rosout
+    * to: /rosout
+    * direction: outbound
+    * transport: TCPROS
+
+ros@indigo:~$ rosnode ping turtlesim
+rosnode: node is [/turtlesim]
+pinging /turtlesim with a timeout of 3.0s
+xmlrpc reply from http://indigo:60086/    time=6.174088ms
+xmlrpc reply from http://indigo:60086/    time=2.269030ms
+
+ros@indigo:~$ rosnode ping turtlesim
+rosnode: node is [/turtlesim]
+pinging /turtlesim with a timeout of 3.0s
+xmlrpc reply from http://indigo:60086/    time=6.174088ms
+xmlrpc reply from http://indigo:60086/    time=2.269030ms
+----
+
+=== http://wiki.ros.org/rosparam[rosparam]
+
+==== Overview
+
+rosparam contains the rosparam command-line tool for getting and setting ROS Parameters on the http://www.ros.org/wiki/Parameter%20Server[Parameter Server] using YAML-encoded files. It also contains an experimental library for using YAML with the Parameter Server. This library is intended for internal use only. rosparam can be invoked within a http://www.ros.org/wiki/roslaunch[roslaunch] file.
+
+The rosparam tool enables command-line setting and getting of parameters as well as loading and dumping Parameter Server state to a file. The currently supported commands are:
+
+----
+rosparam set    set parameter
+rosparam get    get parameter
+rosparam load   load parameters from file
+rosparam dump   dump parameters to file
+rosparam delete delete parameter
+rosparam list   list parameter names
+----
+==== Example
+----
+ros@indigo:~$ rosparam set string 'foo'
+ros@indigo:~$ rosparam list
+/rosdistro
+/roslaunch/uris/host_indigo__45585
+/rosversion
+/run_id
+/string
+ros@indigo:~$ rosparam get string
+foo
+----
+
+=== http://wiki.ros.org/rosservice[rosservice]
+
+==== Overview
+
+rosservice contains the rosservice command-line tool for listing and querying ROS http://www.ros.org/wiki/Services[Services]. It also contains a Python library for retrieving information about Services and dynamically invoking them. The Python library is experimental and is for internal-use only.
+
+The currently supported commands are:
+----
+rosservice call call the service with the provided args
+rosservice find find services by service type
+rosservice info print information about service
+rosservice list list active services
+rosservice type print service type
+rosservice uri  print service ROSRPC uri
+----
+==== Example
+----
+ros@indigo:~$ rosservice list
+/rosout/get_loggers
+/rosout/set_logger_level
+ros@indigo:~$ rosservice call /rosout/get_loggers
+loggers: 
+  - 
+    name: ros
+    level: info
+  - 
+    name: ros.roscpp
+    level: info
+  - 
+    name: ros.roscpp.roscpp_internal
+    level: info
+  - 
+    name: ros.roscpp.superdebug
+    level: warn
+ros@indigo:~$ rosservice info /rosout/get_loggers
+Node: /rosout
+URI: rosrpc://indigo:47719
+Type: roscpp/GetLoggers
+Args:
+----
+
+=== http://wiki.ros.org/rosversion[rosversion]
+
+==== Overview
+
+Report the version of a http://wiki.ros.org/Stacks[ROS stack].
+
+==== Example
+----
+ros@indigo:~$ rosversion turtlesim
+0.5.2
+----

@@ -1,0 +1,190 @@
+:imagesdir: ./images
+:toc: macro
+
+= ROS Session 1
+
+toc::[]
+
+
+== License
+
+The materials for this class are licensed under the Apache license. See the file LICENSE for details.
+
+Copyright 2015, 2016 F Douthit
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+
+== Overview
+
+This text is a 10,000' overview of ROS, 
+
+
+== What is ROS?
+
+ * ROS stands for Robot Operating System
+ * BSD-licensed system for controlling robotic components.
+ * Some definitions:
+ ** ROS is a software framework for robot software development.
+ ** ROS is a collection of software components you can plug together so you don’t have to program everything yourself from scratch. No more reinventing the wheel.
+ ** ROS is a bunch drivers for robotics hardware.
+ ** ROS is a peer-to-peer network.
+ ** ROS controls robotics with software.
+ ** ROS can interoperate on a heterogeneous network.
+ ** Some might say generalized federated automation platform.
+ * A system running ROS is composed of master, nodes, packages, services and logging.
+
+
+== What ROS is Not
+
+ * ROS isn’t an IDE (integrated development environment). Don’t worry, many popular IDEs support the languages used in ROS. The ROS wiki has notes for Eclipse, CodeBlocks, EMacs, Vim, NetBeans and QtCreator.
+ * ROS isn’t a programming language. ROS libraries exist for C++, Java and Python. Components can be written in just about any language.
+
+
+== We are going to look at ROS from 2 aspects:
+
+ * File system artifacts
+ * Graph system
+
+
+== File system level
+
+=== http://wiki.ros.org/Packages[Packages]
+
+ROS software is organized into packages. Packages are an elemental compile unit.
+Packages are the most granular build and release item.
+Packages may contain:
+
+ * ROS runtime processes i.e. nodes
+ * A ROS-dependent library
+ * Datasets
+ * Configuration files
+ * Other related data and arifacts
+
+
+=== http://wiki.ros.org/Metapackages[Metapackages]
+
+ * Metapackages are specialized Packages which represent a group of related packages.
+ * Most commonly metapackages are used as a backwards compatible place holder for converted rosbuild Stacks.
+
+
+=== http://wiki.ros.org/Manifest[Package Manifests]
+
+The package.xml package manifest is defined in REP-0127.
+Manifests (package.xml) provide metadata about a package:
+
+ * Name
+ * Version
+ * Description
+ * License information
+ * Dependencies
+ * Other meta information like exported packages.
+
+
+=== http://wiki.ros.org/msg[Message (msg) types]
+
+Message type descriptions are stored *SomePackage*/msg/*SomeMessageType*.msg.
+Message types define the data structures for messages sent in ROS.
+
+
+=== http://wiki.ros.org/srv[Service (srv) types]
+
+Service descriptions, stored in *SomePackage*/srv/*SomeServiceType*.srv, define the request and response data structures for services in ROS.
+
+
+=== http://wiki.ros.org/RecommendedRepositoryUsage/CommonGitHubOrganizations[Repositories]
+
+A repository is collection of packages which share a common VCS system.
+Packages which share a VCS share the same version and can be released together using the catkin release automation tool bloom.
+Repositories often map to converted rosbuild Stacks.
+Repositories may contain only one package.
+
+
+== ROS Computation Graph Level
+
+The Computation Graph is embodied as a peer-to-peer network of ROS processes that are processing data together. ROS Master, Nodes, Topics, etc.
+
+
+=== http://wiki.ros.org/Master[ROS Master]
+
+ * Principally a Name service for ROS.
+ * Master uses XMLRPC
+ * ROS Master provides
+ ** Registration services
+ ** Node and service lookup
+
+Rather than “Send this sensor data to that computer at 127.0.0.1.”
+We tell Node 1 to send messages to Node 2.
+
+
+=== http://wiki.ros.org/Parameter%20Server[Parameter Server]
+
+The Parameter Server allows data to be stored by key in a central location. It is currently part of the Master.
+
+http://wiki.ros.org/roscore[ROSCore] contains:
+
+ * a ROS Master
+ * a ROS Parameter Server
+ * a rosout logging node
+
+
+=== http://wiki.ros.org/Nodes[Nodes]
+
+ * ROS systems are made from independent nodes.
+ * Nodes communicate with each other using publish/subscribe messaging to topics.
+ * Node communication is one to many.
+ * Nodes communicate with Master to discover other nodes.
+ * Nodes are typically executables in a ROS package.
+ * ROS has a client library which nodes can employ to communicate.
+ * Nodes may provide or use a Service.
+
+
+=== http://wiki.ros.org/Messages[Messages]
+
+ * Nodes use messages to talk to each other.
+ * A message is a data structure made of typed fields.
+ * Data types include (integer, floating point, boolean, etc.) and arrays.
+ * Messages may be nested to any level.
+
+
+=== http://wiki.ros.org/Topics[Topics]
+
+We already know ROS uses publish and subscribe. Topics are part of that concept.
+
+ * Topics are named buses.
+ * Topics have names which are used to identify the topic when subscribing, monitoring, etc.
+ * A given topic may have multiple publishers.
+ * A given topic may have multiple subscribers.
+
+
+=== http://wiki.ros.org/Services[Services]
+
+ * Services are request/reply.
+ * Each of request and reply have a message structure.
+ * A service runs on a node.
+ * A caller makes a request to the service and waits for the reply.
+
+
+=== http://wiki.ros.org/Bags[Bags]
+
+ * Bags are a data storage format.
+ * Bags store ROS messages.
+ * Bags can be ‘played back’ on ROS as messages.
+
+
+== Resources
+
+ * http://wiki.ros.org/[ROS Wiki]
+ * http://wiki.ros.org/ROS/Installation[Installing ROS]
+ * http://wiki.ros.org/ROS/Concepts[ROS Concepts]
+ * http://wiki.ros.org/ROS/Technical%20Overview[Technical Overview]
+ * http://www.clearpathrobotics.com/blog/how-to-guide-ros-101/[Clearpath Robotics]
