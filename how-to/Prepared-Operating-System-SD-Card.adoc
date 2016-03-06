@@ -1,0 +1,40 @@
+= Prepared Operating System SD Card
+
+With the release of the Raspberry Pi 2 Model B and its ARMv7-based BCM2709 processor, it is now possible to run Ubuntu directly on the Raspberry Pi.
+
+.Raspberry Pi 2
+[NOTE]
+====
+Note that the information on this page currently only applies to the Raspberry Pi 2, not the original Raspberry Pi.
+====
+
+=== Ubuntu 14.04 LTS
+
+An Ubuntu 14.04 LTS (Trusty Tahr) image is available for the Raspberry Pi 2, which combines the released 14.04 distribution with a PPA containing kernels and firmware which work on the Raspberry Pi 2.
+
+== Download
+
+* Download the http://www.finnie.org/software/raspberrypi/2015-04-06-ubuntu-trusty.zip[Ubuntu Trusty Image] (http://www.finnie.org/software/raspberrypi/2015-04-06-ubuntu-trusty.zip.asc[GPG signature]) 
+
+*   152MiB ZIP, 1.75GiB uncompressed image
+*   Login username is "ubuntu", password is "ubuntu"
+
+
+
+== Installation
+
+Installation is the same as other Raspberry Pi images.
+
+include::SD-card-setup.adoc[Flashing the SD Card using Windows]
+
+== Ubuntu Setup
+
+include::UbuntuSetupRaspberryPi.adoc[Ubuntu Setup on the Raspberry Pi]
+
+
+== ROS Indigo 
+
+include::ARM-install-of-ROS-Indigo.adoc[ROS Indigo]
+
+==== ROS specific Package for Programming Robots Study Group
+

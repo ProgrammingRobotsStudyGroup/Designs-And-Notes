@@ -62,21 +62,21 @@ https://www.raspberrypi.org/forums/viewtopic.php?&t=2149[knock-offs]
 
 === Prepared Operating System SD Card
 
- The Raspberry Pi has no internal storage or built-in boot code, so it requires an SD-Card that is set up to boot the Raspberry Pi.
+The Raspberry Pi has no internal storage or built-in boot code, so it requires an SD-Card that is set up to boot the Raspberry Pi. You will need a card larger than 8GB for the full ROS install.
 
 === Keyboard & Mouse
 
- Most standard USB keyboards and mice will work with the Raspberry Pi. Wireless keyboard/mice should also function, and only require a single USB port for an RF dongle. In order to use a Bluetooth keyboard or mouse you would need to use a Bluetooth dongle, which again uses a single port.
+Most standard USB keyboards and mice will work with the Raspberry Pi. Wireless keyboard/mice should also function, and only require a single USB port for an RF dongle. In order to use a Bluetooth keyboard or mouse you would need to use a Bluetooth dongle, which again uses a single port.
 
- Remember that the Model A has a single USB port, the Model B only has two (typically a keyboard and mouse will use a USB port each), and the Model B+ and Raspberry Pi 2 have 4 
+Remember that the Model A has a single USB port, the Model B only has two (typically a keyboard and mouse will use a USB port each), and the Model B+ and Raspberry Pi 2 have 4 
 
- Check your mouse and keyboard are compatible with Linux.
+Check your mouse and keyboard are compatible with Linux.
 
 === Display
 
- There are two connection options for the Raspberry Pi display, HDMI (high definition) and composite (low definition).
+There are two connection options for the Raspberry Pi display, HDMI (high definition) and composite (low definition).
 
- HD TVs and most LCD Monitors can be connected using a standard HDMI cable. (A cable with a "male"/"plug" connection on the Raspberry Pi end and whatever your display uses on the other end). HDMI versions 1.3 and 1.4 are supported, and a version 1.4 cable is recommended. The Raspberry Pi outputs audio and video via HDMI, but does not have an HDMI input.
+HD TVs and most LCD Monitors can be connected using a standard HDMI cable. (A cable with a "male"/"plug" connection on the Raspberry Pi end and whatever your display uses on the other end). HDMI versions 1.3 and 1.4 are supported, and a version 1.4 cable is recommended. The Raspberry Pi outputs audio and video via HDMI, but does not have an HDMI input.
 
 .raspberry pi model b 3.5mm audiovideo jack
 image::images/raspberry_pi_model_b_plus_03-702x336.jpg[]
@@ -124,11 +124,11 @@ If a Netgear router has a blank in the fourth box of the subnet mask, raspbian w
 
 === USB-Hub
 
- In order to connect additional devices to the Raspberry Pi, you may want to obtain a USB Hub, which will allow multiple devices to be used.
+In order to connect additional devices to the Raspberry Pi, you may want to obtain a USB Hub, which will allow multiple devices to be used.
 
- It is recommended that a **powered** hub is used - this will provide any additional power to the devices without affecting the Raspberry Pi itself. The USB ports are fused at about 140 mA each without an additional external power source. This is not enough to power a hard drive, and you may even have trouble powering wireless adapters and other peripherals. There is enough current out there, however, for mice and most keyboards.
+It is recommended that a **powered** hub is used - this will provide any additional power to the devices without affecting the Raspberry Pi itself. The USB ports are fused at about 140 mA each without an additional external power source. This is not enough to power a hard drive, and you may even have trouble powering wireless adapters and other peripherals. There is enough current out there, however, for mice and most keyboards.
 
- USB version 2.0 is recommended. USB version 1.1 is fine for keyboards and mice, but may not be fast enough for other accessories.
+USB version 2.0 is recommended. USB version 1.1 is fine for keyboards and mice, but may not be fast enough for other accessories.
 
 === Real Time Clock
 
