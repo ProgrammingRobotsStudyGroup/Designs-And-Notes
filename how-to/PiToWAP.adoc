@@ -189,7 +189,7 @@ lrwxrwxrwx 1 root root      16 Mar 12 13:07 hostapd -> hostapd.adafruit
 ----
 nano /etc/hostapd/hostapd.conf
 ----
-Update the file. You will likely want your own passphrase for *wpa_passphrase=raspberry*, so replace *raspberry* with your own passphrase. Insert this text:
+Update the file. You will likely want your own passphrase for *wpa_passphrase=raspberry*, so replace *raspberry* with your own passphrase. You will also want your own *ssid=RR2*, so replace *RR2* with your own *SSID*. Insert this text:
 ----
 interface=wlan0
 driver=rtl871xdrv
