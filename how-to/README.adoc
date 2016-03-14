@@ -19,5 +19,5 @@ link:PiToWAP.adoc[Make your Raspberry Pi a Wireless Access Point (WAP)]
 
 === ROS Basics
 
-Link:ros-basics.adoc[ROS Basics]
+link:ros-basics.adoc[ROS Basics]
 
