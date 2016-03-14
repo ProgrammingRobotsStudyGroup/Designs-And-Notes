@@ -2,11 +2,11 @@
 
 === Prepared Operating System SD Card
 
-include::Prepared-Operating-System-SD-Card.adoc[Prepared SD RPi]
+link:Prepared-Operating-System-SD-Card.adoc[Prepared SD RPi]
 
 === Typical Hardware You Will Need
 
-include::RPi-hwd-basic-setup.adoc[RPi Hardware Basic Setup]
+link:RPi-hwd-basic-setup.adoc[RPi Hardware Basic Setup]
 
 === Assembling our Robots
 
@@ -15,3 +15,9 @@ link:ROSROV2Fabrication.asciidoc[ROS ROV 2 Fabrication]
 === How to make your Raspberry Pi a Wireless Access Point (WAP)
 
 link:PiToWAP.adoc[Make your Raspberry Pi a Wireless Access Point (WAP)]
+
+
+=== ROS Basics
+
+Link:ros-basics.adoc[ROS Basics]
+
