@@ -1,0 +1,229 @@
+:imagesdir: ./images-assembly
+:toc: macro
+
+= How to make your Raspberry Pi a Wireless Access Point (WAP)
+
+== License
+
+The materials for this document are licensed under the Apache license. See the file LICENSE for details.
+
+Copyright 2016 F Douthit
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+toc::[]
+
+== Overview
+By making your Pi a wireless access point, you can have your own private network on the go. You can use the Android application or your local PC to be a client of the WAP.
+
+These instructions have only been tested on Raspberry Pi 2. Pi 3 testing awaits. Use at your own risk.
+
+== Instructions
+
+=== Do you have the Realtek rtl8192cu chipset?
+Specificallly, does your Pi have a WiFi dongle with the Realtek rtl8192cu chipset. To answer that question, at a command prompt type:
+
+----
+lsmod|fgrep 8192cu
+----
+
+If that module exists, you will need the special host apd from adafruit.
+
+=== Clean up the persistent-net.rules file
+This file can become cluttered with entries for previous network connections. In fact if you've used the PRSG Pi image, there is likely to be an entry for *eth0* with a MAC Address which isn't on your Pi - it's the MAC Address of the Pi used to create the image.
+
+==== Detemine which Devices Exist
+At a command prompt type:
+----
+ifconfig
+----
+If your *wlan* is not *wlan0*, you've probably plugged in a previous adapter.
+You will probably want to clean this up.
+
+==== Remove Extraneous Entries
+
+At a command prompt type:
+----
+sudo vi /etc/udev/rules.d/70-persistent-net.rules
+----
+Remove all *wlan** and *eth** lines and *reboot*. Rebooting will discover the network devices. You can accomplish reboot with this command:
+----
+sudo shutdown -r now
+----
+
+=== Edit Network Interface Configuration file
+First backup the *Network Interface Configuration file*. You may want this file later to revert to a network client.
+----
+sudo cp /etc/network/interfaces /etc/network/interfaces.client
+----
+
+Edit the *Network Interface Configuration file*.
+
+----
+sudo vi /etc/network/interfaces
+----
+
+Add these lines:
+----
+# Pi as WAP
+allow-hotplug wlan0
+iface wlan0 inet static
+  address 192.168.42.1
+  netmask 255.255.255.0
+----
+
+=== Install a DHCP server
+At a command prompt type:
+----
+sudo apt-get install isc-dhcp-server
+----
+
+=== Edit your DHCP configuration
+Save your existing configuration:
+----
+mv /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.old
+----
+And edit the dhcpd.conf file.
+----
+nano /etc/dhcp/dhcpd.conf
+----
+
+----
+# If this DHCP server is the official DHCP server for the local
+# network, the authoritative directive should be uncommented.
+authoritative;
+
+#
+#
+default-lease-time 600;
+max-lease-time 7200;
+
+#
+log-facility local7;
+
+#
+subnet 192.168.42.0 netmask 255.255.255.0 {
+    range 192.168.42.10 192.168.42.50;
+    option broadcast-address 192.168.42.255;
+    option routers 192.168.42.1;
+    default-lease-time 600;
+    max-lease-time 7200;
+    option domain-name "rr2";
+    option domain-name-servers 192.168.42.1, 8.8.8.8, 8.8.4.4;
+}
+----
+
+=== Edit the DHCP Server file
+----
+sudo nano /etc/default/isc-dhcp-server
+----
+*Change:*
+----
+#INTERFACES=""
+----
+
+*to:*
+
+----
+INTERFACES="wlan0"
+----
+
+Save the file.
+
+=== Restart the DHCP server
+
+----
+sudo service isc-dhcp-server restart
+----
+
+
+=== Install and configure the access point daemon
+
+==== Install hostapd
+Use apt-get to install hostapd.
+----
+sudo apt-get install hostapd
+----
+
+----
+cd /root
+sudo wget http://www.adafruit.com/downloads/adafruit_hostapd.zip 
+sudo unzip adafruit_hostapd.zip
+sudo mv /usr/sbin/hostapd /usr/sbin/hostapd.ORIG 
+sudo cp hostapd /usr/sbin/hostapd.adafruit
+
+cd /usr/sbin/
+sudo chmod 755 hostapd.adafruit 
+
+ls -l hostapd*
+-rwxr-xr-x 1 root root 1678700 Mar 12 13:05 hostapd.adafruit
+-rwxr-xr-x 1 root root   30744 Nov  9 06:00 hostapd_cli
+-rwxr-xr-x 1 root root  660552 Nov  9 06:00 hostapd.ORIG
+----
+
+Add the symlink.
+----
+ln -s hostapd.adafruit hostapd
+----
+
+Check that the link exists:
+----
+ls -l hostapd*
+lrwxrwxrwx 1 root root      16 Mar 12 13:07 hostapd -> hostapd.adafruit
+-rwxr-xr-x 1 root root 1678700 Mar 12 13:05 hostapd.adafruit
+-rwxr-xr-x 1 root root   30744 Nov  9 06:00 hostapd_cli
+-rwxr-xr-x 1 root root  660552 Nov  9 06:00 hostapd.ORIG
+----
+
+==== Edit the hostapd.conf file
+
+----
+nano /etc/hostapd/hostapd.conf
+----
+Update the file. You will likely want your own passphrase for *wpa_passphrase=raspberry*, so replace *raspberry* with your own passphrase. Insert this text:
+----
+interface=wlan0
+driver=rtl871xdrv
+ssid=RR2 
+hw_mode=g
+channel=6
+macaddr_acl=0
+auth_algs=1
+ignore_broadcast_ssid=0
+wpa=2
+wpa_passphrase=raspberry
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
+rsn_pairwise=CCMP
+----
+
+==== Edit hostapd
+Start the editor:
+----
+sudo nano /etc/default/hostapd
+----
+
+Find the line with *DAEMON_CONF*. Uncomment it and make it look like this:
+----
+DAEMON_CONF="/etc/hostapd/hostapd.conf"
+----
+
+== To Make the Pi a Client Again
+
+Copy the backup of the interfaces file you made previously to the main file and reboot.
+----
+sudo cp /etc/network/interfaces.client /etc/network/interfaces 
+sudo shutdown -r
+----
+
+== REFERENCES
+https://www.maketecheasier.com/set-up-raspberry-pi-as-wireless-access-point/

@@ -11,3 +11,7 @@ include::RPi-hwd-basic-setup.adoc[RPi Hardware Basic Setup]
 === Assembling our Robots
 
 link:ROSROV2Fabrication.asciidoc[ROS ROV 2 Fabrication]
+
+=== How to make your Raspberry Pi a Wireless Access Point (WAP)
+
+link:PiToWAP.adoc[ROS ROV 2 Fabrication]
