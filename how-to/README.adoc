@@ -14,4 +14,4 @@ link:ROSROV2Fabrication.asciidoc[ROS ROV 2 Fabrication]
 
 === How to make your Raspberry Pi a Wireless Access Point (WAP)
 
-link:PiToWAP.adoc[ROS ROV 2 Fabrication]
+link:PiToWAP.adoc[Make your Raspberry Pi a Wireless Access Point (WAP)]
