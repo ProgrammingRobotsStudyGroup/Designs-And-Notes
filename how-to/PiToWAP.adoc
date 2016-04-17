@@ -100,7 +100,7 @@ sudo apt-get install isc-dhcp-server
 
 Save your existing configuration:
 ----
-sudo mv /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.old
+sudo cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.old
 ----
 And edit the dhcpd.conf file. Feel free to change the *option domain-name "rr2"* to use a different domain.
 ----
