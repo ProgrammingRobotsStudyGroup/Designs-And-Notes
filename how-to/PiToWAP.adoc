@@ -207,9 +207,9 @@ lrwxrwxrwx 1 root root      16 Mar 12 13:07 /usr/sbin/hostapd -> hostapd.adafrui
 Since we replaced the hostapd any update of the normal system package might override our change! So if it does not work any longer after an *apt-get upgrade* or similar, make sure, the symlink still points to the right file!
 
 ==== Edit the hostapd.conf file
-
+(This might be a new file.)
 ----
-sodo vi /etc/hostapd/hostapd.conf
+sudo vi /etc/hostapd/hostapd.conf
 ----
 Update the file. The driver line is correct for the Realtek rtl8192cu chip set. Others might use different drivers! You will likely want your own passphrase for *wpa_passphrase=raspberry*, so replace *raspberry* with your own passphrase (at least eight chars!). You will also want your own *ssid=RR2*, so replace *RR2* with your own *SSID*. Insert this text:
 ----
@@ -256,6 +256,12 @@ root      1409     1  0 16:37 ?        00:00:00 /usr/sbin/hostapd -B -P /var/run
 
 Hostapd logs to /var/log/syslog if you need to check up on it.
 
+==== Configure network address translation
+Follow the instructions in the indicated section of one of these two references:
+
+* "Configure Network Address Translation" in https://learn.adafruit.com/setting-up-a-raspberry-pi-as-a-wifi-access-point?view=all
+* "Configure IP routing..." in https://www.maketecheasier.com/set-up-raspberry-pi-as-wireless-access-point/
+
 == To Make the Pi a Client Again
 
 * Comment the *INTERFACES* line in */etc/default/isc-dhcp-server*
@@ -264,4 +270,8 @@ Hostapd logs to /var/log/syslog if you need to check up on it.
 * Reboot
 
 == REFERENCES
-https://www.maketecheasier.com/set-up-raspberry-pi-as-wireless-access-point/
+
+* https://www.maketecheasier.com/set-up-raspberry-pi-as-wireless-access-point/
+* https://learn.adafruit.com/setting-up-a-raspberry-pi-as-a-wifi-access-point?view=all
+
+
