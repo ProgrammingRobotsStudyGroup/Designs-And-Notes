@@ -25,3 +25,7 @@ link:ros-basics.adoc[ROS Basics]
 
 link:courseware/README.asciidoc[ROS in 3 Sessions: Learn ROS 1) from the highlevel; 2) Command Line; 3) Tutorials]
 
+=== Git Workflow
+
+link:git_workflow.adoc[Git Branching Model]
+
