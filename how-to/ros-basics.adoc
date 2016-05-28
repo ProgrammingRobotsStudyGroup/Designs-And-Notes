@@ -1,0 +1,63 @@
+== ROS Basics
+
+=== Building ROS Packages with Catkin
+
+A number of step-by-step catkin tutorials exist on the ROS wiki.
+
+* http://wiki.ros.org/catkin/Tutorials[catkin tutorials]
+
+* So you'll want to create a personal ROS directory in your home directory so you can:
+** install third-party ROS packages that don't have Debian versions 
+** create your own ROS packages.
+
+=== Creating a catkin Workspace
+
+If you haven't already done so, create a directory to hold your catkin workspace. We will assume you have created a subdirectory called catkin_ws in your home directory. Below that directory we create a subdirectory called src to hold the package source files. If you're starting from scratch, execute the following commands to create an empty catkin workspace in the directory ~/catkin_ws:
+----
+$mkdir -p ~/catkin_ws/src
+$cd ~/catkin_ws/src
+$catkin_init_workspace
+----
+The first command above creates both the top level ~/catkin_ws directory and the src subdirectory. Note also that we run the catkin_init_workspace command in the src directory.
+
+Next, even though the current workspace is empty, we run catkin_make to create some initial directories and setup files. catkin_make is always run in the top-level catkin_ws workspace folder (not in the src folder):
+----
+$cd ~/catkin_ws
+$catkin_make
+----
+
+.BIG NOTE 
+[NOTE]
+====
+After building any new catkin package(s), be sure to source the ~/catkin_ws/devel/setup.bash file and rebuild the ROS package path as follows:
+----
+$source ~/catkin_ws/devel/setup.bash
+$rospack profile
+----
+====
+
+
+
+This will ensure that ROS can find any new packages, message types and Python modules belonging to the newly built package(s).
+
+.Problem happen if you dont
+[NOTE]
+====
+Add the source command above to the end of your ~/.bashrc file so that new terminals will automatically pick up your catkin packages. Either edit your ~/.bashrc file manually or run the command:
+----
+echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
+----
+====
+
+=== Working through the Official ROS Tutorials
+.Highly Recommended
+[IMPORTANT]
+====
+That you look first at the 
+http://wiki.ros.org/ROS/StartGuide[ROS Start Guide]
+====
+Here you will find an overall introduction as well as an explanation of the key concepts, libraries and technical design.
+
+
+The official http://wiki.ros.org/ROS/Tutorials[ROS Beginner Tutorials] are superbly written and have been tested by many new ROS users. It is therefore essential to begin your introduction to ROS by running through these tutorials in sequence. Be sure to actually run the code samples—don't just read through them. ROS itself is not difficult: while it might seem unfamiliar at first, the more practice you have with the code, the easier it becomes. Expect to spend at least a few days or weeks going through the tutorials.
+

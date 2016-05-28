@@ -1,4 +1,4 @@
-:imagesdir: ./images
+:imagesdir: ./images-assembly
 :toc: macro
 
 = ROS ROV REV 2 Fabrication

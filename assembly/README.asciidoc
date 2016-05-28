@@ -1,9 +1,11 @@
 = ROS ROV REV 2
 
 == Overview
-This documents the assembly of our robots.
+This documents the assembly of our robots. 
 
- * link:ROSROV2Fabrication.asciidoc[ROS ROV 2 Fabrication]
+The document has been moved to how-to. This subdir will be removed shortly!
+
+ * link:../how-to/ROSROV2Fabrication.asciidoc[ROS ROV 2 Fabrication]
 
 == License
 

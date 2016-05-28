@@ -1,0 +1,277 @@
+:imagesdir: ./images-assembly
+:toc: macro
+
+= How to make your Raspberry Pi a Wireless Access Point (WAP)
+
+== License
+
+The materials for this document are licensed under the Apache license. See the file LICENSE for details.
+
+Copyright 2016 F Douthit
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+toc::[]
+
+== Overview
+By making your Pi a wireless access point, you can have your own private network on the go. You can use the Android application or your local PC to be a client of the WAP.
+
+These instructions have only been tested on Raspberry Pi 2. Pi 3 testing awaits. Use at your own risk.
+
+One caveat, the RPi's do not have a battery bufferred real time clock on board. So when you start a RPi without a NTP server somewhere on the network, the RPi does not have a time and will start at it's default time (Unix Epoch 0 seconds). Since many things in ROS are time based, things might fail in mysterious ways when you network hosts with very different system times!I found, the best way to solve that, is to attach a little RTC board to the RPi.
+
+The code below uses an IP address range of 192.168.42.*, this is just an example and could be changed as long as all the occurances are changed consistently.
+
+== Instructions
+
+=== Do you have the Realtek rtl8192cu chipset?
+Specificallly, does your Pi have a WiFi dongle with the Realtek rtl8192cu chipset. To answer that question, at a command prompt type:
+
+----
+lsmod|fgrep 8192cu
+----
+
+If that module exists, you will need the special hostapd from adafruit or build your own version with the support for that chip.
+
+=== Clean up the persistent-net.rules file
+This file can become cluttered with entries for previous network connections. In fact if you've used the PRSG Pi image, there is likely to be an entry for *eth0* with a MAC Address which isn't on your Pi - it's the MAC Address of the Pi used to create the image.
+
+==== Detemine which Devices Exist
+At a command prompt type:
+----
+ifconfig
+----
+If your *wlan* is not *wlan0*, you've probably plugged in a previous adapter.
+You will probably want to clean this up.
+
+==== Remove Extraneous Entries
+
+At a command prompt type:
+----
+sudo vi /etc/udev/rules.d/70-persistent-net.rules
+----
+Remove all *wlan** and *eth** lines and *reboot*. Rebooting will discover the network devices. You can accomplish reboot with this command:
+----
+sudo shutdown -r now
+----
+
+=== Edit Network Interface Configuration file
+First backup the *Network Interface Configuration file*. You may want this file later to revert to a network client.
+----
+sudo cp -p /etc/network/interfaces /etc/network/interfaces.client
+----
+
+Edit the *Network Interface Configuration file*.
+
+----
+sudo vi /etc/network/interfaces
+----
+
+Add these lines (the indentation is important!):
+----
+# Pi as WAP
+allow-hotplug wlan0
+iface wlan0 inet static
+  address 192.168.42.1
+  netmask 255.255.255.0
+----
+
+=== DHCP Server
+
+Since your RPi will be the access point, it should also supply WiFi clients with their IP address. That's the role of the DHCP server. There are different packages out there, we use the ISC DHCPd here.
+
+==== Install the DHCP server
+
+At a command prompt type:
+----
+sudo apt-get install isc-dhcp-server
+----
+
+==== Edit your DHCP configuration
+
+Save your existing configuration:
+----
+sudo cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.old
+----
+And edit the dhcpd.conf file. Feel free to change the *option domain-name "rr2"* to use a different domain.
+----
+sudo vi /etc/dhcp/dhcpd.conf
+----
+
+----
+authoritative;
+default-lease-time 600;
+max-lease-time 7200;
+
+log-facility local7;
+
+subnet 192.168.42.0 netmask 255.255.255.0 {
+    range 192.168.42.10 192.168.42.50;
+    option broadcast-address 192.168.42.255;
+    option routers 192.168.42.1;
+    default-lease-time 600;
+    max-lease-time 7200;
+    option domain-name "rr2";
+    option domain-name-servers 192.168.42.1, 8.8.8.8, 8.8.4.4;
+}
+----
+
+==== Edit the DHCP Server file
+
+----
+sudo vi /etc/default/isc-dhcp-server
+----
+*Change:*
+----
+#INTERFACES=""
+----
+
+*to:*
+
+----
+INTERFACES="wlan0"
+----
+
+Save the file.
+
+==== Restart the DHCP server
+
+----
+sudo service isc-dhcp-server restart
+----
+
+Check to make sure, it started and is running as expected
+----
+ps -edaf | fgrep dhcpd
+----
+should output a line similar to:
+----
+dhcpd     1169     1  0 16:37 ?        00:00:00 dhcpd -user dhcpd -group dhcpd -f -q -4 -pf /run/dhcp-server/dhcpd.pid -cf /etc/dhcp/dhcpd.conf wlan0
+----
+The interesting parts are the */etc/dhcp/dhcpd.conf* should be the file you edited above and the *wlan0* should only be the interface you want to use as WAP! Do NOT configure the DHCP server as authoritive server for any other interface/network!! That would mess up things badly for other clients!
+
+The dhcpd should log to */vare/log/syslog* if you need to check what it is doing [or not doing].
+
+=== Install and configure the access point daemon
+
+The hostapd is really the daemon which broadcasts the SSID and listens for clients to connect. It does the authentication etc.
+
+==== Install hostapd
+Use apt-get to install hostapd.
+----
+sudo apt-get install hostapd
+----
+
+The next steps are *only* needed when you use the Realtek rtl8192cu chip set. Other chip sets use different drivers and might be supported by the original packaged hotapd!
+
+----
+cd /tmp
+sudo wget http://www.adafruit.com/downloads/adafruit_hostapd.zip 
+sudo unzip adafruit_hostapd.zip
+sudo mv /usr/sbin/hostapd /usr/sbin/hostapd.ORIG 
+sudo cp hostapd /usr/sbin/hostapd.adafruit
+
+sudo chmod 755 /usr/sbin/hostapd.adafruit 
+
+ls -l /usr/sbin/hostapd*
+-rwxr-xr-x 1 root root 1678700 Mar 12 13:05 /usr/sbin/hostapd.adafruit
+-rwxr-xr-x 1 root root   30744 Nov  9 06:00 /usr/sbin/hostapd_cli
+-rwxr-xr-x 1 root root  660552 Nov  9 06:00 /usr/sbin/hostapd.ORIG
+----
+
+Add the symlink.
+----
+ln -s hostapd.adafruit /usr/sbin/hostapd
+----
+
+Check that the link exists:
+----
+ls -l /usr/sbin/hostapd*
+lrwxrwxrwx 1 root root      16 Mar 12 13:07 /usr/sbin/hostapd -> hostapd.adafruit
+-rwxr-xr-x 1 root root 1678700 Mar 12 13:05 /usr/sbin/hostapd.adafruit
+-rwxr-xr-x 1 root root   30744 Nov  9 06:00 /usr/sbin/hostapd_cli
+-rwxr-xr-x 1 root root  660552 Nov  9 06:00 /usr/sbin/hostapd.ORIG
+----
+
+==== A Point to Remember
+
+Since we replaced the hostapd any update of the normal system package might override our change! So if it does not work any longer after an *apt-get upgrade* or similar, make sure, the symlink still points to the right file!
+
+==== Edit the hostapd.conf file
+(This might be a new file.)
+----
+sudo vi /etc/hostapd/hostapd.conf
+----
+Update the file. The driver line is correct for the Realtek rtl8192cu chip set. Others might use different drivers! You will likely want your own passphrase for *wpa_passphrase=raspberry*, so replace *raspberry* with your own passphrase (at least eight chars!). You will also want your own *ssid=RR2*, so replace *RR2* with your own *SSID*. Insert this text:
+----
+interface=wlan0
+driver=rtl871xdrv
+ssid=RR2 
+hw_mode=g
+channel=6
+macaddr_acl=0
+auth_algs=1
+ignore_broadcast_ssid=0
+wpa=2
+wpa_passphrase=raspberry
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
+rsn_pairwise=CCMP
+----
+
+==== Edit hostapd
+Start the editor:
+----
+sudo vi /etc/default/hostapd
+----
+
+Find the line with *DAEMON_CONF*. Uncomment it and make it look like this:
+----
+DAEMON_CONF="/etc/hostapd/hostapd.conf"
+----
+
+==== Restart the hostapd service
+
+----
+sudo service hostapd restart
+----
+
+Make sure, the hostapd is started and running as expected:
+----
+ps -edaf | fgrep hostapd
+----
+should produce a line like
+----
+root      1409     1  0 16:37 ?        00:00:00 /usr/sbin/hostapd -B -P /var/run/hostapd.pid /etc/hostapd/hostapd.conf
+----
+
+Hostapd logs to /var/log/syslog if you need to check up on it.
+
+==== Configure network address translation
+Follow the instructions in the indicated section of one of these two references:
+
+* "Configure Network Address Translation" in https://learn.adafruit.com/setting-up-a-raspberry-pi-as-a-wifi-access-point?view=all
+* "Configure IP routing..." in https://www.maketecheasier.com/set-up-raspberry-pi-as-wireless-access-point/
+
+== To Make the Pi a Client Again
+
+* Comment the *INTERFACES* line in */etc/default/isc-dhcp-server*
+* Comment the *DAEMON_CONF* line in */etc/default/hostapd*
+* Copy the backup of the interfaces file you made previously (save the WAP version, iff you want to switch back)to the main file
+* Reboot
+
+== REFERENCES
+
+* https://www.maketecheasier.com/set-up-raspberry-pi-as-wireless-access-point/
+* https://learn.adafruit.com/setting-up-a-raspberry-pi-as-a-wifi-access-point?view=all
+
+
