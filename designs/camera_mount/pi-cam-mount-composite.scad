@@ -83,9 +83,9 @@ translate([0, -40, 0])
 difference() {
   import("raspberri_pi_camera_case_back_v0.4.STL");
   
-  translate([7, 6, 0])
-  grid(4, 4, 5, 5) {
-  squareHole(2, 2);
+  translate([6.5, 6, 0])
+  grid(5.5, 5.5, 4, 4) {
+  squareHole(3, 3);
   }
 }
 
@@ -98,6 +98,7 @@ module support() {
 
 // Stand
 module stand() {
+  translate([0, 0, 1])
   union () {
     translate([0, 0, -1])
     linear_extrude(height=2) {
