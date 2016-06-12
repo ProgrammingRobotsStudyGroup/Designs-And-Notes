@@ -2,11 +2,13 @@
 
 === Building ROS Packages with Catkin
 
-* A number of step-by-step catkin tutorials exist on the ROS wiki.
+A number of step-by-step catkin tutorials exist on the ROS wiki.
 
-** http://wiki.ros.org/catkin/Tutorials[catkin tutorials]
+* http://wiki.ros.org/catkin/Tutorials[catkin tutorials]
 
-So you'll want to create a personal ROS directory in your home directory so you can (1) install third-party ROS packages that don't have Debian versions and (2) create your own ROS packages.
+* So you'll want to create a personal ROS directory in your home directory so you can:
+** install third-party ROS packages that don't have Debian versions 
+** create your own ROS packages.
 
 === Creating a catkin Workspace
 
