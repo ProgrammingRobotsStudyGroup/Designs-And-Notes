@@ -1,0 +1,27 @@
+
+=== TableBot Challenge Rules
+* Name of Event: 	TableBot Challenge
+* Robots per Event: 	One
+* Length of Event: 	5 minutes
+* Robot Weight Range: 	5 lbs maximum
+* Robot Dimensions: 	Not Specified
+* Arena Specifications: 	2.5 x 8 feet
+* Robot Control: 	Autonomous
+* Engineering Principles: 	Electrical Engineering, Computer Science, Mechanical Engineering
+* Event Summary: 	The object is to build a robot that can deposit a block into a shoebox while staying on a table.
+    		    
+**Phase I:** Build a robot that goes from one end of a table to the other and back.
+
+**Phase II:** Have the robot push a block off the ledge of the table.
+
+**Phase III:** Have the robot push the block into a shoebox mounted at the end of the table.
+
+*Robot:* The TableBot Challenge rules are purposefully vague and simple in order to foster creativity and encourage participation. A "TableBot" is a robot designed to survive, live and play on a table or pay the price. In order to achieve more complex behaviors TableBots are built and graded in "phases". The long-term goal is to build robots that can compete "head-to-head" in tabletop soccer.
+
+*Course:* The size of the table is generally about 3x8, but may be smaller. It may be light or dark surfaced. A TableBot must deal with whatever the situation but one can bring their own table if desired. Generally the shoebox is mounted at one end of the table with the opening facing the length of the table but we do allow for the mounting of the shoebox in other positions. Also the "block" is generally a 2" square but again there is no specification. One can bring whatever block it is they've used to train their robot. Our goal is to show your robot in as best light possible.
+
+*Scoring:* Robots will be timed in one of the 3 phases. Generally the highest phase with the fastest time wins however this is not a quantitative event. Judges will be able to take into consideration robot, table, block and/or box design and/or placement in making the final decision.
+
+*Judging:* One or more judges will officiate the contest. They will ensure the spirit of these rules are followed and impose scoring penalties or remove a robot from competition if the robot is operating in an unsafe manner or not complying with the spirit of these rules. The decisions of the judges are final.
+
+*Safety:* Since TableBots can fall from up to 3' we ask that they not weigh more than 5 lbs and preferably less then 1. If a robot is deemed "unsafe" it will not be allowed to participate. Participants can use "leashes" (rope, string, etc tied to robot) but their use could result in a lesser score.
