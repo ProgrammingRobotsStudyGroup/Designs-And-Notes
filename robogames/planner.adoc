@@ -1,0 +1,35 @@
+Robot Garden RoboGames Planner
+==============================
+:toc: macro
+
+= Possible Participants
+* PRSG group
+* Home Brew Robotics
+* SVRos
+
+= Potential Sponsors
+* Potential
+* City of Livermore
+* Switch/i-Gate
+* RoboHub
+* Schools?
+* Tech companies?
+
+= Venue
+* Tricky
+
+= Competitions and prizes
+* Table Top
+* Indoor Magellan
+* Line Follow
+* Performance
+** e.g. our square dancing
+** Each team has x minutes to perform
+* Utility
+** e.g. drawbot
+** Each team describes their project
+** Each team has x minutes to demonstrate
+
+= Maker Aspect as well?
+I think the idea here is to provide space for individuals to show off their projects or we could make it a stage demonstration/performance.
+
