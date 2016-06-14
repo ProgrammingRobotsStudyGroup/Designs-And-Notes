@@ -1,0 +1,36 @@
+= Rules 
+
+=== This is a Starting point
+Events
+
+. Table Top
+
+.. link:TableBot.adoc[TableBot Challenge Rules]
+
+. Indoor Magellan
+
+. Line Follow
+
+.. link:LineFollowing.adoc[Line Following Rules] 
+
+. Maze Solving / Micromouse Rules
+
+.. link:Micromouse.adoc[Maze Solving / Micromouse Rules]
+
+. Performance
+
+. Utility
+
+.. link:ArtBot.adoc[ArtBot - Painting /Drawbot]
+
+[NOTE]
+====
+These Rules are for ref they will be changes
+====
+
+
+
+
+
+
+

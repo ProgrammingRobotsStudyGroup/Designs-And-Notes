@@ -1,0 +1,26 @@
+ArtBot - Painting
+
+*Name of Event:* 	ArtBot - Painting
+
+*Robots per Event:* 	One
+
+**Length of Event: **	No limit
+
+*Robot Weight Range:* 	No limit
+
+*Robot Dimensions:* 	No limit
+
+*Arena Specifications:* 	N/A
+
+*Robot Control:* 	Autonmous
+
+*Engineering Principles:* 	Art, Mechanical Engineering, Electrical Engineering, Computer Science
+
+*Event Summary:* 	Painting Robots have to paint something - the can use markers, oil, acrylic, or other mediums so long as the robot is moving the brush/pen in a 2 dimensional axis (printers do not qualify.)
+    		    
+This competition will be scored based on:
+
+Creativity of Movement - Does the painting/drawing implement move like a person, or in a lateral manner.
+Aesthetic Quality of final painting - Does it look good? Would Picasso be jealous?
+Diversity of Colors/materials used - Does it use multiple mediums, colors, or materials?
+Three judges will score the aesthetics and style categories on a scale of 1 to 10. Their scores will be added together and averaged.

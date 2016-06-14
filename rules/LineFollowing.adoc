@@ -1,0 +1,39 @@
+=== Line Following Rules
+
+*Name of Event:* 	Line Following
+
+*Robots per Event:* 	One
+
+*Length of Event:* 	3 minutes Max
+
+*Robot Weight Range:* 	500g
+
+*Robot Dimensions:* 	W:25cm x L:25cm x H:7cm   ??? we may want change
+
+*Arena Specifications:* 	111cm wide by 2448cm long  ??? we may want change
+
+**Robot Control: **	Autonomous
+
+*Engineering Principles:* 	Mechanical engineering, electrical engineering, computer science, and sensors
+
+**Event Summary: **	The objective of this contest is for a robot to follow a black line on a white background, without losing the line, and navigating several 90 degree turns. The robot to complete the course in the shortest period of time while accurately tracking the course line from start to finish wins.
+    		    
+1.	Size and Weight Limits: dimensional and weight limits for robots shall be strictly enforced. Robots must have passed inspection prior to competing.
+
+2.	Course Time: time is measured from the time the robot crosses the starting line until the time it crosses the finish line. A robot is deemed to have crossed the line when the forward most wheel, track, or leg of the robot contacts or crosses over the line.
+
+3.	Time Limit: a maximum of 3 minutes is allowed for a robot to complete the course. A robot that cannot complete the course in the allotted time shall be disqualified.
+
+4.	Timekeeping: time shall be measured by an electronic gate system or by a judge with a stopwatch, based on the availability of equipment. In either case the recorded time shall be final.
+
+5.	Autonomous Control: once a robot has crossed the starting line it must remain fully autonomous, or it will be disqualified.
+
+6.	Arena Edges: a robot that wanders off of the arena surface will be disqualified. A robot shall be deemed to have left the arena when any wheel, leg, or track has moved completely off the arena surface.
+
+7.	Losing the Line: any robot that loses the line course must reacquire the line at the point where it was lost, or at any earlier (e.g. already traversed) point.
+
+8.	Second Attempt: any robot that loses the line course and fails to reacquire it will be allowed a single reattempt. The robot must start the course again from the beginning, and if it loses the line course on its second attempt it will be disqualified.
+
+9.	Power of Officials: the decisions of all officials regarding these rules and the conduct of the event shall be final.
+
+10. Course Specifications: The line following course shall traverse a white paper rectangle, 44" wide and 96" long. The line shall be a black, 1/2" wide line traversing the arena from end to end. There shall be no crossovers (e.g. places where the line crosses itself). Switchbacks and hairpins are possible, but the adjacent sections of the line shall be no closer together than 15cm when measured from the center of each line. The line course shall have 1 or more sharp right-angle, but no angle will be greater than 90 degrees.
