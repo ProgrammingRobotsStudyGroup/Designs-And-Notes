@@ -18,7 +18,7 @@ Robot Garden RoboGames Planner
 = Venue
 * Tricky
 
-= Competitions and prizes
+= Events, Competitions and prizes
 * Table Top
 * Indoor Magellan
 * Line Follow
@@ -29,6 +29,7 @@ Robot Garden RoboGames Planner
 ** e.g. drawbot
 ** Each team describes their project
 ** Each team has x minutes to demonstrate
+* Teach the basic skills needed to get started. A goal with a timeline is valuable and could flow nicely into RoboGames
 
 = Maker Aspect as well?
 I think the idea here is to provide space for individuals to show off their projects or we could make it a stage demonstration/performance.
