@@ -203,7 +203,7 @@ roaming. I have made it readable only by root, since it contains wireless
 passwords.
 
   sudo cp /usr/share/doc/wpa_supplicant/examples/wpa-roam.conf /etc/wpa_supplicant/wpa_supplicant.conf
-  chmod go-rw /etc/wpa_supplicant.conf/wpa_supplicant.conf
+  chmod go-rw /etc/wpa_supplicant/wpa_supplicant.conf
 
 . Add the following to the bottom of `/etc/network/interfaces`.
 
