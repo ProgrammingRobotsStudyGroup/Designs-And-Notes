@@ -139,24 +139,24 @@ You can test the sketch as follows:
 . Set the baud rate to 115200, and set the line ending to _Carriage return_.
 . In the text box at the top, type `a 0` (with a space between) and press _Send_. The value of the analog pin A0 will be displayed. If you have an IR sensor connected, you should be able to move your hand closer or farther away and see the difference in analog value by using the `a 0` command repeatedly.
 
-Other things you can test:
+Other things you can test, by typing these commands and pressing _Send_:
 
-`a 106` -- A fake analog pin number designating the battery voltage, in millivolts. (This will be the VIN voltage if
+`a 106` -- Prints the value of the fake analog pin number designating the battery voltage, in millivolts. (This will be the VIN voltage if
 you are plugged into a power supply rather than the battery.) Note that this only works if you have the jumper in
 place that ties battery voltage to pin A1. (In Marco's pin assignments, the jumper is removed, and an IR sensor is
-attached to A1 instead.)
+attached to A1 instead.) Note that you can also read pin A1 via `a 1`, but this returns the raw analog input value. Reading through the pseudo-pin 106 returns the value converted to millivolts (at the cost of about 1ms = 8 analog reads).
 
-`d 100` -- A digital value of 0 or 1 depending on whether the A-Star button A is pressed. (`d 101` gives button B. Unfortunately, reading button C interferes with PWM on motor 1 -- not sure why.)
+`d 100` -- Prints 0 or 1 depending on whether the A-Star button A is pressed. (`d 101` gives button B. Unfortunately, reading button C interferes with PWM on motor 1 -- not sure why.)
 
-`u 100:0:0:100` -- Sets the PID parameters Kp, Ki, Kd, and Ko. (The first three are divided by Ko, in this PID setup.) These values work well.
+`u 100:0:0:100` -- Sets the PID parameters Kp, Ki, Kd, and Ko. (The first three are divided by Ko, in this PID setup.) These values work fine for testing.
 
-`m 50 50` -- Sets the motor speeds to 50 ticks per PID cycle. (Default cycle is 30Hz.) Max motor speed is about 120 counts per cycle, I think. (Once you set things up on ROS, we'll deal with meters per second instead of counts.)
+`m 50 70` -- Sets the left and right motor speeds to 50 and 70 encoder ticks per PID cycle, respectively. (Default cycle is 30Hz.) Max motor speed is about 120 counts per cycle, I think. (Once you set things up on ROS, we'll deal with meters per second instead of counts.) Note that the motors will only run for 2 seconds after you send this command. This value is defined in the sketch as `#define AUTO_STOP_INTERVAL 2000` (milliseconds). If you want the motors to run continuously for testing, increase this value. `m 0 0` turns off the motors.
 
-If you are using the UART for serial communication, change the line back to `#define SERIAL_STREAM Serial1` and upload the sketch again.
+If you are using the UART for serial communication, change the line back to `#define SERIAL_STREAM Serial1` and upload the sketch again so that the A-Star is ready for communication with ROS.
 
 == ROS Launch File
 
-On the ROS side you need to create a launch file to start the Python code that will communicate with the Arduino sketch.
+On the ROS side you need to create a launch file to start the Python node that will communicate with the Arduino sketch.
 You can either embed into that launch file the ROS parameters needed to set up your sensors and PID parameters, or you
 can place those parameters into a separate YAML file. In the example below I take the first approach. Here's the launch
 file, which we'll look at in detail below.
@@ -177,7 +177,7 @@ file, which we'll look at in detail below.
     sensorstate_rate: 10
     
     use_base_controller: True
-    base_controller_rate: 10
+    base_controller_rate: 30
     
     # For a robot that uses base_footprint, change base_frame to base_footprint
     base_frame: base_link
@@ -249,8 +249,9 @@ I haven't experimented with the `timeout` setting, so you should probably leave 
 The `rate` is the frequence at which the motors are commanded and the sensors are read. The default is 50Hz. I've used 60Hz because that is the update rate of the IR sensors. `sensorstate_rate` is the rate at which sensor value messages are published.
 
     use_base_controller: True
+    base_controller_rate: 30
 
-This should be `True` in order to enable the motor controls. (The _base controller_ is a piece of the Arduino sketch.)
+`use_base_controller` should be `True` in order to enable the motor controls. (The _base controller_ is a piece of the Arduino sketch.) The `base_controller_rate` is the rate at which the motors are controlled in the Arduino sketch. This is used to determine how fast the change the motor speeds to keep within the maximum acceleration defined below. This should match the definition of `PID_RATE` in the Arduino sketch.
 
     # For a robot that uses base_footprint, change base_frame to base_footprint
     base_frame: base_link
