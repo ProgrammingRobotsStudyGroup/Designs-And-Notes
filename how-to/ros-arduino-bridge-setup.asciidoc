@@ -38,7 +38,7 @@ the Arduino IDE on your robot, then clone the code again onto the computer where
 
 `ros_arduino_bridge` can communication between ROS and the Arduino over three different communication paths:
 
-* I2C -- Allows higher data rates. Marco has also added checksums for messages on this path.
+* I2C -- Allows higher data rates. Marco has also added checksums for messages on this path. The Pi seems to have problems with higher rates, I currently limit it to 30000 baud or something like that.
 * USB serial -- Does not require any direct wiring, just a USB cable between the Raspberry Pi and Arduino.
 * UART serial -- Uses the A-Star UART on pins 0 and 1 to communicate with the Raspberry Pi UART. Requires one level converter be soldered in on the A-Star, for the Arduino-to-RPi direction, since the RPi UART uses 3V levels.
 
@@ -53,13 +53,15 @@ decide to come up with your own.
 [options="header"]
 |=====
 | Pin | Marco's robot | Mark's robot | Other A-Star use
-| A0 | IR sensor | IR sensor (L) |
-| A1 | IR sensor | A-Star battery voltage | Analog input tied to battery voltage
-| A2 | IR sensor | IR sensor (LF) |
-| A3 | IR sensor | IR sensor (F) |
-| A4 | IR sensor | IR sensor (RF) |
-| A5 | IR sensor | IR sensor (R) |
+| A0 | IR sensor 1 o'clk | IR sensor (L) |
+| A1 | IR sensor 2 o'clk (no jumper) | A-Star battery voltage | Analog input tied to battery voltage
+| A2 | IR sensor 10 o'clk | IR sensor (LF) |
+| A3 | IR sensor 11 o'clk | IR sensor (F) |
+| A4 | IR sensor 4 o'clk | IR sensor (RF) |
+| A5 | IR sensor 7 o'clk | IR sensor (R ) |
+| 4/A6 | IR sensor 5 o'clk | unused |
 | 5 | Right encoder B | unused |
+| 6/A7 | IR sensor 8 o'clk | unused |
 | 7 | Right encoder XOR | Left encoder A | Hardware interrupt
 | 8 | Left encoder XOR | unused | Pin-change interrupt
 | 11 | Left encoder B | Left encoder B | Pin-change interrupt
