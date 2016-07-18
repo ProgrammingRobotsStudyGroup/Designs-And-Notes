@@ -146,3 +146,146 @@ attached to A1 instead.)
 `m 50 50` -- Sets the motor speeds to 50 ticks per PID cycle. (Default cycle is 30Hz.) Max motor speed is about 120 counts per cycle, I think. (Once you set things up on ROS, we'll deal with meters per second instead of counts.)
 
 If you are using the UART for serial communication, change the line back to `#define SERIAL_STREAM Serial1` and upload the sketch again.
+
+== ROS Launch File
+
+On the ROS side you need to create a launch file to start the Python code that will communicate with the Arduino sketch.
+You can either embed into that launch file the ROS parameters needed to set up your sensors and PID parameters, or you
+can place those parameters into a separate YAML file. In the example below I take the first approach. Here's the launch
+file, which we'll look at in detail below.
+
+    <launch>
+        <node name="arduino" pkg="ros_arduino_python" type="arduino_node.py" output="screen">
+            <rosparam>
+    # For a direct USB cable connection, the port name is typically
+    # /dev/ttyACM# where is # is a number such as 0, 1, 2, etc
+    # For a wireless connection like XBee, the port is typically
+    # /dev/ttyUSB# where # is a number such as 0, 1, 2, etc.
+    
+    port: /dev/ttyAMA0
+    baud: 115200
+    timeout: 0.5
+    
+    rate: 60
+    sensorstate_rate: 10
+    
+    use_base_controller: True
+    base_controller_rate: 10
+    
+    # For a robot that uses base_footprint, change base_frame to base_footprint
+    base_frame: base_link
+    
+    # === Robot drivetrain parameters
+    wheel_diameter: 0.070
+    wheel_track: 0.203
+    encoder_resolution: 48 # from Pololu for 130rpm motors
+    gear_reduction: 46.8512
+    motors_reversed: False
+    
+    # === PID parameters
+    Kp: 30
+    Kd: 20
+    Ki: 0
+    Ko: 20
+    accel_limit: 1.0
+    
+    # === Sensor definitions.  Examples only - edit for your robot.
+    #     Sensor type can be one of the follow (case sensitive!):
+    # * Ping
+    # * GP2D12
+    # * Analog
+    # * Digital
+    # * PololuMotorCurrent
+    # * PhidgetsVoltage
+    # * PhidgetsCurrent (20 Amp, DC)
+    
+    sensors: {
+      ir_1:                  {pin: 0, type: GP2Y0A60, rate: 10},
+      ir_2:                  {pin: 2, type: GP2Y0A60, rate: 10},
+      ir_3:                  {pin: 3, type: GP2Y0A60, rate: 10},
+      ir_4:                  {pin: 4, type: GP2Y0A60, rate: 10},
+      ir_5:                  {pin: 5, type: GP2Y0A60, rate: 10},
+      button_a:              {pin: 100, type: Digital, rate: 10},
+      button_b:              {pin: 101, type: Digital, rate: 10},
+    # Cannot use button C because reading it interferes with motor 1 PWM.
+    #  button_c:              {pin: 102, type: Digital, rate: 10},
+      battery_voltage:       {pin: 106, type: Analog, rate: 1},
+      arduino_led:           {pin: 13, type: Digital, rate: 10, direction: output},
+    }
+            </rosparam>
+        </node>
+    </launch>
+
+=== Customizing the Launch File
+
+        <node name="arduino" pkg="ros_arduino_python" type="arduino_node.py" output="screen">
+
+This defines the name of the ROS node that will communicate to the A-Star, and the code to run. The name `arduino` will become part of the topic names that are published, as indicated later.
+
+            <rosparam>...</rosparam>
+
+The `rosparam` element can either contain YAML text defining node parameters or can refer to an external YAML file containing those parameters. For simplicity I've included the YAML in-line, but is easier to reuse the parameters in different launch files if you put them into an external YAML file. There is an example launch file in `ros_arduino_python` that shows the latter approach, `launch/arduino.launch`.
+
+    port: /dev/ttyAMA0
+    baud: 115200
+    timeout: 0.5
+
+The `port` should be the value `1` if you are using I2C. Otherwise it should be the TTY device used to talk to the Arduino. If you are using USB serial, it should be the same as the port value in the Arduino IDE. If you are using the UART, it should be as shown, `/dev/ttyAMA0`.
+
+The `baud` rate should be 115200 if using serial communication. (There is a matching definition in the Arduino sketch.) If using I2C, the baud rate is hard-coded in the Python code.
+
+I haven't experimented with the `timeout` setting, so you should probably leave it alone.
+
+    rate: 60
+    sensorstate_rate: 10
+
+The `rate` is the frequence at which the motors are commanded and the sensors are read. The default is 50Hz. I've used 60Hz because that is the update rate of the IR sensors. `sensorstate_rate` is the rate at which sensor value messages are published.
+
+    use_base_controller: True
+
+This should be `True` in order to enable the motor controls. (The _base controller_ is a piece of the Arduino sketch.)
+
+    # For a robot that uses base_footprint, change base_frame to base_footprint
+    base_frame: base_link
+
+This is the name of the frame that describes the robot position. Usually this is `base_link`.
+
+    # === Robot drivetrain parameters
+    wheel_diameter: 0.070
+    wheel_track: 0.203
+    encoder_resolution: 48 # from Pololu for 130rpm motors
+    gear_reduction: 46.8512
+    motors_reversed: False
+
+You will need to change `wheel_track` to the actual wheel separation on your robot. I have found that the best distance to use is usually the distance between the center of the treads on the two tires, rather than the inside or outside distance. You only need to change the other parameters if you are using different wheels or motors. (I'm using 60mm wheels, for example, so I also change `wheel_diameter`.)
+
+    # === PID parameters
+    Kp: 30
+    Kd: 20
+    Ki: 0
+    Ko: 20
+    accel_limit: 1.0
+
+These are Marco's PID parameters. I've used a smaller Kp/Ko value of 1, and that seems to work well, too, but I'm not using derivative damping. I haven't yet played with `accel_limit` to see how it affects the travel.
+
+    sensors: {
+      ir_1:                  {pin: 0, type: GP2Y0A60, rate: 10},
+      ir_2:                  {pin: 2, type: GP2Y0A60, rate: 10},
+      ir_3:                  {pin: 3, type: GP2Y0A60, rate: 10},
+      ir_4:                  {pin: 4, type: GP2Y0A60, rate: 10},
+      ir_5:                  {pin: 5, type: GP2Y0A60, rate: 10},
+      button_a:              {pin: 100, type: Digital, rate: 10},
+      button_b:              {pin: 101, type: Digital, rate: 10},
+    # Cannot use button C because reading it interferes with motor 1 PWM.
+    #  button_c:              {pin: 102, type: Digital, rate: 10},
+      battery_voltage:       {pin: 106, type: Analog, rate: 1},
+      arduino_led:           {pin: 13, type: Digital, rate: 10, direction: output},
+    }
+
+These are sensor definitions for Mark's robot, which has only 5 IR sensors and has the battery voltage jumper in place. For each sensor you define the type, pin, and rate at which to publish values. Note that I've defined two _pseudo-pins_ 100 and 101, which refer in the Arduino sketch to buttons A and B on the A-Star. These can be used to change robot behavior by listening on those topics. The IR values will be converted to actual distances, in meters, by the Python code for the GP2Y0A60 sensor type.
+
+Each of these sensor names becomes a topic published in ROS. All the topics are private to the node, so the full topic name will look like this:
+
+/_nodename_/sensor/`_sensorname_
+
+As an example, the value of the `ir_1` sensor above will be published on the topic `/arduino/sensor/ir_1`. You can map these to other topic names using `<remap>`.
