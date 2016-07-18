@@ -72,6 +72,8 @@ decide to come up with your own.
 | A3 | IR sensor 11 o'clk | IR sensor (F) |
 | A4 | IR sensor 4 o'clk | IR sensor (RF) |
 | A5 | IR sensor 7 o'clk | IR sensor (R ) |
+| 2 | RPi communication | unused | Hardware interrupt, I2C SDA
+| 3 | RPi communication | unused | Hardware interrupt, I2C SCL
 | 4/A6 | IR sensor 5 o'clk | unused |
 | 5 | Right encoder B | unused |
 | 6/A7 | IR sensor 8 o'clk | unused |
@@ -114,7 +116,7 @@ If you are using the UART for serial communication and Mark's pin assignments, y
 
 === A Custom Approach
 
-The pins used by the encoders are defined in the file `diff_controller.h`. Modify the pin assignments to fit your robot. You will also need to use the EnableInterrupt library, if you are using pins that don't support hardware interrupts. If so, uncomment the line that reads `//#define USE_ENABLE_INTERRUPT` so that it says `#define USE_ENABLE_INTERRUPT`.
+The pins used by the encoders are defined in the file `diff_controller.h`. Modify the pin assignments to fit your robot. You will also need to use the EnableInterrupt library, if you are using pins that don't support hardware interrupts. If so, uncomment the line that reads `//#define USE_ENABLE_INTERRUPT` so that it says `#define USE_ENABLE_INTERRUPT`. On the 32U4 (Leonardo-compatible), pins 0, 1, 2, 3, and 7 are hardware interrupts. If you use 0 or 1 you cannot use the UART. If you use 2 or 3 you cannot use I2C.
 
 If you are using I2C, add a line `#define USE_I2C` just before the line that says `#define SERIAL_STREAM Serial`.
 
