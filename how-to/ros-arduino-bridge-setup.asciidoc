@@ -72,6 +72,8 @@ decide to come up with your own.
 | A3 | IR sensor 11 o'clk | IR sensor (F) |
 | A4 | IR sensor 4 o'clk | IR sensor (RF) |
 | A5 | IR sensor 7 o'clk | IR sensor (R ) |
+| 0 | unused | RPi communication | Hardware interrupt, UART Rx
+| 1 | unused | RPi communication | Hardware interrupt, UART Tx
 | 2 | RPi communication | unused | Hardware interrupt, I2C SDA
 | 3 | RPi communication | unused | Hardware interrupt, I2C SCL
 | 4/A6 | IR sensor 5 o'clk | unused |
@@ -93,7 +95,7 @@ Mark wanted to keep all analog inputs free, in case more analog sensors were add
 to the SPI pins. This means that you can't use SPI if you use his arrangement, but analog A8 is still available. Again,
 pin 7 is a hardware interrupt, while 11, 15, and 16 support pin-change interrupts. To reduce the frequency of interrupt
 processing, if you use Mark's arrangement only the A encoder inputs are tied to interrupts, and the tick counter is
-incremented or decremented by 2 at each interrupt.
+incremented or decremented by 2 at each interrupt. No XOR is needed, but the effective resolution of the encoders is halved (but still sufficient).
 
 == Customizing the Arduino Sketch
 
