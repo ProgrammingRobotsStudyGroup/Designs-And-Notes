@@ -1,5 +1,7 @@
 = ros_arduino_bridge Setup
 
+:imagesdir: ./images-assembly
+
 `ros_arduino_bridge` is a set of ROS packages designed to make integrating an Arduino-compatible MCU into ROS
 easier. It consists of these packages:
 
@@ -53,6 +55,7 @@ If you want to use the UART, you need to solder in headers for one of the A-Star
 * RPi GPIO 15 (Rx) -> Level shifter low-side
 * Level shifter high-side -> A-Star pin 1 (Tx)
 
+image:serial_comm.jpg[Photo showing UART wiring]
 
 == IR and Encoder Pins
 
