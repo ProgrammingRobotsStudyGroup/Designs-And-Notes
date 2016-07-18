@@ -44,6 +44,17 @@ the Arduino IDE on your robot, then clone the code again onto the computer where
 
 Either the I2C or UART serial methods allow the A-Star USB to be used for debug communication, making them slightly preferable. Using I2C gives higher transmission rates but uses the A-Star I2C pins. If you want to talk to I2C devices from the A-Star, you may want to keep these pins free. All three methods work fine -- the choice is really a personal preference.
 
+=== Wiring for the UART
+
+If you use USB serial or I2C there is no additional wiring required. The I2C pins are already tied together between the RPi and the A-Star through level shifters.
+
+If you want to use the UART, you need to solder in headers for one of the A-Star level shifters, and wire things this way:
+
+* RPi GPIO 14 (Tx) -> A-Star pin 0 (Rx)
+* RPi GPIO 15 (Rx) -> Level shifter low-side
+* Level shifter high-side -> A-Star pin 1 (Tx)
+
+
 == IR and Encoder Pins
 
 Marco and Mark have made different choices of pin assignments on their robots. You can choose one of these, or
