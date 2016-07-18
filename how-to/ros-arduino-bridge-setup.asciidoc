@@ -286,6 +286,22 @@ These are sensor definitions for Mark's robot, which has only 5 IR sensors and h
 
 Each of these sensor names becomes a topic published in ROS. All the topics are private to the node, so the full topic name will look like this:
 
-/_nodename_/sensor/`_sensorname_
+/_nodename_/sensor/_sensorname_
 
 As an example, the value of the `ir_1` sensor above will be published on the topic `/arduino/sensor/ir_1`. You can map these to other topic names using `<remap>`.
+
+== Testing the ROS Launch
+
+Once you have edited your launch file, you can run ROSCore and the `ros_arduino_python` node like this:
+
+    roslaunch path-to-your-launch-file
+
+To test the setup, in a second terminal window, show the value of the first IR sensor like this:
+
+    rostopic echo /arduino/sensor/ir_1
+
+This should show the distance of an object from the first IR sensor, in meters. Move your hand around and see that the value changes. You can also monitor the battery voltage in mV by echoing the topic `/arduino/sensor/battery_voltage`.
+
+To move the robot 0.1 meters per second straight ahead, you can use this publish command. Press control-C to stop publishing the desired velocity and stop the robot.
+
+    rostopic pub -r 10 /cmd_vel geometry_msgs/Twist '{linear: {x: 0.1, y: 0, z: 0}, angular: {x: 0, y: 0, z: 0}}'
