@@ -107,11 +107,11 @@ If you are using I2C communication and Marco's pin assignments, find the line th
 If you are using the UART for serial communication and Mark's pin assignments, you must edit two lines:
 
 . Change the line that reads `#define SERIAL_STREAM Serial` to read `#define SERIAL_STREAM Serial1` (the Arduino UART object).
-. Uncomment the line that reads `//#define USE_ENABLE_INTERRUPT` to that it says `#define USE_ENABLE_INTERRUPT`.
+. Uncomment the line that reads `//#define USE_ENABLE_INTERRUPT` so that it says `#define USE_ENABLE_INTERRUPT`.
 
 === A Custom Approach
 
-The pins used by the encoders are defined in the file `diff_controller.h`. Modify the pin assignments to fit your robot.
+The pins used by the encoders are defined in the file `diff_controller.h`. Modify the pin assignments to fit your robot. You will also need to use the EnableInterrupt library, if you are using pins that don't support hardware interrupts. If so, uncomment the line that reads `//#define USE_ENABLE_INTERRUPT` so that it says `#define USE_ENABLE_INTERRUPT`.
 
 If you are using I2C, add a line `#define USE_I2C` just before the line that says `#define SERIAL_STREAM Serial`.
 
@@ -135,7 +135,9 @@ You can test the sketch as follows:
 Other things you can test:
 
 `a 106` -- A fake analog pin number designating the battery voltage, in millivolts. (This will be the VIN voltage if
-you are plugged into a power supply rather than the battery.)
+you are plugged into a power supply rather than the battery.) Note that this only works if you have the jumper in
+place that ties battery voltage to pin A1. (In Marco's pin assignments, the jumper is removed, and an IR sensor is
+attached to A1 instead.)
 
 `d 100` -- A digital value of 0 or 1 depending on whether the A-Star button A is pressed. (`d 101` gives button B. Unfortunately, reading button C interferes with PWM on motor 1 -- not sure why.)
 
