@@ -13,10 +13,9 @@ easier. It consists of these packages:
 Here's a summary of what you have to do to use `ros_arduino_bridge` for your PRSG2-style robot:
 
 . Get the code.
-. Choose your communication style, USB serial, UART serial, or I2C.
-. Choose the pins to use for the IR sensors and the wheel encoders.
-. Edit the Arduino sketch to use your choices.
-. Upload the sketch to the A-Star board.
+. Choose your communication style and wire the UART, if necessary.
+. Choose pins and wire the sensors and encoders.
+. Edit the Arduino sketch to use your choices and upload to the A-Star.
 . Create a launch file incorporating your sensor definitions.
 . Launch ROS and test the setup.
 
@@ -65,7 +64,7 @@ decide to come up with your own.
 |=====
 | Pin | Marco's robot | Mark's robot | Other A-Star use
 | A0 | IR sensor 1 o'clk | IR sensor (L) |
-| A1 | IR sensor 2 o'clk (no jumper) | A-Star battery voltage | Analog input tied to battery voltage
+| A1 | IR sensor 2 o'clk (no jumper) | A-Star battery voltage | Analog input tied to battery voltage if jumper in place
 | A2 | IR sensor 10 o'clk | IR sensor (LF) |
 | A3 | IR sensor 11 o'clk | IR sensor (F) |
 | A4 | IR sensor 4 o'clk | IR sensor (RF) |
@@ -74,7 +73,7 @@ decide to come up with your own.
 | 5 | Right encoder B | unused |
 | 6/A7 | IR sensor 8 o'clk | unused |
 | 7 | Right encoder XOR | Left encoder A | Hardware interrupt
-| 8 | Left encoder XOR | unused | Pin-change interrupt
+| 8/A8 | Left encoder XOR | unused | Pin-change interrupt
 | 11 | Left encoder B | Left encoder B | Pin-change interrupt
 | 15 | unused | Right encoder A | Pin-change interrupt, SPI SCK
 | 16 | unused | Right encoder B | Pin-change interrupt, SPI MOSI
@@ -90,3 +89,58 @@ to the SPI pins. This means that you can't use SPI if you use his arrangement, b
 pin 7 is a hardware interrupt, while 11, 15, and 16 support pin-change interrupts. To reduce the frequency of interrupt
 processing, if you use Mark's arrangement only the A encoder inputs are tied to interrupts, and the tick counter is
 incremented or decremented by 2 at each interrupt.
+
+== Customizing the Arduino Sketch
+
+There are different customizations needed depending on whether you Marco's pin assignments and I2C or Mark's pin assignments and UART serial.
+
+=== Marco's Approach
+
+If you are using I2C communication and Marco's pin assignments, find the line that reads `#define SERIAL_STREAM Serial` and insert a new line above it that says `#define USE_I2C`. The result should look like this:
+
+   #define USE_I2C
+   #define SERIAL_STREAM Serial1
+   #define DEBUG_SERIAL_STREAM Serial
+
+=== Mark's Approach
+
+If you are using the UART for serial communication and Mark's pin assignments, you must edit two lines:
+
+. Change the line that reads `#define SERIAL_STREAM Serial` to read `#define SERIAL_STREAM Serial1` (the Arduino UART object).
+. Uncomment the line that reads `//#define USE_ENABLE_INTERRUPT` to that it says `#define USE_ENABLE_INTERRUPT`.
+
+=== A Custom Approach
+
+The pins used by the encoders are defined in the file `diff_controller.h`. Modify the pin assignments to fit your robot.
+
+If you are using I2C, add a line `#define USE_I2C` just before the line that says `#define SERIAL_STREAM Serial`.
+
+If you are using the UART for serial communication, change the line that reads `#define SERIAL_STREAM Serial` to read `#define SERIAL_STREAM Serial1` (the Arduino UART object).
+
+=== Uploading the Sketch and Testing
+
+. Power up your robot so that the Raspberry Pi gets sufficient power to boot Linux. (I don't believe it's good to
+run the Raspberry Pi entirely on USB power from the host computer, since the power output is probably limited to 1A.)
+. Connect your robot to the computer running the Arduino IDE through a USB cable.
+. In the Arduino IDE, choose a _Leonardo_ board under Tools > Board, and select the proper port under Tools > Port.
+. If you are using the UART, temporarily change the `SERIAL_STREAM` definition to `Serial` (the USB serial port).
+. Upload the sketch to the A-Star.
+
+You can test the sketch as follows:
+
+. Open a serial monitor using Tools > Serial Monitor.
+. Set the baud rate to 115200, and set the line ending to _Carriage return_.
+. In the text box at the top, type `a 0` (with a space between) and press _Send_. The value of the analog pin A0 will be displayed. If you have an IR sensor connected, you should be able to move your hand closer or farther away and see the difference in analog value by using the `a 0` command repeatedly.
+
+Other things you can test:
+
+`a 106` -- A fake analog pin number designating the battery voltage, in millivolts. (This will be the VIN voltage if
+you are plugged into a power supply rather than the battery.)
+
+`d 100` -- A digital value of 0 or 1 depending on whether the A-Star button A is pressed. (`d 101` gives button B. Unfortunately, reading button C interferes with PWM on motor 1 -- not sure why.)
+
+`u 100:0:0:100` -- Sets the PID parameters Kp, Ki, Kd, and Ko. (The first three are divided by Ko, in this PID setup.) These values work well.
+
+`m 50 50` -- Sets the motor speeds to 50 ticks per PID cycle. (Default cycle is 30Hz.) Max motor speed is about 120 counts per cycle, I think. (Once you set things up on ROS, we'll deal with meters per second instead of counts.)
+
+If you are using the UART for serial communication, change the line back to `#define SERIAL_STREAM Serial1` and upload the sketch again.
