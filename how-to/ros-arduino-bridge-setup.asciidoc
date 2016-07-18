@@ -33,3 +33,47 @@ link:https://github.com/mw46d/ros_arduino_bridge[Marco's `ros_arduino_bridge` re
 
 Clone the repository into your Catkin workspace in the `catkin_ws/src` directory. (Note: If you are not running
 the Arduino IDE on your robot, then clone the code again onto the computer where you use the Arduino IDE.)
+
+== Communication Styles
+
+`ros_arduino_bridge` can communication between ROS and the Arduino over three different communication paths:
+
+* I2C -- Allows higher data rates. Marco has also added checksums for messages on this path.
+* USB serial -- Does not require any direct wiring, just a USB cable between the Raspberry Pi and Arduino.
+* UART serial -- Uses the A-Star UART on pins 0 and 1 to communicate with the Raspberry Pi UART. Requires one level converter be soldered in on the A-Star, for the Arduino-to-RPi direction, since the RPi UART uses 3V levels.
+
+Either the I2C or UART serial methods allow the A-Star USB to be used for debug communication, making them slightly preferable. Using I2C gives higher transmission rates but uses the A-Star I2C pins. If you want to talk to I2C devices from the A-Star, you may want to keep these pins free. All three methods work fine -- the choice is really a personal preference.
+
+== IR and Encoder Pins
+
+Marco and Mark have made different choices of pin assignments on their robots. You can choose one of these, or
+decide to come up with your own.
+
+.A-Star Pin Assignments
+[options="header"]
+|=====
+| Pin | Marco's robot | Mark's robot | Other A-Star use
+| A0 | IR sensor | IR sensor (L) |
+| A1 | IR sensor | A-Star battery voltage | Analog input tied to battery voltage
+| A2 | IR sensor | IR sensor (LF) |
+| A3 | IR sensor | IR sensor (F) |
+| A4 | IR sensor | IR sensor (RF) |
+| A5 | IR sensor | IR sensor (R) |
+| 5 | Right encoder B | unused |
+| 7 | Right encoder XOR | Left encoder A | Hardware interrupt
+| 8 | Left encoder XOR | unused | Pin-change interrupt
+| 11 | Left encoder B | Left encoder B | Pin-change interrupt
+| 15 | unused | Right encoder A | Pin-change interrupt, SPI SCK
+| 16 | unused | Right encoder B | Pin-change interrupt, SPI MOSI
+|=====
+
+Marco feeds both encoder inputs (A and B) through an XOR gate, as well as reading B separately. This only requires one
+pin to have an interrupt. He has used 5, 7, 8, and 11 to keep the encoder inputs nearby on the same rail. However, pin
+8 is also tied to analog A8, so one analog pin is used. Pin 7 supports hardware interrupts, while pin 8 supports pin-change
+interrupts.
+
+Mark wanted to keep all analog inputs free, in case more analog sensors were added, so he moved the right encoder inputs
+to the SPI pins. This means that you can't use SPI if you use his arrangement, but analog A8 is still available. Again,
+pin 7 is a hardware interrupt, while 11, 15, and 16 support pin-change interrupts. To reduce the frequency of interrupt
+processing, if you use Mark's arrangement only the A encoder inputs are tied to interrupts, and the tick counter is
+incremented or decremented by 2 at each interrupt.
