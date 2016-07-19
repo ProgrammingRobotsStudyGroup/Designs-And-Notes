@@ -127,7 +127,16 @@ If you are using the UART for serial communication and Mark's pin assignments, y
 
 === A Custom Approach
 
-The pins used by the encoders are defined in the file `diff_controller.h`. Modify the pin assignments to fit your robot. You will also need to use the EnableInterrupt library, if you are using pins that don't support hardware interrupts. If so, uncomment the line that reads `//#define USE_ENABLE_INTERRUPT` so that it says `#define USE_ENABLE_INTERRUPT`. On the 32U4 (Leonardo-compatible), pins 0, 1, 2, 3, and 7 are hardware interrupts. If you use 0 or 1 you cannot use the UART. If you use 2 or 3 you cannot use I2C.
+The pins used by the encoders are defined in the file `diff_controller.h`. Modify the pin assignments to fit your robot.
+If you *have XOR gates* installed on the A and B encoder inputs, you should use pins 5 and 8 for the XOR'd inputs. You
+can use any other pins for the B inputs, and you should leave `//#define USE_ENABLE_INTERRUPT` commented out.
+
+If you *do not have XOR gates* on the A and B inputs, you should uncomment the line that reads
+`//#define USE_ENABLE_INTERRUPT` so that it says `#define USE_ENABLE_INTERRUPT`. Then connect the A inputs to pins
+supporting either hardware interrupts or pin-change interrupts. On the A-Star 32U4 (Leonardo-compatible),
+pins 0, 1, 2, 3, and 7 are hardware interrupts and pins 8 to 11 and 14 to 17 support pin-change interrupts. The
+B inputs can be fed to any other pins. If you use pins 0 or 1 you cannot use the UART.
+If you use pins 2 or 3 you cannot use I2C.
 
 If you are using I2C, add a line `#define USE_I2C` just before the line that says `#define SERIAL_STREAM Serial`.
 
@@ -327,4 +336,4 @@ To move the robot 0.1 meters per second straight ahead, you can use this publish
 
     rostopic pub -r 10 /cmd_vel geometry_msgs/Twist '{linear: {x: 0.1, y: 0, z: 0}, angular: {x: 0, y: 0, z: 0}}'
 
-*Details about this message:* This is a more complex `rostopic` command than that above. This says to send, 10 times per second, a `Twist` message to the `/cmd_vel` topic. A `Twist` message consists of 6 scalar values, the three linear velocities along each axis, as well as the three rotational velocities around each axis. Because our robot is non-holonomic, it only looks at two of the six values: the linear `x` velocity (forward/reverse speed) and the angular `z` velocity (turning rate around the vertical axis). The `Twist` message above causes forward movement of 0.1 meters/second with no turning. By contrast, this `Twist` will cause the robot to rotate in place counter-clockwise at 0.9 radians/second: `{linear: {x: 0, y: 0, z: 0}, angular: {x: 0, y: 0, z: 0.9}}`. You can also provide both a forward/backward velocity and a turning rate, of course.
+*Details about this command:* This is a more complex `rostopic` command than that above. This says to send, 10 times per second, a `Twist` message to the `/cmd_vel` topic. A `Twist` message consists of 6 scalar values, the three linear velocities along each axis, as well as the three rotational velocities around each axis. Because our robot is non-holonomic, it only looks at two of the six values: the linear `x` velocity (forward/reverse speed) and the angular `z` velocity (turning rate around the vertical axis). The `Twist` message above causes forward movement of 0.1 meters/second with no turning. By contrast, this `Twist` will cause the robot to rotate in place counter-clockwise at 0.9 radians/second: `{linear: {x: 0, y: 0, z: 0}, angular: {x: 0, y: 0, z: 0.9}}`. You can also provide both a forward/backward velocity and a turning rate, of course.
