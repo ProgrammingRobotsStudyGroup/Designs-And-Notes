@@ -198,7 +198,7 @@ rate: 60
 sensorstate_rate: 10
 
 use_base_controller: True
-base_controller_rate: 30
+base_controller_rate: 10
 
 # For a robot that uses base_footprint, change base_frame to base_footprint
 base_frame: base_link
@@ -271,9 +271,9 @@ I haven't experimented with the `timeout` setting, so you should probably leave 
 The `rate` is the frequence at which the motors are commanded and the sensors are read. The default is 50Hz. I've used 60Hz because that is the update rate of the IR sensors. `sensorstate_rate` is the rate at which sensor value messages are published.
 
     use_base_controller: True
-    base_controller_rate: 30
+    base_controller_rate: 10
 
-`use_base_controller` should be `True` in order to enable the motor controls. (The _base controller_ is a piece of the Arduino sketch.) The `base_controller_rate` is the rate at which the motors are controlled in the Arduino sketch. This is used to determine how fast the change the motor speeds to keep within the maximum acceleration defined below. This should match the definition of `PID_RATE` in the Arduino sketch.
+`use_base_controller` should be `True` in order to enable the motor controls. (The _base controller_ is a piece of the Arduino sketch.) The `base_controller_rate` is the rate at which the motors speeds are updated and sent to the A-Star.
 
     # For a robot that uses base_footprint, change base_frame to base_footprint
     base_frame: base_link
@@ -296,7 +296,8 @@ You will need to change `wheel_track` to the actual wheel separation on your rob
     Ko: 20
     accel_limit: 1.0
 
-These are Marco's PID parameters. I've used a smaller Kp/Ko value of 1, and that seems to work well, too, but I'm not using derivative damping. I haven't yet played with `accel_limit` to see how it affects the travel.
+These are Marco's PID parameters. I've used a smaller Kp/Ko value of 1, and that seems to work well, too, but I'm not
+using derivative damping. `accel_limit` is the maximum acceleration to allow, in m/s^2^.
 
     sensors: {
       ir_1:                  {pin: 0, type: GP2Y0A60, rate: 10},
