@@ -41,11 +41,18 @@ Also works: Clone directly from Marco's repository, or just download a ZIP file 
 
 `ros_arduino_bridge` can communication between ROS and the Arduino over three different communication paths:
 
-* I2C -- Allows higher data rates. Marco has also added checksums for messages on this path. The Pi seems to have problems with higher rates, I currently limit it to 30000 baud or something like that.
+* I2C -- Does not require wiring or cabling, as the A-Star directly connects the Arduino and RPi I2C pins through
+level shifters. Theoretically allows higher data rates, but Marco has has problems on the Pi with higher rates
+and currently limits the communication to about 30k baud. Marco has also added checksums for messages on this path.
 * USB serial -- Does not require any direct wiring, just a USB cable between the Raspberry Pi and Arduino.
-* UART serial -- Uses the A-Star UART on pins 0 and 1 to communicate with the Raspberry Pi UART. Requires one level converter be soldered in on the A-Star, for the Arduino-to-RPi direction, since the RPi UART uses 3V levels.
+* UART serial -- Uses the A-Star UART on pins 0 and 1 to communicate with the Raspberry Pi UART. Requires headers
+to be soldered in on one level converter on the A-Star, for the Arduino-to-RPi direction, since the RPi UART uses
+3V levels.
 
-Either the I2C or UART serial methods allow the A-Star USB to be used for debug communication, making them slightly preferable. Using I2C gives higher transmission rates but uses the A-Star I2C pins. If you want to talk to I2C devices from the A-Star, you may want to keep these pins free. All three methods work fine -- the choice is really a personal preference.
+Either the I2C or UART serial methods allow the A-Star USB to be used for debug communication, making them slightly
+preferable. Using I2C requires no cabling but uses up the A-Star I2C pins. If you want to talk to I2C devices from
+the A-Star, you may want to keep these pins free. All three methods work fine -- the choice is really a personal
+preference.
 
 === Wiring for the UART
 
