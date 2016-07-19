@@ -268,7 +268,10 @@ I haven't experimented with the `timeout` setting, so you should probably leave 
     rate: 60
     sensorstate_rate: 10
 
-The `rate` is the frequence at which the motors are commanded and the sensors are read. The default is 50Hz. I've used 60Hz because that is the update rate of the IR sensors. `sensorstate_rate` is the rate at which sensor value messages are published.
+The `rate` is the frequence at which the motors are commanded and the sensors are read. The default is 50Hz. I've used
+60Hz because that is the update rate of the IR sensors. `sensorstate_rate` is the rate at which all configured sensor
+values are published in a single `ros_arduino_msgs/SensorState` message. (They are also published individually at rates
+indicated in their configuration, below.)
 
     use_base_controller: True
     base_controller_rate: 10
