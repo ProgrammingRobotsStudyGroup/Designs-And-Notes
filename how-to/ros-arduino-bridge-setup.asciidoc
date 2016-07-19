@@ -27,13 +27,15 @@ Each step is detailed in sections below.
 
 Marco has forked
 link:https://github.com/hbrobotics/ros_arduino_bridge[the original project] and modified it to add I2C communication.
-Mark R. has added some fixes and enhancements which Marco has incorporated. Right now it is best to get the latest from
+Mark R. has added some fixes and enhancements which Marco has incorporated. Right now it is best to fork from
 Marco's `indigo-devel` branch (the default):
 
 link:https://github.com/mw46d/ros_arduino_bridge[Marco's `ros_arduino_bridge` repository]
 
-Clone the repository into your Catkin workspace in the `catkin_ws/src` directory. (Note: If you are not running
+Best: Fork the repository into one of your own, then clone that into your Catkin workspace in the `catkin_ws/src` directory. (Note: If you are not running
 the Arduino IDE on your robot, then clone the code again onto the computer where you use the Arduino IDE.)
+
+Also works: Clone directly from Marco's repository, or just download a ZIP file of the latest from Marco's repository.
 
 == Communication Styles
 
