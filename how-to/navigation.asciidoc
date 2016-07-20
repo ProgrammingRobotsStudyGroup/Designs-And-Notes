@@ -1,0 +1,7 @@
+= Running the Navigation Stack
+
+== Installing Dependencies
+
+----
+sudo apt-get install ros-indigo-move-base
+----
