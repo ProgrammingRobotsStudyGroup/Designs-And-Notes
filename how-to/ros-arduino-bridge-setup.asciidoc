@@ -245,6 +245,13 @@ sensors: {
 </launch>
 ```
 
+*Note:* (2016-07-20) There is an outstanding pull request to allow specifying the frame for each IR sensor.
+Once this is incorporated, and once a URDF file is added to define frames for each sensor, then each IR sensor
+configuration should be augmented with frame IDs like this:
+```
+  ir_1:                  {pin: 0, type: GP2Y0A60, rate: 10, frame: 'ir_left_link'},
+```
+
 === Customizing the Launch File
 
         <node name="arduino" pkg="ros_arduino_python" type="arduino_node.py" output="screen">
