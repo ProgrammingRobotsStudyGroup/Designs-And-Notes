@@ -4,4 +4,5 @@
 
 ----
 sudo apt-get install ros-indigo-move-base
+sudo apt-get install ros-indigo-map-server
 ----
