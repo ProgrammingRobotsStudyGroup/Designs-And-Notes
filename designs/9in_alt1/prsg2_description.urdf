@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<robot name="prsg2_robot">
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0.046" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.008" radius="0.1143" />
+      </geometry>
+      <material name="Gray">
+        <color rgba="0.5 0.5 0.5 0.3" />
+      </material>
+    </visual>
+  </link>
+
+  <link name="left_wheel_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 1.57 0" />
+      <geometry>
+        <cylinder length="0.008" radius="0.030" />
+      </geometry>
+      <material name="LightBlue">
+        <color rgba="0.4 0.4 1.0 1.0" />
+      </material>
+    </visual>
+  </link>
+
+  <joint name="base_to_left_wheel" type="fixed">
+    <parent link="base_link" />
+    <child link="left_wheel_link" />
+    <origin xyz="0 0.1015 0.030" rpy="0 0 1.57" />
+  </joint>
+
+  <link name="right_wheel_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 1.57 0" />
+      <geometry>
+        <cylinder length="0.008" radius="0.030" />
+      </geometry>
+      <material name="LightBlue" />
+    </visual>
+  </link>
+
+  <joint name="base_to_right_wheel" type="fixed">
+    <parent link="base_link" />
+    <child link="right_wheel_link" />
+    <origin xyz="0 -0.1015 0.030" rpy="0 0 -1.57" />
+  </joint>
+  
+  <link name="rear_caster_link">
+    <visual>
+      <origin xyz="-0.0998 -0.006 0.0145" rpy="1.57 0 0" />
+      <geometry>
+        <cylinder length="0.012" radius="0.0145" />
+      </geometry>
+      <material name="White">
+        <color rgba="1.0 1.0 1.0 1.0" />
+      </material>
+    </visual>
+  </link>
+
+  <joint name="base_to_caster" type="fixed">
+    <parent link="base_link" />
+    <child link="rear_caster_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+  
+  <link name="ir_left_link">
+    <visual>
+      <origin xyz="-0.004385 0 -0.00249" rpy="0 0 0" />
+      <geometry>
+        <!-- Dimensions taken from Pololu dimensional diagram:
+          https://www.pololu.com/file/0J817/sds02a-dimensions.pdf -->
+        <box size="0.00877 0.01041 0.03302" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="base_to_ir_left" type="fixed">
+    <parent link="base_link" />
+    <child link="ir_left_link" />
+    <origin xyz="0 0.0992 0.069" rpy="0 0 1.57" />
+  </joint>
+
+  <link name="ir_left_front_link">
+    <visual>
+      <origin xyz="-0.004385 0 -0.00249" rpy="0 0 0" />
+      <geometry>
+        <!-- Dimensions taken from Pololu dimensional diagram:
+          https://www.pololu.com/file/0J817/sds02a-dimensions.pdf -->
+        <box size="0.00877 0.01041 0.03302" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="base_to_ir_left_front" type="fixed">
+    <parent link="base_link" />
+    <child link="ir_left_front_link" />
+    <origin xyz="0.07 0.07 0.069" rpy="0 0 0.785" />
+  </joint>
+
+  <link name="ir_front_link">
+    <visual>
+      <origin xyz="-0.004385 0 -0.00249" rpy="0 0 0" />
+      <geometry>
+        <!-- Dimensions taken from Pololu dimensional diagram:
+          https://www.pololu.com/file/0J817/sds02a-dimensions.pdf -->
+        <box size="0.00877 0.01041 0.03302" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="base_to_ir_front" type="fixed">
+    <parent link="base_link" />
+    <child link="ir_front_link" />
+    <origin xyz="0.0992 0 0.069" rpy="0 0 0" />
+  </joint>
+
+  <link name="ir_right_front_link">
+    <visual>
+      <origin xyz="-0.004385 0 -0.00249" rpy="0 0 0" />
+      <geometry>
+        <!-- Dimensions taken from Pololu dimensional diagram:
+          https://www.pololu.com/file/0J817/sds02a-dimensions.pdf -->
+        <box size="0.00877 0.01041 0.03302" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="base_to_ir_right_front" type="fixed">
+    <parent link="base_link" />
+    <child link="ir_right_front_link" />
+    <origin xyz="0.07 -0.07 0.069" rpy="0 0 -0.785" />
+  </joint>
+
+  <link name="ir_right_link">
+    <visual>
+      <origin xyz="-0.004385 0 -0.00249" rpy="0 0 0" />
+      <geometry>
+        <!-- Dimensions taken from Pololu dimensional diagram:
+          https://www.pololu.com/file/0J817/sds02a-dimensions.pdf -->
+        <box size="0.00877 0.01041 0.03302" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="base_to_ir_right" type="fixed">
+    <parent link="base_link" />
+    <child link="ir_right_link" />
+    <origin xyz="0 -0.0992 0.069" rpy="0 0 -1.57" />
+  </joint>
+
+  <link name="camera_link">
+    <visual>
+      <origin xyz="-0.005 0 0" />
+      <geometry>
+        <box size="0.01 0.03 0.03" />
+      </geometry>
+      <material name="Yellow">
+        <color rgba="0.5 0.5 0.0 0.3" />
+      </material>
+    </visual>
+  </link>
+
+  <joint name="base_to_camera" type="fixed">
+    <parent link="base_link" />
+    <child link="camera_link" />
+    <origin xyz="0.0893 0 0.13" />
+  </joint>
+
+</robot>
