@@ -15,6 +15,7 @@ easier. It consists of these packages:
 Here's a summary of what you have to do to use `ros_arduino_bridge` for your PRSG2-style robot:
 
 . Get the code.
+. Get required dependencies.
 . Choose your communication style and wire the UART, if necessary.
 . Choose pins and wire the sensors and encoders.
 . Edit the Arduino sketch to use your choices and upload to the A-Star.
@@ -36,6 +37,28 @@ Best: Fork the repository into one of your own, then clone that into your Catkin
 the Arduino IDE on your robot, then clone the code again onto the computer where you use the Arduino IDE.)
 
 Also works: Clone directly from Marco's repository, or just download a ZIP file of the latest from Marco's repository.
+
+== Getting Dependencies
+
+`ros_arduino_bridge` requires two Python libraries, `python-smbus` and
+`pyserial`. The latter is likely already installed, but it may be too
+old a version. To get the dependencies:
+
+. Uninstall `pyserial` and then reinstall to get the latest version.
+----
+sudo apt-get uninstall python-serial
+sudo apt-get install python-serial
+----
+Note that this is `pyserial` for Python 2.x. If you also want `pyserial`
+for Python 3, the package is `python3-serial`.
+
+. Install `python-smbus`.
+----
+sudo apt-get install python-smbus
+----
+
+Note: `python-smbus` is only used for I2C communication, but must be
+present to compile the Python node.
 
 == Communication Styles
 
@@ -127,7 +150,7 @@ If you are using the UART for serial communication and Mark's pin assignments, y
 
 === A Custom Approach
 
-The pins used by the encoders are defined in the file `diff_controller.h`. Modify the pin assignments to fit your robot.
+The pins used by the encoders are defined in the file `encoder_driver.h`. Modify the pin assignments to fit your robot.
 If you *have XOR gates* installed on the A and B encoder inputs, you should use pins 5 and 8 for the XOR'd inputs. You
 can use any other pins for the B inputs, and you should leave `//#define USE_ENABLE_INTERRUPT` commented out.
 
