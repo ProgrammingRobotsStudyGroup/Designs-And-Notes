@@ -1,4 +1,4 @@
-= **Here we have a Few How-to**
+= **A Few How-to**
 
 === Prepared Operating System SD Card
 
