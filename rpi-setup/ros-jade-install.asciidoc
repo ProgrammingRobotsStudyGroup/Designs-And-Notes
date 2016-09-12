@@ -364,3 +364,15 @@ Modify the `#!` line to use `/usr/bin/python` (Ubuntu differs from Raspbian in t
 ----
 
 The switch should span pins 39 and 40, the pair adjacent to the USB ports.
+
+= NTP Setup
+
+Since the RPi does not have a real-time clock, it's useful to install an
+NTP client.
+
+-----
+sudo apt-get install ntp
+-----
+
+After this install, any time the RPi is connected to the Internet the clock
+will be synchronized with standard NTP servers.
