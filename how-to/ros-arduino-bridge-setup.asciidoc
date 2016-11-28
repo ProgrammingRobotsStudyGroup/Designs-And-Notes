@@ -46,7 +46,7 @@ old a version. To get the dependencies:
 
 . Uninstall `pyserial` and then reinstall to get the latest version.
 ----
-sudo apt-get uninstall python-serial
+sudo apt-get remove python-serial
 sudo apt-get install python-serial
 ----
 Note that this is `pyserial` for Python 2.x. If you also want `pyserial`
