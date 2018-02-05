@@ -122,3 +122,22 @@ http://wiki.ros.org/rosserial/Tutorials.
   #include <ros.h>
   ... other includes such as std_msgs/Int32.h ...
 
+=== OpenCV in Xenial/Kinetic
+
+After installing Ubuntu Xenial and ROS Kinetic I could not run opencv from
+Python, so I installed opencv 3.x manually. I used the instructions at
+https://docs.opencv.org/trunk/d7/d9f/tutorial_linux_install.html, and used
+this cmake command:
+
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DBUILD_EXAMPLES=ON -DBUILD_DOCS=ON -DOPENCV_EXTRA_MODULES_PATH=~/src/opencv_contrib-3.4.0/modules ..
+
+Then everything worked fine. I did _not_ try to make it work with Python 3.
+
+=== Facetime Web Cam
+
+The video drivers for the Macbook Pro internal camera are not present by
+default. I used the instructions at
+https://github.com/patjak/bcwc_pcie/wiki
+to install them. The device will be `/dev/video0`.
+
+To uninstall, `sudo dpkg --remove bcwc-pcie`.
