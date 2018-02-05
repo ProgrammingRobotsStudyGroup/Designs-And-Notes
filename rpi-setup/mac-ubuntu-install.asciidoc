@@ -132,3 +132,12 @@ this cmake command:
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DBUILD_EXAMPLES=ON -DBUILD_DOCS=ON -DOPENCV_EXTRA_MODULES_PATH=~/src/opencv_contrib-3.4.0/modules ..
 
 Then everything worked fine. I did _not_ try to make it work with Python 3.
+
+=== Facetime Web Cam
+
+The video drivers for the Macbook Pro internal camera are not present by
+default. I used the instructions at
+https://github.com/patjak/bcwc_pcie/wiki
+to install them. The device will be `/dev/video0`.
+
+To uninstall, `sudo dpkg --remove bcwc-pcie`.
