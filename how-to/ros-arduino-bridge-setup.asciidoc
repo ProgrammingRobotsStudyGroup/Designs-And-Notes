@@ -72,6 +72,15 @@ and currently limits the communication to about 30k baud. Marco has also added c
 to be soldered in on one level converter on the A-Star, for the Arduino-to-RPi direction, since the RPi UART uses
 3V levels.
 
+*Raspberry Pi 3 Special Instructions*: The Raspberry Pi 3 adds Bluetooth at the expense of degrading the UART.
+In the default setup, the hardware UART (/dev/AMA0) is used by Bluetooth and cannot be used for serial
+communication to the A-Star. Instead, there is a software-controlled UART on /dev/ttyS0. Mark was unable to
+make this work. Instead, disabling Bluetooth made everything work as before. To disable Bluetooth on the
+Raspberry Pi 3, add this line to the end of /boot/config.txt:
+
+     # Disable Bluetooth so that /dev/AMA0 is the hardware UART.
+     dtoverlay=pi3-disable-bt
+
 Either the I2C or UART serial methods allow the A-Star USB to be used for debug communication, making them slightly
 preferable. Using I2C requires no cabling but uses up the A-Star I2C pins. If you want to talk to I2C devices from
 the A-Star, you may want to keep these pins free. All three methods work fine -- the choice is really a personal
