@@ -138,7 +138,7 @@ There are different customizations needed depending on whether you Marco's pin a
 If you are using I2C communication and Marco's pin assignments, find the line that reads `#define SERIAL_STREAM Serial` and insert a new line above it that says `#define USE_I2C`. The result should look like this:
 
    #define USE_I2C
-   #define SERIAL_STREAM Serial1
+   #define SERIAL_STREAM Serial
    #define DEBUG_SERIAL_STREAM Serial
 
 === Mark's Approach
